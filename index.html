@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .big{
+            width:500px;
+            height:500px;
+            border:1px solid #ccc;
+            position:relative;
+        }
+        .small{
+            width:200px;
+            height:200px;
+            border:1px solid blue;
+            position:absolute;
+            left:50%;
+            top:50%;
+            transform: translate(-50%,-50%);
+            
+        }
+        table td{
+            width:100px;
+            height: 30px;
+            vertical-align: middle;
+        }
+        table tr:nth-child(2n+1){
+           background: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="big">
+        <div class="small">
+
+        </div>
+    </div>
+    <div class="text-area">
+        <textarea>  
+            ldjflskdjflkjsdlfksldkfjlsdkfjlksdflksdfl
+            skdjflsdkjflksjfdlksjdflksdfjlksdjflksd
+            flsjdflsdjflskjfdlakjlfdsf;a
+        </textarea>     
+    </div>
+    <div class="table-drag">
+        <table>
+            <tr>
+                <td draggable="true" ondrop="drop(event,this)" ondragstart="drag(event,this)" ondragover="allowDrop(event)">1</td>
+            </tr>
+            <tr>
+                <td draggable="true" ondrop="drop(event,this)" ondragstart="drag(event,this)" ondragover="allowDrop(event)">2</td>
+            </tr>
+            <tr>
+                <td draggable="true" ondrop="drop(event,this)" ondragstart="drag(event,this)" ondragover="allowDrop(event)">3</td>
+            </tr>
+            <tr>
+                <td draggable="true" ondrop="drop(event,this)" ondragstart="drag(event,this)" ondragover="allowDrop(event)">4</td>
+            </tr>
+        </table>
+    </div>  
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var arr=[1,3,4,5,6];
+    var srr=arr.join();
+    var srr1=arr.toString();
+    var obj={astr:1,bstr:2,c:3,fdfdsstr:8,d:9}
+    var str="sldfstrjsstrksljkstr";
+    var str2="klsklkl";
+    var reg=/(str)$/;
+    var objj={};
+    var str="";
+    //console.log(obj)
+    // var a=str2.search("str");
+    // console.log(a);
+    //字符串转数组
+    console.log(str2.split(','))
+    console.log(str.split(","));
+    var sliderbar=document.getElementById('slider-bar');
+    var a_slider=sliderbar.children;
+    console.log(a_slider);
+    
+    $("#slider-bar a").click(function(){
+        $(this).addClass('a_click');
+        $(this).siblings().removeClass('a_click')
+    })
+    //表格拖拽换行
+    var srcdiv = null;
+    function drag(ev,divdom){
+        srcdiv=divdom;
+        ev.dataTransfer.setData("text/html",divdom.innerHTML)
+    }
+    function drop(ev,divdom){
+        ev.preventDefault();
+        if(srcdiv!=divdom){
+            srcdiv.innerHTML=divdom.innerHTML;
+            divdom.innerHTML=ev.dataTransfer.getData("text/html");
+        }    
+    }
+    function allowDrop(ev)
+    {
+        ev.preventDefault();
+    }
+</script>

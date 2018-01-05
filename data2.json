@@ -1,0 +1,75 @@
+{
+    "labelposition":"right",
+    "dictarraylist":"",
+    "subsectorlist":[],
+    "extraarr":[],
+    "formData": {
+      abbname: '',
+      abbnamechi: '',
+      fullname: '',
+      fullnamechi: '',
+      reportname: '',
+      ceo: '',
+      registerno:"",
+      totalboardseatno:'',
+      headcount:'',
+      website:'',
+      fax:'',
+      telephone:'',
+      product:'',
+      remarkes:'',
+      nomineename:'',
+      auditconfaddress:'',
+      auditconfaddress2:'',
+      idgboard:'',
+      address:'',
+      primarybusiness:'',
+      onelinedesc:'',
+      auditconfaddress3:'',
+      ytd:'',
+      locationid:'',
+      antidilutionid:'',
+      sectorid:'',
+      subsectorid:'',
+      initialroleid:'',
+      idgroleid:[],
+      formid:[],
+      foundeddate:'',
+      fundoffund:'',
+      idgfirstinvestment:[],
+      stageid:[],
+      portfoliostatus:'',
+      portfoliostatusdate:'',
+      projectmanager:[],
+      idginhousecounsel:[],
+      observer:[],
+      idgboardrepresentative:[],
+      memo:'',
+      projectbuddy:[],
+      logo: "../docs/logos/qiutan(qiuba).jpg",//从这里开始新增字段，前端界面没有对应的显示；
+      onelinedeschi: null,
+      addresschi: "广州市天河区科韵路24-26号测绘大厦809室",
+      //privateorpublic: "Realized",//不确定是否增加，后期做了修改；
+      adrratio: "",
+      lockupperiod: "",
+      lockupexpireddate: -2209017600000,
+      stockexchangeid: 0,
+      stockcode: "",
+      spvjurisdition: "",
+      approved: false,
+      idgboardseatno: 1,
+      totalboardseatno: 1,
+      iceforceid: null,
+      idgonboardflag: true,
+    }
+
+
+    //console.log(obj.projectmanager)
+                 //obj.projectmanager=obj.projectmanager.split(",");
+                 //console.log(obj.projectmanager)
+                 //obj.projectbuddy=obj.projectbuddy.split(",");
+                 //obj.idgboardrepresentative=obj.idgboardrepresentative.split(",");
+                 //obj.idginhousecounsel=obj.idginhousecounsel.split(",")
+                 //console.log(obj.observer)
+                 //obj.observer=obj.observer.split(",");
+                //console.log(obj.observer)
