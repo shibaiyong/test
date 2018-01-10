@@ -14,13 +14,24 @@
     var ms="1122048,000000";
     var strTime="2005/7/23"
     var standTime1=new Date(ms);
+    var obj={
+        a:1,b:2
+    }
+    //console.log(obj.hasOwnProperty("c"));
+    var c={a:1};
+    var d={b:2};
+    var arr11=[c,d];
+    var arr111=arr11.slice();
+    arr11.push(1);
     
+    console.log(arr11);
+    console.log(arr111);
     var standTime=new Date(strTime).getTime();
-    console.log(standTime);
-    console.log(standTime1)
+    //console.log(standTime);
+    //console.log(standTime1)
     function toLocalString(ms,symbol){
         var reg = /^[1-9][0-9]*$/;
-        console.log(reg.test(ms))
+        //console.log(reg.test(ms))
         if(reg.test(ms)){
             var  marker=symbol||"/";
             var  dateObj=new Date(ms);
@@ -28,5 +39,5 @@
         }
         return timeString
     }  
-    console.log(toLocalString(ms))
+    //console.log(toLocalString(ms))
 </script>

@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>表格相同内容合并</title> 
+</head> 
+<body> 
+合并前： 
+<table width="400" border="1"> 
+<tr> 
+<td rowspan="3">a</td> 
+<td>1</td> 
+<td>2</td> 
+<td>3</td> 
+<td>4</td> 
+<td>5</td> 
+</tr> 
+<tr> 
+<!-- <td>a</td>  -->
+<td>1</td> 
+<td>2</td> 
+<td>3</td> 
+<td>4</td> 
+<td>6</td> 
+</tr> 
+<tr> 
+<!-- <td>a</td>  -->
+<td>2</td> 
+<td>3</td> 
+<td>3</td> 
+<td>4</td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>b</td> 
+<td>3</td> 
+<td>4</td> 
+<td>6</td> 
+<td>7</td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>b</td> 
+<td>3</td> 
+<td>5</td> 
+<td>6</td> 
+<td>7</td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>cc</td> 
+<td>2</td> 
+<td>3</td> 
+<td>4</td> 
+<td>5</td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>cc</td> 
+<td>2</td> 
+<td>3</td> 
+<td>5</td> 
+<td>5</td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>d</td> 
+<td>1</td> 
+<td>2</td> 
+<td>3</td> 
+<td>4</td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>e</td> 
+<td>1</td> 
+<td>2</td> 
+<td>3</td> 
+<td>4</td> 
+<td> </td> 
+</tr> 
+</table><br /> 
+合并后：<br /> 
+<table width="400" border="1" id="table1"> 
+<tr> 
+<td>a</td> 
+<td>1</td> 
+<td>2</td> 
+<td>3</td> 
+<td>4</td> 
+<td>5</td> 
+</tr> 
+<tr> 
+<td>a</td> 
+<td>1</td> 
+<td>2</td> 
+<td>3</td> 
+<td>4</td> 
+<td>6</td> 
+</tr> 
+<tr> 
+<td></td> 
+<td>2</td> 
+<td>3</td> 
+<td>3</td> 
+<td>4</td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>b</td> 
+<td>3</td> 
+<td>4</td> 
+<td>6</td> 
+<td>7</td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>b</td> 
+<td>3</td> 
+<td>5</td> 
+<td>6</td> 
+<td></td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>cc</td> 
+<td>2</td> 
+<td>3</td> 
+<td>4</td> 
+<td>5</td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>cc</td> 
+<td>2</td> 
+<td>3</td> 
+<td>5</td> 
+<td>5</td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>d</td> 
+<td>1</td> 
+<td>2</td> 
+<td>3</td> 
+<td>4</td> 
+<td> </td> 
+</tr> 
+<tr> 
+<td>e</td> 
+<td>1</td> 
+<td>2</td> 
+<td>3</td> 
+<td>4</td> 
+<td> </td> 
+</tr> 
+</table> 
+</body> 
+</html>
+<script type="text/javascript"> 
+    function mc(tableId, startRow, endRow, col) { 
+        var tb = document.getElementById(tableId); 
+        if (col >= tb.rows[0].cells.length) { 
+            return; 
+        } 
+        if (col == 0) { 
+            endRow = tb.rows.length-1; 
+        } 
+        for (var i = startRow; i < endRow; i++) { 
+            if (tb.rows[startRow].cells[col].innerHTML == tb.rows[i + 1].cells[0].innerHTML) { 
+                tb.rows[i + 1].removeChild(tb.rows[i + 1].cells[0]); 
+                tb.rows[startRow].cells[col].rowSpan = (tb.rows[startRow].cells[col].rowSpan | 0) + 1; 
+                if (i == endRow - 1 && startRow != endRow) { 
+                    mc(tableId, startRow, endRow, col + 1); 
+                } 
+            } else { 
+                mc(tableId, startRow, i + 0, col + 1); 
+                startRow = i + 1; 
+            } 
+        } 
+    } 
+    mc('table1',0,0,0); 
+    </script>  
