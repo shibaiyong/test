@@ -27,8 +27,10 @@
   "homepage": "https://github.com/cllgeek/ReactEcosystemStudy#readme",
   "dependencies": {
     "babel-polyfill": "^6.9.1",
+    "engine.io": "^3.1.4",
     "react": "^15.3.1",
-    "react-dom": "^15.3.1"
+    "react-dom": "^15.3.1",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

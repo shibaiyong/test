@@ -11,17 +11,61 @@
 </body>
 </html>
 <script>
-    var num="1234567890"
-    function toThousands(num) {  
-        var result = '', counter = 0;  
-        num = (num || 0).toString();  
-        for (var i = num.length - 1; i >= 0; i--) {  
-            counter++;  
-            result = num.charAt(i) + result;  
-            if (!(counter % 3) && i != 0) { result = ',' + result; }  
-        }  
-        return result;  
+    var num="(-1234567890.78)"
+//     function toThousands(num) {  
+//         var result = '', counter = 0;  
+//         num = (num || 0).toString();  
+//         for (var i = num.length - 1; i >= 0; i--) {  
+//             counter++;  
+//             result = num.charAt(i) + result;  
+//             if (!(counter % 3) && i != 0) { result = ',' + result; }  
+//         }  
+//         return result;  
+//     }
+// var a=toThousands(num);
+// console.log(a);
+function toThousands(num) {
+
+  if (num == null || num == undefined)
+    return "";
+  var flag=false;
+  var indexDot = num.toString().indexOf('.');
+  var dot;
+  if (indexDot > 0) {
+    dot = num.toString().substring(indexDot);
+    num = num.toString().substring(0, indexDot);
+  }
+  var result = '', counter = 0;
+  var reg = /^\-/;
+  var reg1=/\(/g;
+  
+  
+  num = (num || 0).toString();
+  if(reg1.test(num)){
+    num = num.replace(reg1,'');
+    flag=true;
+  }else{
+    flag=false;
+  }
+  var num1 = num;
+  num = num.replace(reg, '');
+  for (var i = num.length - 1; i >= 0; i--) {
+    counter++;
+    result = num.charAt(i) + result;
+    if (!(counter % 3) && i != 0) {
+      result = ',' + result;
     }
-var a=toThousands(num);
-console.log(a)
+  }
+  if (num1 < 0) {
+    result = "-" + result
+  }
+  if (indexDot > 0) {
+    result = result + dot;
+  }
+  if(flag==true){
+      result='('+result;
+  }
+  return result;
+}
+console.log(toThousands(num))
 </script>

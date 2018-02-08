@@ -6,178 +6,72 @@
 </head> 
 <body> 
 合并前： 
-<table width="400" border="1"> 
-<tr> 
-<td rowspan="3">a</td> 
-<td>1</td> 
-<td>2</td> 
-<td>3</td> 
-<td>4</td> 
-<td>5</td> 
-</tr> 
-<tr> 
-<!-- <td>a</td>  -->
-<td>1</td> 
-<td>2</td> 
-<td>3</td> 
-<td>4</td> 
-<td>6</td> 
-</tr> 
-<tr> 
-<!-- <td>a</td>  -->
-<td>2</td> 
-<td>3</td> 
-<td>3</td> 
-<td>4</td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>b</td> 
-<td>3</td> 
-<td>4</td> 
-<td>6</td> 
-<td>7</td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>b</td> 
-<td>3</td> 
-<td>5</td> 
-<td>6</td> 
-<td>7</td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>cc</td> 
-<td>2</td> 
-<td>3</td> 
-<td>4</td> 
-<td>5</td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>cc</td> 
-<td>2</td> 
-<td>3</td> 
-<td>5</td> 
-<td>5</td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>d</td> 
-<td>1</td> 
-<td>2</td> 
-<td>3</td> 
-<td>4</td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>e</td> 
-<td>1</td> 
-<td>2</td> 
-<td>3</td> 
-<td>4</td> 
-<td> </td> 
-</tr> 
-</table><br /> 
-合并后：<br /> 
-<table width="400" border="1" id="table1"> 
-<tr> 
-<td>a</td> 
-<td>1</td> 
-<td>2</td> 
-<td>3</td> 
-<td>4</td> 
-<td>5</td> 
-</tr> 
-<tr> 
-<td>a</td> 
-<td>1</td> 
-<td>2</td> 
-<td>3</td> 
-<td>4</td> 
-<td>6</td> 
-</tr> 
-<tr> 
-<td></td> 
-<td>2</td> 
-<td>3</td> 
-<td>3</td> 
-<td>4</td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>b</td> 
-<td>3</td> 
-<td>4</td> 
-<td>6</td> 
-<td>7</td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>b</td> 
-<td>3</td> 
-<td>5</td> 
-<td>6</td> 
-<td></td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>cc</td> 
-<td>2</td> 
-<td>3</td> 
-<td>4</td> 
-<td>5</td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>cc</td> 
-<td>2</td> 
-<td>3</td> 
-<td>5</td> 
-<td>5</td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>d</td> 
-<td>1</td> 
-<td>2</td> 
-<td>3</td> 
-<td>4</td> 
-<td> </td> 
-</tr> 
-<tr> 
-<td>e</td> 
-<td>1</td> 
-<td>2</td> 
-<td>3</td> 
-<td>4</td> 
-<td> </td> 
-</tr> 
-</table> 
+<table  width="400" border="1" id="table1"> 
+    <tr> 
+        <td>a</td> <td>2</td> <td>2</td> 
+        <td>3</td> <td>4</td> <td>5</td> 
+    </tr> 
+    <tr> 
+        <td>a</td> <td>2</td> <td>5</td>
+        <td>3</td> <td>4</td> <td>6</td> 
+    </tr> 
+    <tr> 
+        <td>b</td><td>2</td> <td>3</td> 
+        <td>3</td><td>4</td> <td>4 </td> 
+    </tr> 
+    <tr> 
+        <td>a</td> <td>3</td> <td>4</td> 
+        <td>6</td> <td>7</td> <td>4 </td> 
+    </tr> 
+    <tr> 
+        <td>a</td> <td>3</td> <td>5</td> 
+        <td>6</td> <td>7</td> <td>4 </td> 
+    </tr> 
+    <tr> 
+        <td>cc</td> <td>2</td> <td>3</td> 
+        <td>4</td> <td>5</td><td>4 </td> 
+    </tr> 
+    <tr> 
+        <td>cc</td> <td>2</td> <td>3</td> 
+        <td>5</td> <td>5</td> <td> </td> 
+    </tr> 
+</table>
 </body> 
 </html>
-<script type="text/javascript"> 
-    function mc(tableId, startRow, endRow, col) { 
-        var tb = document.getElementById(tableId); 
-        if (col >= tb.rows[0].cells.length) { 
-            return; 
-        } 
-        if (col == 0) { 
-            endRow = tb.rows.length-1; 
-        } 
-        for (var i = startRow; i < endRow; i++) { 
-            if (tb.rows[startRow].cells[col].innerHTML == tb.rows[i + 1].cells[0].innerHTML) { 
-                tb.rows[i + 1].removeChild(tb.rows[i + 1].cells[0]); 
-                tb.rows[startRow].cells[col].rowSpan = (tb.rows[startRow].cells[col].rowSpan | 0) + 1; 
-                if (i == endRow - 1 && startRow != endRow) { 
-                    mc(tableId, startRow, endRow, col + 1); 
-                } 
-            } else { 
-                mc(tableId, startRow, i + 0, col + 1); 
-                startRow = i + 1; 
-            } 
-        } 
-    } 
-    mc('table1',0,0,0); 
-    </script>  
+<script type="text/javascript">
+    (function(ele){
+        var tab=document.getElementById(ele);
+        var rows=tab.rows;
+        var rowlen=rows.length;
+        var collen=rows[0].cells.length;
+        var rowStart=0;
+        for(var i=0;i<rowlen-1;i++){
+            for(var j=i+1;j<rowlen;j++){
+                if(tab.rows[j].cells[0].innerHTML==tab.rows[i].cells[0].innerHTML){
+                    tab.rows[j].removeChild(tab.rows[j].cells[0]);
+                    if(j>=rowlen-1){
+                        tab.rows[i].cells[0].rowSpan=j-i+1+"";
+                    } 
+                }else{
+                    tab.rows[i].cells[0].rowSpan=j-i+"";
+                    i=j-1;
+                    break;
+                }
+            }    
+        }
+        for(var i=0;i<collen-1;i++){
+            for(var j=i+1;j<collen;j++){
+                if(tab.rows[0].cells[j].innerHTML==tab.rows[0].cells[i].innerHTML){
+                    tab.rows[0].removeChild(tab.rows[0].cells[j]);
+                    if(j>=collen-1){
+                        tab.rows[0].cells[i].colSpan=j-i+1+"";
+                    } 
+                }else{
+                    tab.rows[0].cells[i].colSpan=j-i+"";
+                    i=j-1;
+                    break;
+                }
+            }    
+        }
+    })('table1')
+</script>  
