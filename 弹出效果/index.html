@@ -12,7 +12,7 @@
     <div class="connect-container">
       <span class='connect'>维护人:</span>
       <span class='flag' name='hide'>&#43;</span>
-    <div>
+    </div>
     <dl class="personal-list">
       <dt>人员列表</dt>
       <dd>
@@ -22,7 +22,7 @@
           <li><a href="#">李三</a></li>
           <li><a href="#">李四</a></li>
           <li><a href="#">李五</a></li>
-          <li class='close'>关闭</li>
+          <li class='closee'>关闭</li>
         </ul>
       </dd>
     </dl>
@@ -36,11 +36,11 @@
       $(this).attr('name','show')
       $('.personal-list').show().addClass('animated flipInX');
     }else{
-      $(this).attr('name','hide')
+      $(this).attr('name','hide');
       $('.personal-list').hide();
     }
   })
-  $('.personal-list .close,.personal-list ul li a').click(function(){
+  $('.personal-list .closee,.personal-list ul li a').click(function(){
     $('.connect-container span.flag').attr('name','hide')
     $('.personal-list').hide();
   })

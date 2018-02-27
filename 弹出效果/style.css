@@ -5,24 +5,25 @@
 ul li{
   list-style: none;
 }
-a{
+.personal-list a{
+  color:black;
   text-decoration: none;
 }
 .person-container{
+  position:relative;
   width:230px;
   margin: 0 auto;
   background:white;
   font-family: "Open Sans",Arial,Helvetica,Sans-Serif;
 }
-.connect-container {
-   
-}
+
 .connect {
   font-size: 14px;
 }
 span.flag {
   font-size:18px;font-weight:bold;
   cursor:pointer;
+  color:#468847
 }
 .personal-list{
   border:1px solid #ddd;
@@ -31,6 +32,11 @@ span.flag {
   margin-top:6px;
   box-shadow: 0 6px 12px rgba(0,0,0,.175);
   border-radius: 2px;
+  position:absolute;
+  top:20;left:0;
+  width:100%;
+  z-index: 100;
+  background:white;
 }
 .personal-list dt{
   border-bottom:1px solid #ddd;
@@ -46,7 +52,7 @@ span.flag {
   background:#3276b1;
   color:white;
 }
-.personal-list dd ul li.close{
+.personal-list dd ul li.closee{
   border-top: 1px solid #ddd;
   padding:3px 13px;
   cursor:pointer;
