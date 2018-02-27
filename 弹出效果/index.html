@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>效果</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="person-container">
+    <div class="connect-container">
+      <span class='connect'>维护人:</span>
+      <span class='flag' name='hide'>&#43;</span>
+    <div>
+    <dl class="personal-list">
+      <dt>人员列表</dt>
+      <dd>
+        <ul>
+          <li><a href="#">李一</a></li>
+          <li><a href="#">李二</a></li>
+          <li><a href="#">李三</a></li>
+          <li><a href="#">李四</a></li>
+          <li><a href="#">李五</a></li>
+          <li class='close'>关闭</li>
+        </ul>
+      </dd>
+    </dl>
+  </div>
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  $(document).on('click','span.flag',function(e){
+    if($(this).attr('name')=='hide' && e.target==this){
+      $(this).attr('name','show')
+      $('.personal-list').show().addClass('animated flipInX');
+    }else{
+      $(this).attr('name','hide')
+      $('.personal-list').hide();
+    }
+  })
+  $('.personal-list .close,.personal-list ul li a').click(function(){
+    $('.connect-container span.flag').attr('name','hide')
+    $('.personal-list').hide();
+  })
+  
+</script>
