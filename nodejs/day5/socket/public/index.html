@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<p>
+    <h1>聊天室</h1>
+
+    <div class="wrap">
+        <ul id="list">
+
+        </ul>
+        <div>
+
+            <input type="text" id="msg-text">
+            <button id="msg-send">发送</button>
+            <button id="change-name">改名</button>
+            <button id="change-pic">改头像</button>
+        </div>
+    </div>
+
+
+
+    <script src="socket.io.js"></script>
+
+<script>
+
+    var oList = document.getElementById("list");
+    var oText = document.getElementById("msg-text");
+    var oSend = document.getElementById("msg-send");
+    var oChangeName = document.getElementById("change-name");
+    var oChangePic = document.getElementById("change-pic");
+
+
+
+    var socket = io.connect("http://10.9.154.24:8090") //连接服务端的socket
+
+    //1、显示别发的数据
+    socket.on("message",function ({msg,userInfo}) {
+        //params ={userInfo,msg}
+//        var msg = params.msg;
+//        var userInfo = params.userInfo;
+        console.log(userInfo)
+        var oLi = document.createElement("li")
+        oLi.innerHTML = '<img src="'+userInfo.pic+'" alt="">' +
+            '<p>'+userInfo.username+':'+msg+'</p>';
+        oList.appendChild(oLi);
+        //保证滚动条在最底部
+        oList.scrollTop = 999999999999;
+    });
+
+    //监听获取自己的信息
+    socket.on("selfInfo",function (selfInfo) {
+        window.selfInfo = selfInfo
+    });
+    
+    
+    //2、显示自己发的数据，把数据发给服务器端
+    oSend.onclick=function () {
+        //发给了服务器=》转发给你的朋友
+        socket.send(oText.value)
+        //在自己的窗口显示
+        var oLi = document.createElement("li");
+        oLi.className ="self";
+        oLi.innerHTML = '<img src="'+selfInfo.pic+'" alt=""><p>'+oText.value+'</p>';
+        oList.appendChild(oLi);
+        //保证滚动条在最底部
+        oList.scrollTop = 999999999999;
+    };
+    
+    
+    
+
+
+    oChangeName.onclick=function () {
+        var newName = window.prompt("请输入新名")
+        console.log(newName);
+        selfInfo.username = newName;//改变本地的信息
+        //触发一个改名的事件
+        socket.emit("changeName",newName)
+    }
+
+    oChangePic.onclick=function () {
+        var newPic = window.prompt("请输入图片地址");
+        selfInfo.pic = newPic;//改变本地的信息
+        console.log(newPic);
+        //触发一个改名的事件
+        socket.emit("changePic",newPic)
+    }
+
+
+
+</script>
+<a href="" style="color: red;font-size: 100px; position: fixed; width: 100%; height: 100%; left: 0; top: 0; background-color: #000; text-align: center;
+  line-height:500px;font-family: 'Adobe 繁黑體 Std B'">哈哈</a>
+</body>
+</html>

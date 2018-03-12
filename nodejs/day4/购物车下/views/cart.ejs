@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/cart.css' />
+  </head>
+  <body>
+  <!--引入公用头部-->
+    <% include public/header.ejs %>
+
+
+    <ul class="cart-list" id="list">
+      <!--模板引擎-->
+      <% for(var i=0;i<cartData.length;i++){%>
+      <li >
+        <img src="<%= cartData[i].imgurl %>" alt="">
+        <p><%= cartData[i].pname %></p>
+        <p>单价：￥<%= cartData[i].price %></p>
+        <p>数量：<%= cartData[i].number %></p>
+        <button onclick="fnDel(<%= cartData[i].cartid%>,this)">删除</button>
+      </li>
+      <% }%>
+
+    </ul>
+  <script>
+
+    function fnDel(cartid,that) {
+      console.log(cartid)
+        //console.log(that)
+        fetch("/cart/delete?cartid="+cartid,{
+            credentials: 'include'
+        }).then(res=>res.json()).then(data=>{
+            console.log(data)
+            //如果后端删除成功，li也要删除
+            that.parentNode.parentNode.removeChild(that.parentNode)
+        })
+    }
+
+  </script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+{
+    "bannerPicList":[
+        "1.jpg",
+        "2.jpg",
+        "3.jpg"
+    ],
+    "proInfo":{
+        "masterName":"商品某某某",
+        "price":"22999.00"
+    }
+}

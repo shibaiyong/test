@@ -1,0 +1,15 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+* { margin: 0;padding: 0}
+li {list-style: none}
+
+.ovfl { overflow: hidden}
+.pad-10 {padding: 10px}
+.fr {
+  float: right;}

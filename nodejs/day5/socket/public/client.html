@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<p>
+    <h1>聊天室</h1>
+
+    <div class="wrap">
+        <ul id="list">
+
+        </ul>
+        <div>
+
+            <input type="text" id="msg-text">
+            <button id="msg-send">发送</button>
+        </div>
+    </div>
+
+
+
+    <script src="socket.io.js"></script>
+
+<script>
+
+    var oList = document.getElementById("list");
+    var oText = document.getElementById("msg-text");
+    var oSend = document.getElementById("msg-send");
+
+
+
+    var socket = io.connect("http://10.9.154.24:8090") //连接服务端的socket
+
+    socket.on("message",function (msg) {
+
+        var oLi = document.createElement("li");
+        oLi.innerHTML='<p>客服：'+msg+'</p>'
+        oList.appendChild(oLi)
+        oList.scrollTop = 9999999999
+
+    });
+
+    oSend.onclick=function () {
+        var val = oText.value
+        if(val){
+            socket.send(val);
+            //在自己的页面上显示，发送的ner
+
+            var oLi = document.createElement("li");
+            oLi.className="self"
+            oLi.innerHTML='<p>自己：'+val+'</p>';
+            oList.appendChild(oLi)
+            oList.scrollTop = 9999999999
+        }
+    }
+
+</script>
+
+</body>
+</html>

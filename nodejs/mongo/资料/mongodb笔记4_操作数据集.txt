@@ -1,0 +1,20 @@
+.在库中创建集合(mycol为集合名称)   
+    a. db.createCollection("mycol")  //创建默认集合   
+   
+    b. db.createCollection("mycol", { capped : true, autoIndexID : true, size : 6142800, max : 10000 } )    //创建指定参数集合   
+ 
+    指定参数： capped Boolean （可选）如果为true，则启用封顶集合。封顶集合是固定大小的集合，会自动覆盖最早的条目，当它达到其最大大小。如果指定true，则需要也指定尺寸参数。    
+    autoIndexID Boolean （可选）如果为true，_id字段自动创建索引,默认值是false,慎用false,因为会导致同步数据时负载很高，建议设置为true。    
+    size number （可选）指定最大大小字节封顶集合。如果封顶如果是 true，那么你还需要指定这个字段。    
+    max number （可选）指定封顶集合允许在文件的最大数量。   
+   
+7.直接插入数据创建集合   
+    db.teacher.insert({"hetao":"php"})   
+    //自动创建名为teacher的数据集,里面有一条键值对   
+8.显示集合   
+    show collections   
+9.删除集合   
+    db.mycol.drop()   
+   
+10.显示表格记录：   
+    db.mycol.find()

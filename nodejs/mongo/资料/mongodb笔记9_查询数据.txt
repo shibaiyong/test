@@ -1,0 +1,70 @@
+记录：
+db.user.insert({name:'张三',sex:1,age:18,pwd:'zhangsan',money:20,des:'刚上大学'})
+db.user.insert({name:'李四',sex:0,age:27,pwd:'lisi',money:70,des:'毕业5年'})
+db.user.insert({name:'王五',sex:1,age:35,pwd:'wangwu',money:17,des:'工作13年,高管级别'})
+db.user.insert({name:'赵六',sex:0,age:42,pwd:'zhaoliu',money:60,des:'自己开公司,做老板'})
+db.user.insert({name:'张四',sex:1,age:18,pwd:'zhangsan',money:80,des:'刚上大学'})
+db.user.insert({name:'赵八',sex:0,age:25,pwd:'zhaoliu',money:60,des:'自己开公司,做老板'})
+
+查询数据(文档)  
+db.mycol.find()  
+db.mycol.find().pretty()  //格式化显示  
+db.mycol.findOne()      //返回一条记录  
+  
+13.查看有几条记录  
+db.mycol.count()  
+  
+查询需要的字段：  
+db.mycol.find({},{"title":1})  //只显示id和title  
+db.mycol.find({},{"title":1,"by":1}) //显示id,title和by  
+db.mycol.find({},{"title":1,_id:0})  //只显示title  
+  
+13.条件查询  
+a.==  
+db.mycol.find({"by":"tutorials point"}).pretty() <=> where by = 'tutorials point'   
+b.< $lt  
+db.mycol.find({"likes":{$lt:50}}).pretty() <=> where likes < 50   
+c.<= $lte  
+db.mycol.find({"likes":{$lte:50}}).pretty() <=> where likes <= 50   
+d.> $gt  
+db.mycol.find({"likes":{$gt:50}}).pretty() <=> where likes > 50  
+e.>= $gte  
+db.mycol.find({"likes":{$gte:50}}).pretty() <=> where likes >= 50  
+f.!= $ne  
+db.mycol.find({"likes":{$ne:50}}).pretty() <=> where likes != 50   
+ 
+db.user.find({money:{$lt:80,$gt:20}})   //money>20同时<80 
+  
+13.多条件查询and( where by='yiibai' AND title='MongoDB Overview' )  
+db.mycol.find({key1:value1, key2:value2}).pretty()  
+db.mycol.find({"by":"tutorials point","title": "MongoDB Overview"}).pretty()  
+  
+14.多条件查询or  
+db.mycol.find({$or: [{key1: value1}, {key2:value2}]}).pretty()  
+db.mycol.find({$or:[{"by":"yiibai"},{"title": "MongoDB Overview"}]}).pretty()  
+  
+15.多条件查询(and和or一起用)  
+db.mycol.find("likes": {$gt:10}, $or: [{"by": "yiibai"}, {"title": "MongoDB Overview"}] }).pretty()  
+  
+16.模糊查询(字段by中包含bai的记录)  
+db.mycol.find({'by': /.*bai.*/i})  //忽略大小写  
+db.mycol.find({'by': /or/})        //包含or的,大小写敏感  
+db.mycol.find({"by": {$regex:/or.*/i}})  //包含or的,忽略大小写  
+  
+  
+db.mycol.find({'by':/^tut/})       //tut打头的,大小写敏感  
+db.mycol.find({'by':/^Tut/i})      //tut打头的，大小写不敏感  
+  
+15.分页(limit)  
+db.COLLECTION_NAME.find().limit(NUMBER)  
+db.mycol.find().limit(3)  
+db.mycol.find({},{"title":1,_id:0}).limit(1).skip(3)  //跳到第3条记录,向后显示1条  
+db.mycol.find({},{"title":1,_id:0}).skip(3)    //跳到第3条记录，向后显示所有记录  
+  
+15.降序排序  
+db.mycol.find({},{"title":1,_id:0}).sort({"title":-1})// 1用于升序排列，而-1用于降序。  
+  
+php查询方法：  
+$paramArr = array(  
+            "nicheng"=>new MongoRegex("/.*".$_POST["nicheng"].".*/"),  
+        );  

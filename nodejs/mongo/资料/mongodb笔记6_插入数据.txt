@@ -1,0 +1,60 @@
+插入数据(文档)   
+a. insert //没有相同的键则插入，有则报错  
+db.mycol.insert({title: 'MongoDB Overview',description: 'MongoDB is no sql database',by: 'tutorials point',url: 'http://www.yiibai.com',tags: ['mongodb', 'database', 'NoSQL'],likes: 100})   
+b.多条插入   
+db.mycol.insert([{},{},{}])   
+db.post.insert([   
+{   
+   title: 'MongoDB Overview',    
+   description: 'MongoDB is no sql database',   
+   by: 'tutorials point',   
+   url: 'http://www.yiibai.com',   
+   tags: ['mongodb', 'database', 'NoSQL'],   
+   likes: 100   
+},   
+{   
+   title: 'NoSQL Database',    
+   description: 'NoSQL database doesn't have tables',   
+   by: 'tutorials point',   
+   url: 'http://www.yiibai.com',   
+   tags: ['mongodb', 'database', 'NoSQL'],   
+   likes: 20,    
+   comments: [       
+      {   
+         user:'user1',   
+         message: 'My first comment',   
+         dateCreated: new Date(2013,11,10,2,35),   
+         like: 0    
+      }   
+   ]   
+}   
+])  
+2.save   //没有则插入，有则覆盖  
+db.mycol.save({})  
+3.插入时间  
+db.test.insert({time:new Date()})  
+给mongodb插入日期格式的数据时发现，日期时间相差8个小时，原来存储在mongodb中的时间是标准时间UTC +0:00，而中国的时区是+8.00 。  
+  
+取出时正确  
+db.test.find()[0].time.getHours()  
+  
+因此在插入的时候需要对时间进行处理：  
+db.test.insert({"Time":new Date(new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate()+ " "+new Date().toLocaleTimeString())})  
+  
+db.test.insert({'time':ISODate("2012-11-02 07:58:51")})  
+  
+db.user.uinfo.insert({'ltime':ISODate("2012-11-02 07:58:51")})  
+ 
+new Date(2017,9,9,9,63,72)  //保证正确的插入方式
+
+用自定义函数:    
+function getFormatDate(time){  
+    year = time.getFullYear();  
+    mon = time.getMonth()+1;  
+    date = time.getDate();  
+    hour = time.getHours();  
+    min = time.getMinutes();  
+    sec = time.getSeconds();  
+    newtime = year+'-'+mon+'-'+date+' '+hour+':'+min+':'+sec;  
+    return newtime;  
+}

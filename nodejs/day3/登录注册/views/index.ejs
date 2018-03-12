@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/index.css' />
+  </head>
+  <body>
+  <!--引入公用头部-->
+    <% include public/header.ejs %>
+
+    <% if(isLogin){%>
+      <p>Welcome  <%= username %> to 1709</p>
+    <%}else {%>
+      <div><a href="/login">去登录</a>,或者 <a href="/reg">注册</a></div>
+    <%}%>
+    <p><%- htmlstr %></p>
+    <ul class="product-list" id="list">
+      <!--模板引擎-->
+      <% for(var i=0;i<proListData.length;i++){%>
+      <li>
+        <img src="<%= proListData[i].imgurl %>" alt="">
+        <p><%= proListData[i].pname %></p>
+      </li>
+      <% }%>
+
+    </ul>
+    <!--服务器端渲染  => （模板引擎） -->
+
+    <script>
+//      var oList = document.getElementById("list")
+//      fetch("/api/getGoods").then(res=>res.json()).then(data=>{
+//          console.log(data)
+//          var str = '';
+//          //字符串拼接
+//          for(var i=0;i<data.length;i++){
+//              str+=`<li>
+//                      <img src="${data[i].imgurl}" alt="">
+//                      <p>${data[i].pname}</p>
+//                    </li>`
+//          }
+//          oList.innerHTML = str
+//
+//      })
+    </script>
+  </body>
+</html>

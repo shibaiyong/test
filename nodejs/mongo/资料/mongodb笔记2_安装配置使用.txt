@@ -1,0 +1,23 @@
+1.MongoDB下载地址：下载对应的版本 
+https://www.mongodb.org/    =>download=>window=>download 
+2.安装 
+按默认或选择安装位置一步步到头 
+3.创建数据库数据存放文件夹 
+   比如D:/data/db 
+4. 启动mongodb (指定数据文件存储路径)，监听端口:27017 
+    打开dos窗口 
+   a.转到mongodb的安装位置 
+           cd C:\Program Files\MongoDB\Server\3.0\bin 
+   b. 运行：mongod.exe --dbpath "d:\data\db"        //指定数据库文件夹路径位置  
+5.进入mongodb控制台 
+   打开另一个dos窗口 
+   cd C:\Program Files\MongoDB\Server\3.0\bin 
+   运行：mongo.exe //进入mongodb控制台 
+ 
+6.显示当前数据库状态： 
+   在mongodb控制台中 
+   db.stats()        //这将显示数据库名称 
+ 
+7.安装robomongo图形化工具 
+   下载地址：http://www.softpedia.com/get/Internet/Servers/Database-Utils/Robomongo.shtml#download 
+    安装后点create,在mongodb打开的情况下连接即可显示数据库 

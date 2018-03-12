@@ -1,0 +1,94 @@
+保存为存储过程：    
+db.system.js.save({_id:存储过程名称,value:存储过程体})  //添加一个新的存储过程或者更新一个已经存在的存储过程    
+    
+db.system.js.insert({_id:'add',    
+value:function(a,b){    
+    return a+b*2;    
+}    
+})    
+    
+//查看存储过程    
+db.system.js.find();    
+    
+db.eval("add(9,3)")  //函数名,参数    
+    
+删除存储过程    
+db.system.js.remove({_id:'add'})    
+    
+db.system.js.insert({_id:'cheng',    
+value:function(a,b){    
+    return a*b;    
+}    
+})    
+    
+db.system.js.insert({_id:'getStr',    
+value:function (str){    
+    print('收到:'+str);    
+    return 'aaa:'+str;    
+}    
+})    
+db.eval("getStr('zhangsan')")    
+    
+function getDate(time){    
+    year = time.getFullYear();    
+    return year    
+}    
+    
+function getFormatDate(time){      
+    year = time.getFullYear();      
+    mon = time.getMonth()+1;      
+    date = time.getDate();      
+    hour = time.getHours();      
+    min = time.getMinutes();      
+    sec = time.getSeconds();      
+    newtime = year+'-'+mon+'-'+date+' '+hour+':'+min+':'+sec;      
+    return newtime;      
+}    
+   
+//--------------------------storepro.js--------------------------   
+var db = connect( 'mydb' ); 
+db.system.js.insert({_id:'getFormatDate', 
+value:function (time){   
+    year = time.getFullYear();   
+    mon = time.getMonth()+1;   
+    date = time.getDate();   
+    hour = time.getHours();   
+    min = time.getMinutes();   
+    sec = time.getSeconds();   
+    newtime = year+'-'+mon+'-'+date+' '+hour+':'+min+':'+sec;   
+    return newtime;   
+} 
+}) 
+ 
+db.system.js.insert({_id:'getUserRS', 
+    value:function(rs){ 
+        var mapArr; 
+        mapArr = rs.map(function(item, index, array ){  
+            getDate = db.eval('getFormatDate'); 
+            item.birthday = getDate(item.birthday); 
+        return item;  
+        }); 
+        return mapArr; 
+    } 
+}) 
+ 
+加载文件：    
+load('g:/data/storepro.js')  
+  
+调用:  
+//getUserRS=db.eval('getUserRS') 
+//getUserRS(db.user.find()) 
+ 
+db.user.find().forEach(function(item){  
+    getFormatDate=db.eval('getFormatDate');  
+    print(item.name,getFormatDate(item.birthday));  
+    //item.birthday=getFormatDate(item.birthday);  
+    //printjson(item);  
+})
+
+//----------临时数据-------------------------------------
+db.user.insert({name:'张三',birthday:new Date(1990,6,7)})
+db.user.insert({name:'李四',birthday:new Date(1997,3,5)})
+db.user.insert({name:'王五',birthday:new Date(1989,4,20)})
+db.user.insert({name:'周六',birthday:new Date(1992,5,9)})
+db.user.insert({name:'蒋七',birthday:new Date(1994,8,7)})

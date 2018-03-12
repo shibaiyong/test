@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/index.css' />
+  </head>
+  <body>
+  <!--引入公用头部-->
+  <% include public/header.ejs %>
+  <p><%=msg%></p>
+
+  <% if(msg=='登录成功'){%>
+
+    <script> window.location.href="/" </script>
+
+  <%}else{%>
+  <form method="post">
+    <ul>
+
+      <li><input type="text" name="username"></li>
+      <li><input type="text" name="password"></li>
+      <li><input type="submit"></li>
+    </ul>
+  </form>
+  <%}%>
+  </body>
+</html>

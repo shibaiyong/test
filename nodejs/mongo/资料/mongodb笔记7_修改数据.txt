@@ -1,0 +1,37 @@
+更新数据(update)，$set表不清除别的字段 
+a.只能更新只有一条记录的 
+db.mycol.update({'title':'MongoDB Overview'},{'title':'New MongoDB Tutorial'}) //改完整条记录只剩下tile 
+b.只能更新一条记录,只能用键改"_id" 
+db.mycol.update({"_id" : ObjectId("5599276bf6331d2d84d5a86a")},{$set:{'title':'New MongoDB Tutorial'}}) 
+b.更新多条 
+db.mycol.update({'title':"MongoDB Overview"},{$set:{'title':'New MongoDB Tutorial'}},{multi:true}) 
+db.mycol.update({'title':/MongoDB Overview/},{$set:{'title':'New MongoDB Tutorial'}},{multi:true}) 
+c.用save（把其他的数据全清除掉） 
+db.mycol.save({"_id" : ObjectId("5599276bf6331d2d84d5a86a"), "title":"Yiibai New Topic", "by":"Yiibai"}) 
+ 
+$inc 
+db.test0.update( { "_id" : 15 } , { $inc : { "count" : 2 } } ); 
+//在原先count:17的基础上再加2，让count变成19 
+ 
+$unset 
+：{ $unset : { field : 1} } 
+删除字段 
+
+$set:{field:'值'}
+追加字段
+ 
+$push 
+：{ $push : { field : value } } 
+把value追加到field里面去，field一定要是数组类型才行，如果field不存在，会新增一个数组类型加进去。 
+db.test0.update( { "_id" : 15 } , { $set : { "test1" : ["aaa","bbb"] } } ); 
+db.test0.update( { "_id" : 15 } , { $push : { "test1": "ccc" } } ); 
+test1字段变成： "test1" : [ "aaa", "bbb", "ccc" ],  
+ 
+$pushAll 
+{ $pushAll : { field : value_array } } 
+同$push,只是一次可以追加多个值到一个数组字段内 
+db.test0.update( { "_id" : 15 } , { $pushAll : { "test1": ["fff","ggg"] } } ); 
+ 
+ $addToSet 
+：{ $addToSet : { field : value } } 
+增加一个值到数组内，而且只有当这个值不在数组内才增加   
