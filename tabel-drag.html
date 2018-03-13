@@ -102,15 +102,15 @@
         $(function() {
             $('#submitInput').click(function() {
                 //发送参数
-                var priorityOne = $("#priorityOne").html();
-                var priorityTwo = $("#priorityTwo").html();
-    
-                var dataSourceOne = $("#dataSourceOne").html();
-                var dataSourceTwo = $("#dataSourceTwo").html();
-    
-                var forbiddenYN1 = $("#checkboxOne").attr("checked");//通过标签的属性获取属性值，从而获取checkbox是否被选中事件，true为选中，flase代表未选中
-                var forbiddenYN2 = $("#checkboxTwo").attr("checked");
-                window.location.href="/TVListTwo/channelList1.jsp?dataSourceOne="+dataSourceOne+"&dataSourceTwo="+dataSourceTwo+"&forbiddenYN1="+forbiddenYN1+"&forbiddenYN2="+forbiddenYN2; 
+            var priorityOne = $("#priorityOne").html();
+            var priorityTwo = $("#priorityTwo").html();
+
+            var dataSourceOne = $("#dataSourceOne").html();
+            var dataSourceTwo = $("#dataSourceTwo").html();
+
+            var forbiddenYN1 = $("#checkboxOne").attr("checked");//通过标签的属性获取属性值，从而获取checkbox是否被选中事件，true为选中，flase代表未选中
+            var forbiddenYN2 = $("#checkboxTwo").attr("checked");
+            window.location.href="/TVListTwo/channelList1.jsp?dataSourceOne="+dataSourceOne+"&dataSourceTwo="+dataSourceTwo+"&forbiddenYN1="+forbiddenYN1+"&forbiddenYN2="+forbiddenYN2; 
             })
         })
     </script>
@@ -139,6 +139,5 @@
         <div id="submit">
             <input type="button" value="提交" id="submitInput">
         </div>
-    
 </body>
 </html>
