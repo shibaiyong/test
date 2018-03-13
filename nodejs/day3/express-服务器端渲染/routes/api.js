@@ -8,6 +8,4 @@ router.get("/getGoods",function (req,res,next) {
     ///myPro.getProList(res)
 });
 
-
-
 module.exports = router;

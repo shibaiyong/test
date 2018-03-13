@@ -9,8 +9,8 @@ var myPro = new Product();
 router.get('/', function(req, res, next) {
   //等获取到数据以后再渲染页面
   myPro.getProList(function (results) {
-      console.log(results);
-      res.render('index', { title: 'hello',username:'anliman',proListData:results });
+    console.log(results);
+    res.render('index', { title: 'hello',username:'anliman',proListData:results });
   });
     //需要商品的数据
 });

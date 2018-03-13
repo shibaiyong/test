@@ -12,25 +12,24 @@ var pool = require("./pool");
 function  User() {}
 
 User.prototype.getUsers =function (res) {
-    //2、获取连接
-    pool.getConnection(function (err,connection) {
+  //2、获取连接
+  pool.getConnection(function (err,connection) {
+    if(err){
+      console.log(err)
+    }else {
+      //3、使用连接
+      connection.query("select * from user",function (err,results) {
         if(err){
-            console.log(err)
+          console.log(err)
         }else {
-            //3、使用连接
-            connection.query("select * from user",function (err,results) {
-                if(err){
-                    console.log(err)
-                }else {
-                    //请求成功，把数据给前端
-                    res.send(JSON.stringify(results));
-                    //4、把连接放回池子
-                    connection.release()
-                }
-            })
+          //请求成功，把数据给前端
+          res.send(JSON.stringify(results));
+          //4、把连接放回池子
+          connection.release()
         }
-    })
-
+      })
+    }
+  })
 };
 
 User.prototype.login=function (req,callback) {
@@ -39,37 +38,37 @@ User.prototype.login=function (req,callback) {
     var params = req.body;
     //1获取连接
     pool.getConnection(function (err,connection) {
-        if(err){
+      if(err){
+        console.log(err)
+      }else {
+        var sqlStr = `select * from user where username='${params.username}'`;
+        //2进行数据库查询
+        connection.query(sqlStr,function (err,results) {
+          if(err){
             console.log(err)
-        }else {
-            var sqlStr = `select * from user where username='${params.username}'`;
-            //2进行数据库查询
-            connection.query(sqlStr,function (err,results) {
-                if(err){
-                    console.log(err)
-                }else {
-                    //results 是查询到的用户列表  应该是一条数据
-                    console.log(results)
-                    if(!results.length){
-                        //没有找到对应的用户名（用户名不存在）
-                        callback("用户名不存在")
-                    }else {
-                        //有用户名  [ {username,password,sex,id}  ]
-                        if(params.password==results[0].password){ //判断用户输入的密码和数据库的密码是否一致
-                            //登录成功
-                            //保存用户信息到session  =》session会自动设置cookie
-                            req.session.user = results[0]; //设置session应该在回调函数之前调用
-                            callback("登录成功")
-                        }else {
-                            //用户名和密码不匹配
-                            callback("用户名和密码不匹配")
-                        }
-                    }
-                }
-                //3释放连接
-                connection.release()
-            })
-        }
+          }else {
+            //results 是查询到的用户列表  应该是一条数据
+            console.log(results)
+            if(!results.length){
+                //没有找到对应的用户名（用户名不存在）
+                callback("用户名不存在")
+            }else {
+              //有用户名  [ {username,password,sex,id}  ]
+              if(params.password==results[0].password){ //判断用户输入的密码和数据库的密码是否一致
+                //登录成功
+                //保存用户信息到session  =》session会自动设置cookie
+                req.session.user = results[0]; //设置session应该在回调函数之前调用
+                callback("登录成功")
+              }else {
+                //用户名和密码不匹配
+                callback("用户名和密码不匹配")
+              }
+            }
+          }
+          //3释放连接
+          connection.release()
+        })
+      }
     })
 
 };
@@ -95,16 +94,16 @@ User.prototype.reg = function ({username,password},callback) {
                        //没有注册过
                        var regStr =  `insert into user(username,password) values('${username}','${password}')`;
                        connection.query(regStr,function (err) {
-                           if(err){
-                               console.log(err);
-                               //未知错误
-                               callback("服务器比较繁忙")
-                           }else {
-                               //注册成功
-                               callback("注册成功")
-                           }
-                           //3、释放连接
-                           connection.release()
+                          if(err){
+                            console.log(err);
+                            //未知错误
+                            callback("服务器比较繁忙")
+                          }else {
+                            //注册成功
+                            callback("注册成功")
+                          }
+                          //3、释放连接
+                          connection.release()
                        })
                    }
 
