@@ -21,16 +21,16 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev')); //日志插件
+app.use(logger('dev'));     //日志插件
 app.use(bodyParser.json()); //使用post的参数解析插件
 app.use(bodyParser.urlencoded({ extended: false }));//使用post的参数解析插件
-app.use(cookieParser()); //使用cookie插件
+app.use(cookieParser());    //使用cookie插件
 app.use(express.static(path.join(__dirname, 'public'))); //设置静态目录
 
 //使用路由配置 (routes里面的路径设置是相对于app里面的全局路径)
-app.use('/', index); //           '/'      + '/'
-app.use('/users', users);  //     '/users' + '/'
-app.use('/api', api);  //     '/api' + '/getGoods'
+app.use('/', index);       //  '/'      + '/'
+app.use('/users', users);  //  '/users' + '/'
+app.use('/api', api);      //  '/api' + '/getGoods'
 
 
 
