@@ -7,22 +7,46 @@
   <title>dataTable</title>
   <link rel="stylesheet" href="resource/dataTable.css" />
   <style>
-    
-    .dom{
-    width: 500px;
-    height: 100px;
-    background: green;
-    text-align: justify;
-    text-align-last: justify;
-}
+   .drop_wrapper .drop_item{
+     list-style: none;
+     padding:0;margin: 0;
+   } 
+   .drop_wrapper .drop_item li{
+     padding:0;margin: 0;
+   } 
 
-.dom::after {
-    display: inline-block;
-    content: '';
-    overflow: hidden;
-    width: 100%;
-    height: 0;
-}
+   .drop_wrapper a{
+     display: inline-block;
+     text-decoration:none;
+     color:#333;
+     width:100%;
+   } 
+   
+   .drop_container{
+     width:150px;
+     height: 30px;
+     float: left;
+     position: relative;
+   }
+   .drop_container>a{
+     height: 100%;
+     line-height: 30px;
+     font-size: 16px;
+   }
+   .drop_container>a::after{
+     content: ">";
+   }
+   .drop_container .drop_item{
+     display: none;
+     position:absolute;
+     top:30px;
+     left:0;
+   }
+   .drop_container .drop_item>li a{
+     height: 30px;
+     line-height: 30px;
+     text-align: center;
+   }
 #table_id_example td input{
   border:none;
   width:100%;
@@ -32,6 +56,35 @@
   </style>
 </head>
 <body>
+  <div class="drop_wrapper">
+    <div class='drop_container'>
+      <a href="javascript:;" status="hide">分类1</a>
+      <ul class='drop_item'>
+        <li><a href="javascript:;">新闻news1</a></li>
+        <li><a href="javascript:;">新闻news2</a></li>
+        <li><a href="javascript:;">新闻news3</a></li>
+        <li><a href="javascript:;">新闻news4</a></li>
+      </ul>
+    </div>
+    <div class='drop_container'>
+      <a href="javascript:;" status="hide">分类2分类1</a>
+      <ul class='drop_item'>
+        <li><a href="javascript:;">新闻news1</a></li>
+        <li><a href="javascript:;">新闻news2</a></li>
+        <li><a href="javascript:;">新闻news3</a></li>
+        <li><a href="javascript:;">新闻news4</a></li>
+      </ul>
+    </div>
+    <div class='drop_container'>
+      <a href="javascript:;" status="hide">分类3分类1</a>
+      <ul class='drop_item'>
+        <li><a href="javascript:;">新闻news1</a></li>
+        <li><a href="javascript:;">新闻news2</a></li>
+        <li><a href="javascript:;">新闻news3</a></li>
+        <li><a href="javascript:;">新闻news4</a></li>
+      </ul>
+    </div>
+  </div>
   <table id="table_id_example" class="display">
     <thead>
       <tr>
@@ -126,5 +179,32 @@
 
 
   dataTable.page.len( 20 ).draw();//控制当前页显示条数。
+
+
+
+
+  //效果
+  // $('.drop_container>a').click(function(e){
+  //   var ele = e.target;
+  //   console.log($(this))
+  //   if( $(this).attr('status')=='hide' && ele == this ){
+  //     $(this).attr('status','show')
+  //     $(this).next().show();
+  //   }else{
+  //     $(this).attr('status','hide')
+  //     $(this).next().hide();
+  //   }
+  // });
+  $(document).on('click', function(e){
+    if($(e.target).attr('status') == 'hide'){
+      $(e.target).attr('status','show')
+      $(e.target).parent().siblings().children('a').attr('status','hide')
+      $(e.target).parent().siblings().find('.drop_item').hide();
+      $(e.target).next().show();
+    }else{
+      $('.drop_container>a').attr('status','hide')
+      $('.drop_container .drop_item').hide();
+    }
+  })
 } );
 </script>
