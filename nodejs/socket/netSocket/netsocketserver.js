@@ -12,11 +12,11 @@ let count = 0;
 server.on('connection',(client)=>{
   client.name = ++count;
   clientObj[client.name] = client;
-  console.log('新用户来了'+clientObj.name);
+  console.log('新用户来了'+client.name);
   broading('我来了',client);
-  //当客户端发送过来数据的时候
+  //当当当前客户端发送过来数据的时候
   client.on('data',(data)=>{
-    console.log(client.name+'say:'+data);
+    //console.log(client.name+'say:'+data);
     broading(data,client);
   })
 
@@ -34,6 +34,6 @@ server.listen(9000,'127.0.0.1',()=>{
 
 function broading(message,client){
   for(var i in clientObj){
-    clientObj[i].write(client.name+'say'+message.toString());
+      clientObj[i].write(client.name+'say:'+message.toString());
   }
 }
