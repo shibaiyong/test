@@ -1,7 +1,0 @@
-* { margin: 0; padding: 0;}
-.wrap { width: 350px; height: 500px; padding: 10px; border: 1px solid #ccc;border-radius: 5px;}
-#list { padding: 5px; background-color: #eee; height: 450px; overflow-y: auto}
-li { list-style: none; padding: 5px 0;overflow: hidden; }
-#list img { width: 50px; height: 50px; border-radius: 5px; margin: 5px; float: left }
-#list p { background-color: #fff; padding: 6px; border-radius: 5px; float: left; margin-top: 10px;}
-#list .self p,#list .self img { text-align: right;float: right; background-color: #6f5;}
