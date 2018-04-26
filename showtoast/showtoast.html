@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+          .showtoast{
+      display: none;
+      position: fixed;
+      width:300px;
+      height:200px;
+      box-shadow: 0 0 10px #ddd;
+      text-align: center;
+      left:50%;top:0px;
+      margin-left: -100px;
+      background:white;
+  }
+  .showtoast .showtoastcontent{
+      display: inline-block;
+      text-align: left;
+      height: 120px;
+
+  }
+  .showtoast_footer{
+      height:40px;
+      text-align: right;
+      border-top: 1px solid #eee;
+      line-height: 40px;
+      padding-right: 10px;
+      box-sizing: border-box;
+  }
+  .toast_title{
+      text-align: center;
+      height: 40px;
+      line-height: 40px;
+      border-bottom: 1px solid #eee;
+  }
+    </style>
+</head>
+<body>
+    <div class="showtoast">
+        <div class="toast_title">提示</div>
+        <p class="showtoastcontent">提示信息？</p>
+        <div class="showtoast_footer">
+            <button class="btn btn-danger btn-sm confirm">确认</button>
+            <button class="btn btn-default btn-sm cancel">取消</button>
+        </div>
+    </div>
+</body>
+</html>
+<script src="./showtoast.js"></script>
+<script>
+//js各个配置项示例
+var showtoast = new ShowToast({
+        elem:'.showtoast',
+        content:'hahahhahahahhahahahhahahjhahahhahahhahhahahahha',
+        comfirmText:'no',
+        cancelText:'ok'
+    })
+
+    function fun1(){
+        alert(1)
+    }
+    function fun2(){
+        alert(2)
+    }
+    $('.checkbox label').click(function(){
+        //回调函数可选
+        showtoast.inite({
+            confirmfun:fun1,
+            cancelfun:fun2
+        });
+    })
+</script>
