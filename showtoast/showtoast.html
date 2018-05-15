@@ -5,41 +5,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js'></script>
     <style>
-          .showtoast{
-      display: none;
-      position: fixed;
-      width:300px;
-      height:200px;
-      box-shadow: 0 0 10px #ddd;
-      text-align: center;
-      left:50%;top:0px;
-      margin-left: -100px;
-      background:white;
-  }
-  .showtoast .showtoastcontent{
-      display: inline-block;
-      text-align: left;
-      height: 120px;
-
-  }
-  .showtoast_footer{
-      height:40px;
-      text-align: right;
-      border-top: 1px solid #eee;
-      line-height: 40px;
-      padding-right: 10px;
-      box-sizing: border-box;
-  }
-  .toast_title{
-      text-align: center;
-      height: 40px;
-      line-height: 40px;
-      border-bottom: 1px solid #eee;
-  }
+        .showtoast,.showtoast1{
+            display: none;
+            position: fixed;
+            width:300px;
+            height:200px;
+            box-shadow: 0 0 10px #ddd;
+            text-align: center;
+            left:50%;top:0px;
+            margin-left: -100px;
+            background:white;
+        }
+        
+        .showtoast .showtoastcontent{
+            display: inline-block;
+            text-align: left;
+            height: 120px;
+            word-break: break-all;
+            padding: 10px;
+            box-sizing: border-box;
+            margin: 0;
+        }
+        .showtoast_footer{
+            height:40px;
+            text-align: right;
+            border-top: 1px solid #eee;
+            line-height: 40px;
+            padding-right: 10px;
+            box-sizing: border-box;
+        }
+        .toast_title{
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #eee;
+        }
     </style>
 </head>
 <body>
+    <button class='checkbox'>showtoast</button>
+
+
+    <button class='checkbox1'>tip</button>
+
+
+
     <div class="showtoast">
         <div class="toast_title">提示</div>
         <p class="showtoastcontent">提示信息？</p>
@@ -48,29 +60,46 @@
             <button class="btn btn-default btn-sm cancel">取消</button>
         </div>
     </div>
+
+    <div class="showtoast1">
+        <div class="toast_title">提示</div>
+        <p class="showtoastcontent">提示信息？</p>
+    </div>
 </body>
 </html>
+
 <script src="./showtoast.js"></script>
+
+<script src="./tip.js"></script>
 <script>
 //js各个配置项示例
 var showtoast = new ShowToast({
         elem:'.showtoast',
         content:'hahahhahahahhahahahhahahjhahahhahahhahhahahahha',
-        comfirmText:'no',
-        cancelText:'ok'
+        comfirmText:'ok',
+        cancelText:'no'
     })
-
+var showtip = new ShowTip({
+        elem:'.showtoast1',
+        content:'hahahhahahahhahahahhahahjhahahhahahhahhahahahha',
+        
+    })
     function fun1(){
         alert(1)
     }
     function fun2(){
         alert(2)
     }
-    $('.checkbox label').click(function(){
+    $('.checkbox').click(function(){
         //回调函数可选
         showtoast.inite({
             confirmfun:fun1,
             cancelfun:fun2
         });
+    })
+
+    $('.checkbox1').click(function(){
+        //回调函数可选
+        showtip.inite();
     })
 </script>
