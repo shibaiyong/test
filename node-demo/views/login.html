@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>天气查询的登录页</title>
+    <link rel="stylesheet" href="/static/css/btn.css">
+    <style>
+        .header{
+            width:1240px;
+            margin: 0 auto;
+            height: 60px;
+            line-height: 60px;
+            background:#00a1e9;
+            color:white;
+            font-size: 20px;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .form-item{
+            
+            margin: 0 auto;
+            display: inline-block;
+            margin-top:20px;
+        }
+        .form-item label{
+            display: inline-block;
+            width:100px;
+            text-align: right;
+            margin-right:15px;
+        }
+        .login-container{
+            text-align:center;
+            padding:50px 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class='header'>天气查询</div>
+    <div class='login-container'>
+        <div class='form-item'><label>用户名:</label><input type='text' class="shi-input username"/></div><br/>
+        <div class='form-item'><label>密码:</label><input type='password' class="shi-input password"/></div><br/>
+        <div class="form-item" style="margin-left:120px;"><button class='btn btn-danger login'>登录</button></div>
+    </div>
+</body>
+</html>
+<script src="/static/js/jquery3.3.0.js"></script>
+<script>
+    $('.login').click(function(){
+        $.ajax({
+            url:'/data/login',
+            type:'post',
+            data:{
+                username:$('.username').val(),
+                password:$('.password').val()
+            },
+            dataType:'json',
+            success:function(res){
+                if(res){
+                    window.location.href='./views/index.html'
+                }
+            }
+        })
+    })
+</script>

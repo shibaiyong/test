@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>天气观测首页</title>
+    <link rel="stylesheet" href="/static/css/btn.css">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Syt2qWM3uGMMYyskwWeWxM2A3ySoePUU"></script>
+</head>
+<style>
+    .header{
+        width:1240px;
+        margin: 0 auto;
+        height: 60px;
+        line-height: 60px;
+        background:#00a1e9;
+        color:white;
+        font-size: 20px;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+    .form-item{
+        margin: 0 auto;
+        display: inline-block;
+        margin-top:20px;
+    }
+    .form-item label{
+        display: inline-block;
+        width:100px;
+        text-align: right;
+        margin-right:15px;
+    }
+    .login-container{
+        text-align:center;
+        padding:50px 0px;
+    }
+    .weather_content{
+        width:1240px;
+        margin: 0 auto;
+        padding:20px 0;
+    }
+    #map-container{
+        height: 600px;
+        width:1240px;
+        margin: 0 auto;
+    }
+    .BMap_cpyCtrl,.anchorBL{
+        display: none;
+    }
+
+</style>
+<body>
+    <div class='header'>天气观测首页</div>
+    <div class='weather_content'>
+            <input type='text' class="shi-input" placeholder='请输入要查询的城市'/>
+            <button class='btn btn-danger getWeather'>获取天气</button>
+    </div>
+    <div id="map-container">
+
+    </div>
+    
+</body>
+</html>
+<script src="/static/js/jquery3.3.0.js"></script>
+<script>
+    //实例化百度地图
+    // 百度地图API功能
+    var map = new BMap.Map("map-container");  // 创建Map实例
+    var geoc = new BMap.Geocoder();           //创建解析地址的对象
+	map.centerAndZoom("北京",15);      // 初始化地图,用城市名设置地图中心点
+    //map.centerAndZoom(new BMap.Point(116.4035,39.915),15);
+    map.enableScrollWheelZoom(true); 
+    
+    map.addEventListener("click", showInfo);
+
+    
+    //搜索城市天气
+    $('.getWeather').click(function(){
+        
+        var city=$(this).prev().val();
+        if(!city) return;
+        //地址解析
+        geoc.getPoint(city, function(point){
+            console.log(point)
+            if (point) {
+                var options={
+                    url:'/data/weather/city',
+                    type:'get',
+                    data:{
+                        city:city
+                    },
+                    callback:process
+                }
+                ajaxMethod(options);
+                map.centerAndZoom(point, 16);
+                map.addOverlay(new BMap.Marker(point));
+            }else{
+                alert("您选择地址没有解析到结果!");
+            }
+	    },'北京市');
+    })
+    
+    //逆地址解析
+    function showInfo(e){
+        var pt = e.point;
+        geoc.getLocation(pt, function(rs){
+            var addComp = rs.addressComponents;
+            alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+        });
+    }    
+    
+    //回调函数处理ajax请求
+    function process(res){
+        console.log(res)
+    }
+    //ajax的方法
+    function ajaxMethod(options){
+        
+        $.ajax({
+            url:options.url,
+            type:options.type,
+            data:options.data,
+            dataType:'json',
+            success:function( res ){
+                if(options.callback){
+                    if(options.ele){
+                        options.callback(res,options.ele);
+                    }else{
+                        options.callback(res);
+                    }
+                }else{
+                    return;
+                }
+            }
+        })
+    }
+</script>
