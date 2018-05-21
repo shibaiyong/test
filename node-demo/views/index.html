@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>天气观测首页</title>
-    <link rel="stylesheet" href="/static/css/btn.css">
+    <link rel="stylesheet" href="/static/css/btn.css"/>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Syt2qWM3uGMMYyskwWeWxM2A3ySoePUU"></script>
 </head>
 <style>
-    .header{
+    .index-wrapper{
         width:1240px;
-        margin: 0 auto;
+        margin:0 auto;
+    }
+    .header{
+        width:100%;
         height: 60px;
         line-height: 60px;
         background:#00a1e9;
@@ -39,45 +42,91 @@
         width:1240px;
         margin: 0 auto;
         padding:20px 0;
+        text-align: right;
     }
     #map-container{
+        overflow: hidden;
+    }
+    #map-show{
         height: 600px;
-        width:1240px;
-        margin: 0 auto;
+        width:900px;
+        float: right;
+    }
+    .weather-info{
+        float:left;
     }
     .BMap_cpyCtrl,.anchorBL{
         display: none;
     }
-
+    dl,dt,dd{
+        margin:0;
+        padding:10px 0px;
+    }
+    dt span:nth-child(1),dd span:nth-child(1){
+       display: inline-block;
+       width:80px;
+       text-align: right; 
+       margin-right: 10px;
+    }
 </style>
 <body>
-    <div class='header'>天气观测首页</div>
-    <div class='weather_content'>
-            <input type='text' class="shi-input" placeholder='请输入要查询的城市'/>
-            <button class='btn btn-danger getWeather'>获取天气</button>
+    <div class='index-wrapper'>
+        <div class='header'>天气观测首页</div>
+        <div class='weather_content'>
+                <input type='text' class="shi-input" placeholder='请输入要查询的城市'/>
+                <button class='btn btn-danger getWeather'>获取天气</button>
+        </div>
+        <div id="map-container">
+            <div class='weather-info'>
+                
+            </div>
+            <div id='map-show'>
+                
+            </div>
+        </div>
     </div>
-    <div id="map-container">
-
-    </div>
-    
 </body>
 </html>
 <script src="/static/js/jquery3.3.0.js"></script>
 <script>
     //实例化百度地图
-    // 百度地图API功能
-    var map = new BMap.Map("map-container");  // 创建Map实例
-    var geoc = new BMap.Geocoder();           //创建解析地址的对象
-	map.centerAndZoom("北京",15);      // 初始化地图,用城市名设置地图中心点
+    //百度地图API功能
+    var map = new BMap.Map("map-show");   //创建Map实例
+    var geoc = new BMap.Geocoder();       //创建解析地址的对象
+    var myCity = new BMap.LocalCity();    //根据IP定位城市
+	map.centerAndZoom("北京",16);         //初始化地图,用城市名设置地图中心点
     //map.centerAndZoom(new BMap.Point(116.4035,39.915),15);
     map.enableScrollWheelZoom(true); 
     
     map.addEventListener("click", showInfo);
 
-    
+    //默认展示IP定位的当前位置的天气,不精确。
+        
+        function myFun(result){
+		    var city = result.name;
+		    geoc.getPoint(city, function(point){
+            if (point) {
+                var options={
+                    url:'/data/weather/city',
+                    type:'get',
+                    data:{
+                        city:city
+                    },
+                    callback:process
+                }
+                ajaxMethod(options);
+                map.centerAndZoom(point, 16);
+                map.addOverlay(new BMap.Marker(point));
+            }else{
+                alert("您选择地址没有解析到结果!");
+            }
+	    },'北京市');
+		    
+	    }
+	
+	    myCity.get(myFun);
     //搜索城市天气
     $('.getWeather').click(function(){
-        
         var city=$(this).prev().val();
         if(!city) return;
         //地址解析
@@ -107,12 +156,39 @@
         geoc.getLocation(pt, function(rs){
             var addComp = rs.addressComponents;
             alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+            var city = addComp.city;
+            var options={
+                    url:'/data/weather/city',
+                    type:'get',
+                    data:{
+                        city:city
+                    },
+                    callback:process
+                }
+            ajaxMethod(options);
         });
     }    
     
     //回调函数处理ajax请求
     function process(res){
-        console.log(res)
+        var str = '';
+        if(res.message=='Success !'){
+            console.log(res)
+            str=`<dl>
+                    <dt><span>今天</span><span>${res.date}</span></dt>
+                    <dd><span>城市:</span><span>${res.city}</span></dd>
+                    <dd><span>天气状况:</span><span>${res.data.forecast[0].type}</span></dd>
+                    <dd><span>高温:</span><span>${res.data.forecast[0].high}</span></dd>
+                    <dd><span>低温:</span><span>${res.data.forecast[0].low}</span></dd>
+                    <dd><span>湿度:</span><span>${res.data.shidu}</span></dd>
+                    <dd><span>风力:</span><span>${res.data.forecast[0].fl}</span></dd>
+                    <dd><span>风向:</span><span>${res.data.forecast[0].fx}</span></dd>
+                    <dd><span>PM2.5:</span><span>${res.data.pm25}</span></dd>
+                    <dd><span>空气质量:</span><span>${res.data.quality}</span></dd>
+                    <dd><span>建议:</span><span>${res.data.forecast[0].notice}</span></dd>
+                </dl>`
+            $('.weather-info').html(str)   
+        }
     }
     //ajax的方法
     function ajaxMethod(options){

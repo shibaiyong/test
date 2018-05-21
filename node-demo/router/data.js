@@ -10,7 +10,6 @@ let dataRouter = {
         let pName= pathPrev[pathPrev.length-1];
         let method = req.method;
         if(pName=='login'&&method.toLowerCase()=='post'){
-            console.log('ahhahh')
             this.login(req,pathname,res)
         }else if(pathname == '/data/weather/city'){
             var data = qs.stringify(urlInfo.query);
@@ -45,7 +44,6 @@ let dataRouter = {
     requestMthod(options,respones){
         var alldata = ''; 
         var city=options.data; 
-        console.log(city)
         var req = https.request({
             host:options.hostname,
             path:options.path + options.data,
