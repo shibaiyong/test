@@ -1,5 +1,4 @@
 const fs = require('fs');
-const mime = require('mime')
 let htmlRouter = {
     
     notFound(){
