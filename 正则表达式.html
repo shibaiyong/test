@@ -11,8 +11,14 @@
 </body>
 </html>
 <script>
-    var str="djfld123ldfk123";
-    var reg=/[0-9]+/;
-    var rest=str.match(reg)
-    console.log(rest.$1)
+    // 1、第一种定义（构造函数定义)
+    // new RegExp(pattern, attributes);如var reg = new RegExp("abc","g")
+    // 其中pattern为表示表达式内容,如上表示匹配abc
+    // attributes：g,全局匹配，i不区分大小写，m执行多行匹配，用最多的为g和i
+
+    var str=`djfld123ldfk123`;
+    var reg=new RegExp('123','mg');
+    var arr=reg.exec(str);
+    console.log(arr)
+    
 </script>
