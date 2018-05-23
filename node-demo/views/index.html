@@ -99,7 +99,7 @@
     map.enableScrollWheelZoom(true); 
     
     map.addEventListener("click", showInfo);
-
+    translateCity();
     //默认展示IP定位的当前位置的天气,不精确。
         
         function myFun(result){
@@ -170,7 +170,7 @@
     }    
     
     //回调函数处理ajax请求
-    function process(res){
+    function jsonProcess(res){
         var str = '';
         console.log(res);
         if(res.message=='Success !'){
@@ -211,5 +211,19 @@
                 }
             }
         })
+    }
+    function translateCity(cityObj){
+        if(localStorage.citylist){
+            return false;
+        }
+        var options = {
+            url:'/data/weather/citylist',
+            data:{},
+            dataType:'json',
+            type:'get',
+            callback:process
+        }
+        ajaxMethod(options)
+        
     }
 </script>
