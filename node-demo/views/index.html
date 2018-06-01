@@ -99,7 +99,7 @@
     map.enableScrollWheelZoom(true); 
     
     map.addEventListener("click", showInfo);
-    translateCity();
+    getCityList();
     //默认展示IP定位的当前位置的天气,不精确。
         
         function myFun(result){
@@ -157,24 +157,25 @@
             var addComp = rs.addressComponents;
             alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
             var city = addComp.city;
+            var cityId=translateToId(addComp.province,addComp.city);
+            alert(cityId)
             var options={
-                    url:'/data/weather/city',
-                    type:'get',
-                    data:{
-                        city:city
-                    },
-                    callback:process
-                }
+                url:'/data/weather/city',
+                type:'get',
+                data:{
+                    city:city
+                },
+                callback:process
+            }
             ajaxMethod(options);
         });
     }    
     
     //回调函数处理ajax请求
-    function jsonProcess(res){
+    function process(res){
         var str = '';
         console.log(res);
         if(res.message=='Success !'){
-            console.log(res);
             str=`<dl>
                     <dt><span>今天</span><span>${res.date}</span></dt>
                     <dd><span>城市:</span><span>${res.city}</span></dd>
@@ -190,10 +191,12 @@
                 </dl>`
             $('.weather-info').html(str)   
         }
+        if(res.city_id=='CH'){
+            localStorage.citylist=JSON.stringify(res.list)
+        }
     }
     //ajax的方法
     function ajaxMethod(options){
-        
         $.ajax({
             url:options.url,
             type:options.type,
@@ -212,7 +215,7 @@
             }
         })
     }
-    function translateCity(cityObj){
+    function getCityList(cityObj){
         if(localStorage.citylist){
             return false;
         }
@@ -223,7 +226,26 @@
             type:'get',
             callback:process
         }
-        ajaxMethod(options)
-        
+        ajaxMethod(options)  
+    }
+    function translateToId(prevince,city,country){
+        if(!localStorage.citylist){
+            return '';
+        }
+        var cityId;
+        var citylist = JSON.parse(localStorage.citylist);
+        for(var i=0;i<citylist.length;i++){
+                if(prevince&&(prevince.search(citylist[i].name)!=-1)){
+                var cityIdList = (citylist[i]).list;
+                for(var j = 0;j<cityIdList.length;j++){
+                    if(city&&(city.search(cityIdList[j].name)!=-1)){
+                        cityId = (cityIdList[j]).city_id;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        return cityId;
     }
 </script>
