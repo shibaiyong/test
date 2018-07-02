@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>伪数组转数组及apply的用法</title>
+</head>
+<body>
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+</body>
+</html>
+<script>
+    var arrayList = document.querySelectorAll('div');
+    var array = [1,2,3,4,5];
+    console.log(arrayList);
+    //伪数组转数组
+    var arr = Array.prototype.slice.call(arrayList);
+    var brr = Array.prototype.slice.apply(arrayList);
+    var crr = Array.apply(null,arrayList);
+    console.log(arr);
+    console.log(brr);
+    console.log(crr);
+    var toArray = function(s){  
+        try{  
+            return Array.prototype.slice.call(s);  
+        } catch(e){  
+                var arr = [];  
+                for(var i = 0,len = s.length; i < len; i++){  
+                    //arr.push(s[i]);  
+                    arr[i] = s[i];     //据说这样比push快
+                }  
+                return arr;  
+        }
+    }
+    
+</script>
