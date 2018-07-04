@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)http://www.imooc.com/article/25167 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>
+借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记
+</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="mobile-agent" content="format=wml" ;="" url="https://m.imooc.com/article/25167">
+<link rel="alternate" media="only screen and (max-width: 640px)" href="https://m.imooc.com/article/25167">
+<meta name="mobile-agent" content="format=xhtml" ;="" url="https://m.imooc.com/article/25167">
+<meta name="mobile-agent" content="format=html5" ;="" url="https://m.imooc.com/article/25167">
+<meta property="qc:admins" content="77103107776157736375">
+<meta property="wb:webmaster" content="c4f857219bfae3cb">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta http-equiv="Cache-Control" content="no-transform ">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<link rel="dns-prefetch" href="http://www.imooc.com/">
+<link rel="dns-prefetch" href="http://img.imooc.com/">
+<link rel="dns-prefetch" href="http://img.mukewang.com/">
+<link rel="apple-touch-icon" sizes="76x76" href="http://www.imooc.com/static/img/common/touch-icon-ipad.png">
+<link rel="apple-touch-icon" sizes="120x120" href="http://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+<link rel="apple-touch-icon" sizes="152x152" href="http://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+
+
+
+<meta name="Description" content="在做Vue中的登陆校验时，思路应该是这样的：先确定一个路由页面是否需要登陆才能访问，如果需要，就需要用户登陆，如果不需要，用户直接可以访问。 那么，首先来说，后台系统中，不一定每一">
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/moco.min.css" type="text/css">
+    <link rel="stylesheet" href="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/swiper-3.4.2.min.css">
+
+<script src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/push.js"></script><script type="text/javascript" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/rt.js"></script><script src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/hm.js"></script><script src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/hm(1).js"></script><script type="text/javascript">
+
+eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('!4(){3 a={};3 c=0;3 5=[{d:\'//o.q.g/o/p/K/J.r\',6:0},{d:\'//p.q.g/I/L-O.r\',6:0}];3 w=4(){3 j,s=e N("(^| )"+"k=([^;]*)(;|$)");8(j=u.l.M(s)){m H(j[2])}E{m z}};3 y=4(t){3 n=w();3 b=e F();b.G(b.D()+13*v*v*10);u.l="k="+t+";14="+b.R()+";S=/;P=Q.g";8(t&&t!=n){X.U.V()}};3 C=4(i){3 7=e W();7.T=4(){12(a[i]);a[i]=z;9(i,0)};7.Z=4(){9(i,1)};a[i]=11(4(){7.B="";9(i,1)},Y);7.B=5[i].d};3 9=4(x,6){c++;5[x].6=6;8(c==5.f){3 h=0;A(3 i=0;i<5.f;i++){8(5[i].6==1){h=1}}y(h)}};A(3 i=0;i<5.f;i++){C(i)}}()',62,67,'|||var|function|urls|flag|imgobj|if|callback|timer|exp|count|url|new|length|com|error||arr|IMCDNS|cookie|return|_0|static|img|mukewang|png|reg||document|60|getcookie|index|setcookie|null|for|src|checkCdn|getTime|else|Date|setTime|unescape|images|logo|common|unknow|match|RegExp|80|domain|imooc|toGMTString|path|onload|location|reload|Image|window|3000|onerror|1000|setTimeout|clearTimeout|24|expires'.split('|'),0,{}))
+
+</script>
+
+
+<script type="text/javascript">
+
+var OP_CONFIG={"module":"article","page":"details"};
+var isLogin = 0;
+var is_choice = "";
+var seajsTimestamp="v=201807021454";
+var _msg_unread = 0; 
+var _not_unread = 0; 
+var _cart_num = 0;
+</script>
+
+
+
+
+
+<link href="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/captcha.min.css" rel="stylesheet">
+<script>
+var isLogin=0
+var _hmt = _hmt || [];
+var pageInfo = {
+	canForward:"1",
+    id: "25167",
+    praiseNum:"24"
+}
+var dtid = "5948";
+var marking = "fe";
+var user = {
+    uid : "",
+    img : "",
+    nickname : ""
+}
+var authorUid = {
+    uid : '1975036'
+}
+var curPage = 'details'
+
+var a_id = 25167
+</script>
+
+    <!--百度 pvuv-->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?fb538fdd5bd62072b6a984ddbc658a16";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<link rel="stylesheet" href="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/saved_resource" type="text/css">
+<script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/seajs-text.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/common.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/jquery.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/string.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/userinfo.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/cart.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/cookie.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/suggest.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/store.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/json.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/im.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/details.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/moco.min.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/socket.io.min.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/prettify.js"></script><link charset="utf-8" rel="stylesheet" href="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/prettify.css"><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/ueditor.parse.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/layer.min.js"></script><link charset="utf-8" rel="stylesheet" href="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/layer.css"><link charset="utf-8" rel="stylesheet" href="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/ueditor.css"><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/addCopy.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/course_tipoff.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/praise.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/common(1).js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/verify-code.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/juicer.min.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/jquery.qrcode.min.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/limitinput.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/publish.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/detail.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/forward.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/detail_forward.js"></script><script charset="utf-8" async="" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/mo.min.js"></script><script src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/share.js"></script><link rel="stylesheet" href="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/share_style0_16.css"><link id="syntaxhighlighter_css" rel="stylesheet" type="text/css" href="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/shCoreDefault.css"><script id="syntaxhighlighter_js" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/shCore.js" type="text/javascript" defer="defer"></script></head>
+
+<body>
+
+<div id="header">
+    <div class="page-container" id="nav">
+         <div id="logo" class="logo"><a href="http://www.imooc.com/" target="_self" class="hide-text" title="首页">慕课网</a></div>
+      
+
+        <button type="button" class="navbar-toggle visible-xs-block js-show-menu">
+            <i class="icon-menu"></i>
+        </button>
+        <ul class="nav-item">
+                        <li class="set-btn visible-xs-block"><a href="http://www.imooc.com/user/newlogin" target="_self">登录</a> / <a href="http://www.imooc.com/user/newsignup" target="_self">注册</a></li>
+                        
+            <li>
+                <a href="http://www.imooc.com/course/list" target="_self">免费课程</a>
+            </li>           
+            <li><a href="http://class.imooc.com/" class="" target="_self">职业路径</a></li>
+            <li>
+                <a href="http://coding.imooc.com/" target="_self">实战</a>
+            </li>
+            <li><a href="http://www.imooc.com/wenda" target="_self">猿问</a></li>
+            <li><a href="http://www.imooc.com/article" class="active" target="_self">手记</a></li>
+            <li><a href="http://job.imooc.com/" class="program-nav" target="_self">找工作<i class="icn-new"></i></a></li>
+            
+        </ul>
+                <div id="login-area">
+            <ul class="header-unlogin clearfix">
+                <li class="app-load" id="js-app-load">
+                    <a href="http://www.imooc.com/mobile/app" target="_blank" style="width:60px;">下载APP</a>
+                    <div class="app-load-box clearfix js-load-box" style="display: none;">
+                        <img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/appload.png" class="l">
+                        <div class="r">
+                            <p>扫描下载慕课网APP</p>
+                            <a href="https://itunes.apple.com/cn/app/mu-ke-wang/id722179140?mt=8" target="_blank"><i class="icon-apple"></i>App Store下载</a>
+                            <a href="http://www.imooc.com/mobile/mukewang.apk" target="_blank"><i class="icon-android"></i>Android下载</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="shop-cart" id="shop-cart">
+                    <a href="http://order.imooc.com/pay/cart" class="shop-cart-icon" target="_blank">
+                        <span class="icon-shopping-cart js-endcart"></span><span>购物车</span><span class="shopping_icon js-cart-num" data-ordernum="0" data-cartnum="0" style="display: none">0</span>
+                    </a>
+                    <div class="my-cart" id="js-my-cart"><div class="cart-title-box clearfix">                                        <h2 class="l">我的购物车</h2>                                        <h5 class="r">已加入<span class="js-incart-num">0</span>门课程</h5>                                    </div>                                    <div class="cart-wrap">                                        <div class="clear-cart">                                            <span class="cartIcon icon-shopping-cart"></span>                                            <h3>购物车里空空如也</h3>                                            <div class="text">快去这里选购你中意的课程</div>                                            <p><a class="go-link" href="http://coding.imooc.com/" target="_blank">实战课程</a></p>                                            <p><a class="go-link" href="http://class.imooc.com/" target="_blank">职业路径</a></p>                                        </div>                                    </div>                                    <div class="more-box clearfix">                                        <div class="l show-box">                                            <span class="text"><a href="http://order.imooc.com/myorder" target="_blank">我的订单中心</a></span>                                        </div>                                        <a href="http://order.imooc.com/pay/cart" target="_blank" class="r moco-btn moco-btn-red go-cart">去购物车</a>                                    </div></div>
+                </li>             
+                <li class="header-signin">
+                    <a href="http://www.imooc.com/article/25167#" id="js-signin-btn">登录</a> / <a href="http://www.imooc.com/article/25167#" id="js-signup-btn">注册</a>
+                </li>             
+            </ul>
+        </div>
+                <div class="search-warp clearfix" style="min-width: 32px; height: 72px;">
+                            <div class="pa searchTags">
+                                    <a href="http://class.imooc.com/sc/20" target="_blank">前端入门</a>
+                                    <a href="http://class.imooc.com/sc/18" target="_blank">Java入门</a>
+                                </div>
+            
+            <div class="search-area" data-search="top-banner">
+                <input class="search-input" data-suggest-trigger="suggest-trigger" type="text" autocomplete="off">
+                <input type="hidden" class="btn_search" data-search-btn="search-btn">
+                <ul class="search-area-result" data-suggest-result="suggest-result">
+                </ul>
+            </div>
+            <div class="showhide-search" data-show="no"><i class="icon-search"></i></div>
+        </div>
+    </div>
+</div>
+
+<div class="bindHintBox js-bindHintBox hide">
+    <div class="pr">
+        为了账号安全，请及时绑定邮箱和手机<a href="http://www.imooc.com/user/setbindsns" class="ml20 color-red" target="_blank">立即绑定</a>
+        <button class="closeBindHint js-closeBindHint" type="button"></button>
+        <div class="arrow"> </div>
+    </div>
+</div>
+
+
+<div id="main">
+
+<div class="main_con clearfix">
+	<!-- 分享&收藏 -->
+	<div class="active-box js-active-fixed">            
+		<div class="share-box">
+			<div class="small-share">
+				<ul class="share-wrap">
+					<li class="weichat-posi">
+						<!-- 推荐 --> 
+						<div class="praise-box">
+														<button id="js-praise-left"><span class="imv2-thumb_up"></span></button>
+													</div>
+						<!-- 推荐end -->
+
+
+
+						<div class="icon-warp">
+						  <div class="follow-warp">
+							<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_left&#39;, &#39;share&#39;, &#39;pl&#39;])" data-track="pl-1-1" href="http://www.imooc.com/article/25167#comment" class="icon-nav imv2-chat_bubble" title="评论"></a>  
+							 <span>评论</span>     
+						  </div>
+						</div>
+						<div class="icon-warp">
+							 								<div class="follow-warp">
+									<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_left&#39;, &#39;share&#39;, &#39;sc&#39;])" data-track="sc-1-1" data-id="25167" href="javascript:" class="js-follow dc-follow  icon-nav icon-star2 " title="收藏"></a>
+									<span>收藏</span>   
+								</div>
+													</div>    
+						
+						<p class="line"></p>
+
+
+						<div class="bdsharebuttonbox weichat-style bdshare-button-style0-16" data-bd-bind="1530581827757">
+							<div class="icon-warp2">
+								<a class="js-forward-btn imv2-forward icon-nav" href="http://www.imooc.com/article/25167#">
+								</a>
+								<!-- 只在第一次访问显示 -->
+																<p class="tip js-tip" style="display: none;">
+									<span class="text">点击这里，将文章分享到自己的动态</span>
+									<span class="js-close imv2-close"></span>
+								</p>
+															</div>
+							<div class="icon-warp2">
+								<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_left&#39;, &#39;share&#39;, &#39;wx&#39;])" data-track="letfshare-1-1" href="http://www.imooc.com/article/25167#" class="bds_weixin icon-nav icon-share-weichat share-icon" data-cmd="weixin" title="分享到微信"></a>
+							</div>
+							<div class="icon-warp2">
+								<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_left&#39;, &#39;share&#39;, &#39;wb&#39;])" data-track="letfshare-1-2" href="http://www.imooc.com/article/25167#" class="bds_tsina icon-nav icon-share-weibo share-icon" data-cmd="tsina" title="分享到新浪微博"></a>
+							</div>
+							<div class="icon-warp2">
+								<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_left&#39;, &#39;share&#39;, &#39;qq&#39;])" data-track="letfshare-1-3" href="http://www.imooc.com/article/25167#" class="bds_qzone icon-nav icon-share-qq share-icon" data-cmd="qzone" title="分享到QQ空间"></a>    
+							</div>                               
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- 分享&收藏 end -->
+	<div class="left_essay l">
+		<div class="part_essay js-part_essay">
+						<!-- 面包屑 -->
+			<div class="detail-path">
+				<a class="imooc" target="_blank" href="http://www.imooc.com/"><i class="imv2-imooc"></i></a>
+				<a href="http://www.imooc.com/article" target="_blank">手记</a>  /<a href="http://www.imooc.com/article/fe" target="_blank" class="js-column">前端开发</a>
+			</div>
+			<!-- 面包屑end -->       
+			<div class="detail-title-wrap">
+				<h1 class="detail-title">
+					<span class="d-t js-title">借助axios的拦截器实现Vue.js中登陆状态校验的思路</span>
+				</h1>
+				<div class="dc-profile clearfix">
+					<div class="l">
+						<span class="spacer">2018.04.05 00:09</span>
+						<span class="spacer spacer-2">1829浏览</span>
+					</div>
+					<div class="r path-right-box">
+						<div class="rinfo l">
+																					<div class="font-info">
+								<i class="imv2-format_size"></i>
+								<span class="size-show">字号</span>
+								<div class="font-box-s hide clearfix">
+									<p data-size-f="big-size-f" class="b-z l">大字</p>
+									<p data-size-f="md-size-f" class="m-z l">中字</p>
+									<p data-size-f="sm-size-f" class="s-z l">小字</p>
+									<div class="triangle"></div>
+								</div>	
+							</div>
+						</div> 
+					</div>	
+				</div>
+			</div> 
+
+			 <!-- 手记详情 -->
+			<div class="detail-content-wrap">  
+				<div class="detail-content js-lookimg">
+					<p>在做Vue中的登陆校验时，思路应该是这样的：先确定一个路由页面是否需要登陆才能访问，如果需要，就需要用户登陆，如果不需要，用户直接可以访问。</p>
+<p>那么，首先来说，后台系统中，不一定每一个页面都要进行登陆权限，所以我们要通过路由的meta标签对需要做校验的路由页面做好标记，在配置路由时，我们可以在meta属性中，加入是否需要登陆的字段，如果requireAuth是true，就说明这条路由需要登陆才能访问：</p>
+<pre class="prettyprint"><code><span class="pun">{</span><span class="pln">
+  path</span><span class="pun">:</span><span class="pln"> </span><span class="str">'/userInfo'</span><span class="pun">,</span><span class="pln">
+  name</span><span class="pun">:</span><span class="pln"> </span><span class="str">'userInfo'</span><span class="pun">,</span><span class="pln">
+  meta</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    requireAuth</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">,</span><span class="pln">  </span><span class="com">// 该路由项需要权限校验</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+  component</span><span class="pun">:</span><span class="pln"> userInfo
+</span><span class="pun">},</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  path</span><span class="pun">:</span><span class="pln"> </span><span class="str">'/userList'</span><span class="pun">,</span><span class="pln">
+  name</span><span class="pun">:</span><span class="pln"> </span><span class="str">'userList'</span><span class="pun">,</span><span class="pln">    </span><span class="com">// 该路由项不需要权限校验    </span><span class="pln">
+  component</span><span class="pun">:</span><span class="pln"> userInfo
+</span><span class="pun">}</span></code></pre>
+<p>之后，我们可以定义一个路由守卫，每次路由跳转，我们都来做一次权限校验，参考如下代码 </p>
+<pre class="prettyprint"><code><span class="pln">router</span><span class="pun">.</span><span class="pln">beforeEach</span><span class="pun">((</span><span class="pln">to</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">from</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">next</span><span class="pun">)</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">if</span><span class="pun">(</span><span class="pln">to</span><span class="pun">.</span><span class="pln">meta</span><span class="pun">.</span><span class="pln">requireAuth</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="com">// 如果路由项需要权限校验</span><span class="pln">
+    </span><span class="com">/* 
+      从Vuex拿出token码，说明已登陆
+     （前端的token可伪造，所以这并不是完全靠谱，后面继续说）
+    */</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">store</span><span class="pun">.</span><span class="pln">state</span><span class="pun">.</span><span class="pln">token</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> 
+      </span><span class="kwd">next</span><span class="pun">()</span><span class="pln"> </span><span class="com">// 正常跳转页面</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln"> </span><span class="kwd">else</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="kwd">next</span><span class="pun">({</span><span class="pln">
+        path</span><span class="pun">:</span><span class="pln"> </span><span class="str">'/login'</span><span class="pun">,</span><span class="pln">
+        query</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">redirect</span><span class="pun">:</span><span class="pln"> to</span><span class="pun">.</span><span class="pln">fullPath</span><span class="pun">}</span><span class="pln">  
+        </span><span class="com">/* 将跳转的路由地址作为参数带给登陆页，登录成功后跳转回该页面 */</span><span class="pln">
+      </span><span class="pun">})</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln"> </span><span class="kwd">else</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="com">// 如果不需要权限校验，直接进入路由页面</span><span class="pln">
+      </span><span class="kwd">next</span><span class="pun">();</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">})</span></code></pre>
+<p>如果用户的Vuex中登陆状态（token）存在，就说明登陆了，如果没有值，就跳转去登陆页面。用户在登陆页面登陆后，要在Vuex中保存登陆状态（token）。（实际上如果做持久存储，还应该把登陆状态存在localStorage或者cookie中）</p>
+<p>然而，单纯这么来做并不靠谱，首先，token可以用户自己伪造，其次，有可能token在前端存在，但是由于登陆时间过长， 已经超出登陆最长时效期，这时，后端中，这个token已经失效。</p>
+<p>所以，这么做权限校验并不准确，那么接下来，我们可以在发请求的时候，通过后端的一层校验，进一步确保权限状态的准确性。</p>
+<p>这一步，要用到axios里面的拦截器，所以以下代码建立在项目使用axios的基础上。axios的拦截器（Interceptors），默认配置（axios.defaults）还有 axios.create() 创建出的实例实际上在封装请求时非常有用，如果你没接触过，赶紧到官方文档看一下！</p>
+<p>我们先来看，在每次请求时，我们进行如下的拦截，这么做的意思是，如果前端有token，我每次都把token给后端，后端拿到这个token后会到后端再进行一次权限校验，然后把校验结果在接口中反馈：</p>
+<pre class="prettyprint"><code><span class="pln">axios</span><span class="pun">.</span><span class="pln">interceptors</span><span class="pun">.</span><span class="pln">request</span><span class="pun">.</span><span class="kwd">use</span><span class="pun">(</span><span class="pln"> requestConfig </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">store</span><span class="pun">.</span><span class="pln">state</span><span class="pun">.</span><span class="pln">token</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    config</span><span class="pun">.</span><span class="pln">headers</span><span class="pun">.</span><span class="typ">Authorization</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">`${store.state.token}`</span><span class="pun">;</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> requestConfig</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">},</span><span class="pln"> err </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> </span><span class="typ">Promise</span><span class="pun">.</span><span class="pln">reject</span><span class="pun">(</span><span class="pln">err</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">});</span></code></pre>
+<p>然后我们再来看，对应一定要再写一个response拦截器，处理响应数据。如果后端拿到前端的token，发现token失效，我们要求后端接口返回401的返回码，这样，前端就可以这么处理了：</p>
+<pre class="prettyprint"><code><span class="pln">axios</span><span class="pun">.</span><span class="pln">interceptors</span><span class="pun">.</span><span class="pln">response</span><span class="pun">.</span><span class="kwd">use</span><span class="pun">(</span><span class="pln"> response </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> response</span><span class="pun">;</span><span class="pln">
+  </span><span class="pun">},</span><span class="pln"> error </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">error</span><span class="pun">.</span><span class="pln">response</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="kwd">switch</span><span class="pln"> </span><span class="pun">(</span><span class="pln">error</span><span class="pun">.</span><span class="pln">response</span><span class="pun">.</span><span class="pln">status</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="kwd">case</span><span class="pln"> </span><span class="lit">401</span><span class="pun">:</span><span class="pln">  
+          </span><span class="com">/* 
+            返回 401 表示前端的token已失效
+            当然，你也可以和后端也定其他的方式来表示token失效
+            需要前端清除Vuex中的token，页面跳转到登陆页
+          */</span><span class="pln"> 
+          store</span><span class="pun">.</span><span class="pln">commit</span><span class="pun">(</span><span class="pln">types</span><span class="pun">.</span><span class="pln">LOGOUT</span><span class="pun">);</span><span class="pln">
+          router</span><span class="pun">.</span><span class="pln">replace</span><span class="pun">({</span><span class="pln">
+            path</span><span class="pun">:</span><span class="pln"> </span><span class="str">'login'</span><span class="pun">,</span><span class="pln">
+            query</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+              redirect</span><span class="pun">:</span><span class="pln"> router</span><span class="pun">.</span><span class="pln">currentRoute</span><span class="pun">.</span><span class="pln">fullPath
+            </span><span class="pun">}</span><span class="pln">
+          </span><span class="pun">})</span><span class="pln">
+      </span><span class="pun">}</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="typ">Promise</span><span class="pun">.</span><span class="pln">reject</span><span class="pun">(</span><span class="pln">error</span><span class="pun">.</span><span class="pln">response</span><span class="pun">.</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="com">//返回接口返回的错误信息</span><span class="pln">
+</span><span class="pun">});</span></code></pre>
+<p>借助axios的拦截器，我们不但前端做了登陆校验，而且每次请求后端接口的时候，都会携带数据让后端再次做登陆校验，这样的一个登陆校验流程就很标准了。</p>
+<p>这篇文章写的稍微有些宽，大家看到哪里不太明白随时提问，我再展开来讲。</p>
+				</div>
+				<!-- 标签 -->
+												<div class="cat-box">
+					<div class="cat-wrap clearfix">
+																															<a class="cat l" href="http://www.imooc.com/article/tag/17" target="_blank">JavaScript</a>
+																		<a class="cat l" href="http://www.imooc.com/article/tag/52" target="_blank">Vue.js</a>
+											</div>
+									</div>
+								<!-- 推荐 --> 
+				<div class="praise-box">
+										<button id="js-praise"><span class="imv2-thumb_up"></span><div style="position: absolute; top: 50%; left: 50%; width: 230px; height: 230px; margin-left: -115px; margin-top: -115px; opacity: 0.6; display: none; transform: rotate(0deg) translate(0px, 0px);"><svg style="position: absolute; width: 100%; height: 100%;"><ellipse cy="0" cx="0" ry="15" rx="15" transform="rotate(0,0,0)" fill-opacity="1" stroke-linecap="" stroke-dashoffset="NaN " fill="#F9B552" stroke-dasharray="NaN " stroke-opacity="1" stroke-width="0" stroke="transparent" style="opacity: 1; display: none;"></ellipse><ellipse cy="0" cx="0" ry="15" rx="15" transform="rotate(0,0,0)" fill-opacity="1" stroke-linecap="" stroke-dashoffset="NaN " fill="#F9B552" stroke-dasharray="NaN " stroke-opacity="1" stroke-width="0" stroke="transparent" style="opacity: 1; display: none;"></ellipse><ellipse cy="0" cx="0" ry="15" rx="15" transform="rotate(0,0,0)" fill-opacity="1" stroke-linecap="" stroke-dashoffset="NaN " fill="#F9B552" stroke-dasharray="NaN " stroke-opacity="1" stroke-width="0" stroke="transparent" style="opacity: 1; display: none;"></ellipse><ellipse cy="0" cx="0" ry="15" rx="15" transform="rotate(0,0,0)" fill-opacity="1" stroke-linecap="" stroke-dashoffset="NaN " fill="#F9B552" stroke-dasharray="NaN " stroke-opacity="1" stroke-width="0" stroke="transparent" style="opacity: 1; display: none;"></ellipse><ellipse cy="0" cx="0" ry="15" rx="15" transform="rotate(0,0,0)" fill-opacity="1" stroke-linecap="" stroke-dashoffset="NaN " fill="#F9B552" stroke-dasharray="NaN " stroke-opacity="1" stroke-width="0" stroke="transparent" style="opacity: 1; display: none;"></ellipse><ellipse cy="0" cx="0" ry="15" rx="15" transform="rotate(0,0,0)" fill-opacity="1" stroke-linecap="" stroke-dashoffset="NaN " fill="#F9B552" stroke-dasharray="NaN " stroke-opacity="1" stroke-width="0" stroke="transparent" style="opacity: 1; display: none;"></ellipse></svg></div><div style="position: absolute; top: 50%; left: 50%; width: 180px; height: 180px; margin-left: -90px; margin-top: -90px; opacity: 0.6; display: none; transform: translate(0px, 0px);"><svg style="position: absolute; width: 100%; height: 100%;"><ellipse cy="90" cx="90" ry="0" rx="0" transform="rotate(0,90,90)" fill-opacity="transparent" stroke-linecap="" stroke-dashoffset="" fill="transparent" stroke-dasharray="" stroke-opacity="1" stroke-width="20" stroke="#F9B552"></ellipse></svg></div></button>
+										<div class="num-person"><em class="num">24</em>人推荐</div>
+					<div class="praise-share icon-drop_up hide">
+						<div class="praise-share-box">
+							<p>若觉得本文不错，就分享一下吧！</p>
+							<div class="share-content bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1530581827757">
+								<div class="icon-warp">
+									<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_top&#39;, &#39;share&#39;, &#39;wx&#39;])" data-track="topshare-1-1" href="http://www.imooc.com/article/25167#" class="bds_weixin icon-nav imv2-weixin_c share-icon" data-cmd="weixin" title="分享到微信"></a>
+								</div>
+								<div class="icon-warp">
+									<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_top&#39;, &#39;share&#39;, &#39;wb&#39;])" data-track="topshare-1-2" href="http://www.imooc.com/article/25167#" class="bds_tsina icon-nav imv2-weibo_c share-icon" data-cmd="tsina" title="分享到新浪微博"></a>
+								</div>
+								<div class="icon-warp">
+									<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_top&#39;, &#39;share&#39;, &#39;qq&#39;])" data-track="topshare-1-3" href="http://www.imooc.com/article/25167#" class="bds_qzone icon-nav imv2-qq_c share-icon" data-cmd="qzone" title="分享到QQ空间"></a>    
+								</div> 
+							</div>
+						</div>	
+					</div>
+				</div>
+				<!-- 推荐end -->
+			</div>
+		</div>	
+		<div class="opus-wrap clearfix">
+			<div class="detail-left">
+				<div class="detail-feedback-wrap">
+					<!-- 评论框 -->
+					<div class="df-ipt-wrap clearfix" id="comment">
+					
+						<div class="feeds-author l">
+															<img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/avatar_default.png" width="40" alt="">
+														
+						</div>
+						<p class="fadeInput l js-showcommentModal">共同学习，写下你的评论</p>
+					
+					</div>
+					<!-- 评论框end -->
+					<!-- 评论 -->
+					<div class="df-title" id="all_comments"><span class="comment-num"><i>4</i></span> 评论</div>
+					<div id="js-feedback-list-wrap" class="feedback-list js-feedback-lookimg">
+						
+					<div id="js-feedback-list"><div class="comment-box clearfix"><div class="comment clearfix"><div class="feed-author l"><a href="http://www.imooc.com/u/6661630/articles"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/545863cd0001b72a02200220-100-100.jpg" width="48"><span class="com-floor">4楼</span></a></div><div class="feed-list-content"><a class="nick" href="http://www.imooc.com/u/6661630/articles" target="_blank">weixin_Rorschach_2</a><p></p><p>老师我在做购物车的时候，点击提交订单，要判断是否登陆，再进入订单详情页，我在提交订购单的时候把订单信息放在了$router.push({name:'Order', params:{tota: ...}，的params里面是个对象，如果已经登陆。订单详情页就能看到提交过去的内容，但如果没有登陆过第一次登陆。params里的对象内容就消失了。这是我那里没写好，还是要通过vuex或者localstroge来解决？</p><p></p><div class="comment-footer clearfix"><span class="agree-with l" data-commentid="44073" data-uid="6661630" data-username="weixin_Rorschach_2"><b class="imv2-thumb_up" title="赞同"></b><em>0</em></span><span class="reply-btn" data-commentid="44073" data-uid="6661630" data-username="weixin_Rorschach_2">回复</span><span class="report-btn js-tip-off tipoff " data-id="44073" data-uid="6661630" data-type="10" data-src="/article/25167">举报</span><span class="feed-list-times"> 2018.06.22 10:02</span></div></div></div><div class="reply-boxhide"></div><div class="release-reply clearfix"><a href="http://www.imooc.com/u//articles" class="user-head"><img src="http://www.imooc.com/article/25167" alt=""></a><div class="replay-con l"><div class="textarea-wrap"><textarea placeholder="写下你的回复..."></textarea></div><p class="errtip"></p><div class="reply-ctrl clearfix"><div class="captcha-verify-box js-reply-verify-box hide"></div><div class="btn-wrap"><div class="cancel-btn">取消</div><div data-comment-uid="6661630" class="release-reply-btn">回复</div></div></div></div></div></div><div class="comment-box clearfix"><div class="comment clearfix"><div class="feed-author l"><a href="http://www.imooc.com/u/4355779/articles"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/545861d500015cc602200220-100-100.jpg" width="48"><span class="com-floor">3楼</span></a></div><div class="feed-list-content"><a class="nick" href="http://www.imooc.com/u/4355779/articles" target="_blank">小王来学习一波</a><p></p><p>写得好</p><p></p><div class="comment-footer clearfix"><span class="agree-with l" data-commentid="43680" data-uid="4355779" data-username="小王来学习一波"><b class="imv2-thumb_up" title="赞同"></b><em>0</em></span><span class="reply-btn" data-commentid="43680" data-uid="4355779" data-username="小王来学习一波">回复</span><span class="report-btn js-tip-off tipoff " data-id="43680" data-uid="4355779" data-type="10" data-src="/article/25167">举报</span><span class="feed-list-times"> 2018.06.01 21:08</span></div></div></div><div class="reply-boxhide"></div><div class="release-reply clearfix"><a href="http://www.imooc.com/u//articles" class="user-head"><img src="http://www.imooc.com/article/25167" alt=""></a><div class="replay-con l"><div class="textarea-wrap"><textarea placeholder="写下你的回复..."></textarea></div><p class="errtip"></p><div class="reply-ctrl clearfix"><div class="captcha-verify-box js-reply-verify-box hide"></div><div class="btn-wrap"><div class="cancel-btn">取消</div><div data-comment-uid="4355779" class="release-reply-btn">回复</div></div></div></div></div></div><div class="comment-box clearfix"><div class="comment clearfix"><div class="feed-author l"><a href="http://www.imooc.com/u/427838/articles"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/543374c60001a75d01000100-100-100.jpg" width="48"><span class="com-floor">2楼</span></a></div><div class="feed-list-content"><a class="nick" href="http://www.imooc.com/u/427838/articles" target="_blank">：游志东</a><p></p><p>这个是登录权限，如果是页面权限要怎么处理呢，比如整个页面用户都没权限，难道要动态挂载路由么</p><p></p><div class="comment-footer clearfix"><span class="agree-with l" data-commentid="42766" data-uid="427838" data-username="：游志东"><b class="imv2-thumb_up" title="赞同"></b><em>1</em></span><span class="reply-btn" data-commentid="42766" data-uid="427838" data-username="：游志东">回复</span><span class="report-btn js-tip-off tipoff " data-id="42766" data-uid="427838" data-type="10" data-src="/article/25167">举报</span><span class="feed-list-times"> 2018.04.16 22:44</span></div></div></div><div class="reply-box"><div class="comment clearfix"><div class="feed-author l"><a href="http://www.imooc.com/u/1975036/articles"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5abe468b0001664107390741-100-100.jpg" width="48"></a></div><div class="feed-list-content"><span class="feed-list-time"> 2018-04-16 23:03:34</span><a href="http://www.imooc.com/u/1975036/articles" class="from-user">DellLee</a> 回复 <a href="http://www.imooc.com/u/427838/articles" class="to-user">：游志东</a>：<p>不一样么，meta里多放一些内容就可以了</p><div class="comment-footer clearfix"><span class="reply-btn reply-btns " data-commentid="42766" data-uid="1975036" data-username="DellLee">回复</span><span class="report-btn js-tip-off tipoff " data-id="12145" data-uid="1975036" data-type="11" data-src="/article/25167">举报</span></div></div></div><div class="comment clearfix"><div class="feed-author l"><a href="http://www.imooc.com/u/3591625/articles"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5776729b0001859501000100-100-100.jpg" width="48"></a></div><div class="feed-list-content"><span class="feed-list-time"> 2018-04-19 12:01:53</span><a href="http://www.imooc.com/u/3591625/articles" class="from-user">文字文</a> 回复 <a href="http://www.imooc.com/u/427838/articles" class="to-user">：游志东</a>：<p>页面权限可以通过meta 新增字段来判断在，在路由拦截器时进行判断，
+也可以在meta标签中新增路role值，通过拉取用户role来在路由拦截器时来动态路由，vue2.2以后新增addRoute 的API</p><div class="comment-footer clearfix"><span class="reply-btn reply-btns " data-commentid="42766" data-uid="3591625" data-username="文字文">回复</span><span class="report-btn js-tip-off tipoff " data-id="12193" data-uid="3591625" data-type="11" data-src="/article/25167">举报</span></div></div></div></div><div class="release-reply clearfix"><a href="http://www.imooc.com/u//articles" class="user-head"><img src="http://www.imooc.com/article/25167" alt=""></a><div class="replay-con l"><div class="textarea-wrap"><textarea placeholder="写下你的回复..."></textarea></div><p class="errtip"></p><div class="reply-ctrl clearfix"><div class="captcha-verify-box js-reply-verify-box hide"></div><div class="btn-wrap"><div class="cancel-btn">取消</div><div data-comment-uid="427838" class="release-reply-btn">回复</div></div></div></div></div></div><div class="comment-box clearfix"><div class="comment clearfix"><div class="feed-author l"><a href="http://www.imooc.com/u/2815908/articles"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5ab3e7a20001f7c410801920-100-100.jpg" width="48"><span class="com-floor">1楼</span></a></div><div class="feed-list-content"><a class="nick" href="http://www.imooc.com/u/2815908/articles" target="_blank">overflowhidden</a><p></p><p>粉</p><p></p><div class="comment-footer clearfix"><span class="agree-with l" data-commentid="42515" data-uid="2815908" data-username="overflowhidden"><b class="imv2-thumb_up" title="赞同"></b><em>1</em></span><span class="reply-btn" data-commentid="42515" data-uid="2815908" data-username="overflowhidden">回复</span><span class="report-btn js-tip-off tipoff " data-id="42515" data-uid="2815908" data-type="10" data-src="/article/25167">举报</span><span class="feed-list-times"> 2018.04.08 01:18</span></div></div></div><div class="reply-boxhide"></div><div class="release-reply clearfix"><a href="http://www.imooc.com/u//articles" class="user-head"><img src="http://www.imooc.com/article/25167" alt=""></a><div class="replay-con l"><div class="textarea-wrap"><textarea placeholder="写下你的回复..."></textarea></div><p class="errtip"></p><div class="reply-ctrl clearfix"><div class="captcha-verify-box js-reply-verify-box hide"></div><div class="btn-wrap"><div class="cancel-btn">取消</div><div data-comment-uid="2815908" class="release-reply-btn">回复</div></div></div></div></div></div></div></div>
+					<!-- 分页页码  -->
+					<!-- <div class="qa-comment-page hide"></div> -->
+
+					<div class="qa-comment-page hide" style="display: none;">
+						<div class="moreBtn js-more" data-page="2">展开查看更多评论</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="article_wrap">
+			<div class="line_con">
+				<p class="line"></p>
+				<p class="line_text">看过此文的用户，还看了以下文章</p>
+			</div>
+			<div class="articleCon js-articleCon js-usercard-box">
+				
+			<div class="article clearfix">                    <div class="imgCon l">                        <img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5ae6c2550001008f10800442-200-200.jpg">                    </div>                    <div class="list-content l">                        <a href="http://www.imooc.com/article/28103" target="_blank" class="title"><p>SpringMVC之拦截器实现登录验证</p></a>                        <div class="list-bottom clearfix">                            <div class="browseNum l">                                <i class="imv2-visibility"></i>                                <span>4</span>                            </div>                            <div data-fuid="6305282" class="nickName l js-usercard-dialog" data-userid="6305282">千岁吾皇</div>                            <div class="skill l clearfix"><a href="http://www.imooc.com/article/tag/3" target="_blank"><span>JAVA</span></a><a></a></div><a>                            <div class="createTime r">04.30 15:14</div>                        </a></div><a>                    </a></div><a>                </a></div><div class="article clearfix"><a>                    <div class="imgCon l">                        <img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5ab5ab550001693103000212-200-200.jpg">                    </div>                    </a><div class="list-content l"><a>                        </a><a href="http://www.imooc.com/article/24432" target="_blank" class="title"><p>SpringMVC【校验器、统一处理异常、RESTful、拦截器】</p></a>                        <div class="list-bottom clearfix">                            <div class="browseNum l">                                <i class="imv2-visibility"></i>                                <span>190</span>                            </div>                            <div data-fuid="5483687" class="nickName l js-usercard-dialog" data-userid="5483687">Java3y</div>                            <div class="skill l clearfix"><a href="http://www.imooc.com/article/tag/3" target="_blank"><span>JAVA</span></a><a></a></div><a>                            <div class="createTime r">03.24 09:35</div>                        </a></div><a>                    </a></div><a>                </a></div><div class="article clearfix"><a>                    <div class="imgCon l">                        <img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5b18c8590001d1e601360136-200-200.jpg">                    </div>                    </a><div class="list-content l"><a>                        </a><a href="http://www.imooc.com/article/36807" target="_blank" class="title"><p>springMVC 拦截器</p></a>                        <div class="list-bottom clearfix">                            <div class="browseNum l">                                <i class="imv2-visibility"></i>                                <span>31</span>                            </div>                            <div data-fuid="6788907" class="nickName l js-usercard-dialog" data-userid="6788907">SEVEN_SONG</div>                            <div class="skill l clearfix"><a href="http://www.imooc.com/article/tag/3" target="_blank"><span>JAVA</span></a><a></a></div><a>                            <div class="createTime r">06.18 12:21</div>                        </a></div><a>                    </a></div><a>                </a></div><div class="article clearfix"><a>                    <div class="imgCon l">                        <img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/pic18.jpg">                    </div>                    </a><div class="list-content l"><a>                        </a><a href="http://www.imooc.com/article/17467" target="_blank" class="title"><p>在springmvc的配置文件中，配置springmvc拦截器拦截特定</p></a>                        <div class="list-bottom clearfix">                            <div class="browseNum l">                                <i class="imv2-visibility"></i>                                <span>1525</span>                            </div>                            <div data-fuid="4536274" class="nickName l js-usercard-dialog" data-userid="4536274">爱总结的小仙女</div>                            <div class="skill l clearfix"><a href="http://www.imooc.com/article/tag/3" target="_blank"><span>JAVA</span></a><a></a></div><a>                            <div class="createTime r">04.12 10:06</div>                        </a></div><a>                    </a></div><a>                </a></div><div class="article clearfix"><a>                    <div class="imgCon l">                        <img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5b2925d800017feb05200300-200-200.jpg">                    </div>                    </a><div class="list-content l"><a>                        </a><a href="http://www.imooc.com/article/37308" target="_blank" class="title"><p>requests+beautifulsoup模拟登陆京东</p></a>                        <div class="list-bottom clearfix">                            <div class="browseNum l">                                <i class="imv2-visibility"></i>                                <span>5</span>                            </div>                            <div data-fuid="6458253" class="nickName l js-usercard-dialog" data-userid="6458253">拉莫斯之舞</div>                            <div class="skill l clearfix"><a href="http://www.imooc.com/article/tag/3" target="_blank"><span>JAVA</span></a><a><i class="imv2-dot_samll"></i></a><a href="http://www.imooc.com/article/tag/18" target="_blank"><span>Python</span></a><a></a></div><a>                            <div class="createTime r">06.19 23:48</div>                        </a></div><a>                    </a></div><a>                </a></div><div class="article clearfix"><a>                    <div class="imgCon l">                        <img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5ac4e1710001953516001200-200-200.jpg">                    </div>                    </a><div class="list-content l"><a>                        </a><a href="http://www.imooc.com/article/25163" target="_blank" class="title"><p>Struts2【拦截器】知识要点</p></a>                        <div class="list-bottom clearfix">                            <div class="browseNum l">                                <i class="imv2-visibility"></i>                                <span>65</span>                            </div>                            <div data-fuid="5483687" class="nickName l js-usercard-dialog" data-userid="5483687">Java3y</div>                            <div class="skill l clearfix"><a href="http://www.imooc.com/article/tag/3" target="_blank"><span>JAVA</span></a><a><i class="imv2-dot_samll"></i></a><a href="http://www.imooc.com/article/tag/58" target="_blank"><span>深度学习</span></a><a></a></div><a>                            <div class="createTime r">04.04 22:30</div>                        </a></div><a>                    </a></div><a>                </a></div><div class="article clearfix"><a>                    <div class="imgCon l">                        <img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/pic8.jpg">                    </div>                    </a><div class="list-content l"><a>                        </a><a href="http://www.imooc.com/article/19332" target="_blank" class="title"><p>拦截器与过滤器的区别 ：</p></a>                        <div class="list-bottom clearfix">                            <div class="browseNum l">                                <i class="imv2-visibility"></i>                                <span>386</span>                            </div>                            <div data-fuid="3629042" class="nickName l js-usercard-dialog" data-userid="3629042">慕粉3629042</div>                            <div class="skill l clearfix"><a href="http://www.imooc.com/article/tag/3" target="_blank"><span>JAVA</span></a><a></a></div><a>                            <div class="createTime r">07.20 19:35</div>                        </a></div><a>                    </a></div><a>                </a></div><div class="article clearfix"><a>                    <div class="imgCon l">                        <img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/pic18.jpg">                    </div>                    </a><div class="list-content l"><a>                        </a><a href="http://www.imooc.com/article/24792" target="_blank" class="title"><p>纳税服务系统五（登陆与系统拦截）【配置系统、子系统首页、登陆与拦截】</p></a>                        <div class="list-bottom clearfix">                            <div class="browseNum l">                                <i class="imv2-visibility"></i>                                <span>118</span>                            </div>                            <div data-fuid="5483687" class="nickName l js-usercard-dialog" data-userid="5483687">Java3y</div>                            <div class="skill l clearfix"><a href="http://www.imooc.com/article/tag/3" target="_blank"><span>JAVA</span></a><a></a></div><a>                            <div class="createTime r">03.30 17:07</div>                        </a></div><a>                    </a></div><a>                </a></div><div class="article clearfix"><a>                    <div class="imgCon l">                        <img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5b2751c10001008f10800442-200-200.jpg">                    </div>                    </a><div class="list-content l"><a>                        </a><a href="http://www.imooc.com/article/36828" target="_blank" class="title"><p>Spring Cloud OAuth2（二） 扩展登陆方式：账户密码登</p></a>                        <div class="list-bottom clearfix">                            <div class="browseNum l">                                <i class="imv2-visibility"></i>                                <span>5</span>                            </div>                            <div data-fuid="6457952" class="nickName l js-usercard-dialog" data-userid="6457952">德玛西亚99</div>                            <div class="skill l clearfix"><a href="http://www.imooc.com/article/tag/3" target="_blank"><span>JAVA</span></a><a></a></div><a>                            <div class="createTime r">06.18 14:31</div>                        </a></div><a>                    </a></div><a>                </a></div></div>
+			
+			<div class="feed-loading js-feed-loading" data-page="2">
+			    <i class="imv2-loading"></i><span>正在加载中</span>
+			</div>
+		</div>
+	</div>
+	<div class="right_recommend r">
+				<!-- 作者信息 -->
+		<div class="author_info js-author_info clearfix">
+			<a href="http://www.imooc.com/u/1975036/articles" class="l img_con" title="DellLee" target="_blank">
+				<img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5abe468b0001664107390741-100-100.jpg">
+			</a>
+			<div class="text_con l">
+				<div class="name_con clearfix">
+					<p class="name l">
+					 	<a class="nick" href="http://www.imooc.com/u/1975036/articles" title="DellLee" target="_blank">
+						DellLee
+						</a>
+					</p>
+					<p class="job-icon l">
+												<i class="user-icon teacher" title="慕课网讲师"></i>
+												       
+											</p>
+											<p class="forward">
+							<span class="js-add-follow" data-uid="1975036" data-type="1">关注</span>
+						</p>
+									</div>
+				<div class="job">Web前端工程师</div>
+				<div class="contribution clearfix">
+					<a href="http://www.imooc.com/u/1975036/articles" target="_blank" class="js-article-num l">
+						<span>4</span> 篇手记
+					</a>
+					<a href="http://www.imooc.com/u/1975036/articles" target="_blank" class="js-article-words l">
+						贡献 <span>5001</span> 字
+					</a>
+				</div>
+			</div>
+		</div>   
+		<!-- 作者信息end -->
+				<!-- 作者相关文章 -->
+				<div class="other_article js-other_article clearfix">
+			<div class="title l">作者相关文章</div>
+			<div class="more r">
+				<a href="http://www.imooc.com/u/1975036/articles" target="_blank">更多<i class="imv2-arrow2_r"></i></a>
+			</div>
+			<ul class="l">
+							<li class="article-item clearfix">
+					<i class="imv2-shouji l"></i>
+					<a href="http://www.imooc.com/article/24811" class="l" target="_blank">
+						不吹不黑也不撕，我们就简简单单谈谈Vue
+					</a>
+				</li>
+							<li class="article-item clearfix">
+					<i class="imv2-shouji l"></i>
+					<a href="http://www.imooc.com/article/25973" class="l" target="_blank">
+						Vue2.5开发去哪儿网App 从零基础入门到实战项目 课程常见问题汇总
+					</a>
+				</li>
+							<li class="article-item clearfix">
+					<i class="imv2-shouji l"></i>
+					<a href="http://www.imooc.com/article/25193" class="l" target="_blank">
+						为什么Vue中的slot不能应用v-show指令
+					</a>
+				</li>
+						</ul>
+		</div>
+				<!-- 作者相关文章end -->
+		<!-- 相关课程 -->
+		<div class="related_lessons js-related_lessons"><div class="title">相关课程</div><ul class="moco-aside-course"><li><div class="aside-course-img"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5b3082da0001d7e905400300-360-202.jpg"><p class="aside-course-type">实战</p></div><div class="aside-course-content"><a href="http://coding.imooc.com/class/229.html?mc_marking=4655172e1a62839eea65105dbf244230&amp;mc_channel=sjkctjpc" class="aside-course-name" target="_blank">React16.4 开发简书项目 从零基础入门到实战 </a><p class="aside-course-price"><span>￥299.00</span></p><div class="aside-course-dot"><i class="imv2-dot_samll"></i></div><p class="aside-course-grade">中级</p><div class="aside-course-dot"><i class="imv2-dot_samll"></i></div><p class="aside-course-people"><i class="imv2-set-sns"></i><span>169</span></p></div></li><li><div class="aside-course-img"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5ac2dfe100014a9005400300-360-202.jpg"><p class="aside-course-type">实战</p></div><div class="aside-course-content"><a href="http://coding.imooc.com/class/203.html?mc_marking=4655172e1a62839eea65105dbf244230&amp;mc_channel=sjkctjpc" class="aside-course-name" target="_blank"> Vue2.5开发去哪儿网App 从零基础入门到实战项目</a><p class="aside-course-price"><span>￥266.00</span></p><div class="aside-course-dot"><i class="imv2-dot_samll"></i></div><p class="aside-course-grade">中级</p><div class="aside-course-dot"><i class="imv2-dot_samll"></i></div><p class="aside-course-people"><i class="imv2-set-sns"></i><span>1927</span></p></div></li><li><div class="aside-course-img"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/583e42fb0001e04f05400300-360-202.jpg"><p class="aside-course-type">实战</p></div><div class="aside-course-content"><a href="http://coding.imooc.com/class/75.html?mc_marking=4655172e1a62839eea65105dbf244230&amp;mc_channel=sjkctjpc" class="aside-course-name" target="_blank">微信小程序入门与实战  常用组件API开发技巧项目实战</a><p class="aside-course-price"><span>￥149.00</span></p><div class="aside-course-dot"><i class="imv2-dot_samll"></i></div><p class="aside-course-grade">初级</p><div class="aside-course-dot"><i class="imv2-dot_samll"></i></div><p class="aside-course-people"><i class="imv2-set-sns"></i><span>13200</span></p></div></li><li><div class="aside-course-img"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5ad5cc490001e53006000338-240-135.jpg"></div><div class="aside-course-content"><a href="http://www.imooc.com/learn/980?mc_marking=4655172e1a62839eea65105dbf244230&amp;mc_channel=sjkctjpc" class="aside-course-name" target="_blank">vue2.5入门</a><p class="aside-course-grade">中级</p><div class="aside-course-dot"><i class="imv2-dot_samll"></i></div><p class="aside-course-people"><i class="imv2-set-sns"></i><span>28868</span></p></div></li><li><div class="aside-course-img"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/53e1d0470001ad1e06000338-240-135.jpg"></div><div class="aside-course-content"><a href="http://www.imooc.com/learn/36?mc_marking=4655172e1a62839eea65105dbf244230&amp;mc_channel=sjkctjpc" class="aside-course-name" target="_blank">JavaScript入门篇</a><p class="aside-course-grade">入门</p><div class="aside-course-dot"><i class="imv2-dot_samll"></i></div><p class="aside-course-people"><i class="imv2-set-sns"></i><span>574522</span></p></div></li><li><div class="aside-course-img"><img src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/5836c00a0001916906000338-228-128.jpg"><p class="aside-course-type">路径</p></div><div class="aside-course-content"><a href="http://class.imooc.com/sc/2?mc_marking=4655172e1a62839eea65105dbf244230&amp;mc_channel=sjkctjpc" class="aside-course-name" target="_blank">HTML5与CSS3实现动态网页</a><p class="aside-course-price"><span>￥628.00</span></p><div class="aside-course-dot"><i class="imv2-dot_samll"></i></div><p class="aside-course-grade">5步骤/29门课</p><div class="aside-course-dot"><i class="imv2-dot_samll"></i></div><p class="aside-course-people"><i class="imv2-set-sns"></i><span>1806</span></p></div></li></ul></div>
+		<!-- 相关课程end -->
+	</div>
+</div>
+<div class="bottom-fixed js-bottom-fixed hide">
+	<ul class="bottom-wrap clearfix">
+		<!-- 推荐 --> 
+		<li class="praise-box l">
+						<button id="js-praise-bottom"><span class="imv2-thumb_up"></span></button>
+					</li>
+		<!-- 推荐end -->
+		<li class="icon-warp l">
+			<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_left&#39;, &#39;share&#39;, &#39;pl&#39;])" data-track="pl-1-1" href="http://www.imooc.com/article/25167#comment" class="icon-nav imv2-chat_bubble" title="评论"></a>  
+			<span>评论</span>     
+		</li>
+		<li class="icon-warp l">
+							<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_left&#39;, &#39;share&#39;, &#39;sc&#39;])" data-track="sc-1-1" data-id="25167" href="javascript:" class="js-follow icon-nav icon-star2 " title="收藏"></a>
+				<span>收藏</span>   
+					</li>    
+		<li class="input l js-showcommentModal">共同学习，写下你的评论</li>
+		<li class="icon-warp2 l">
+			<a class="js-forward-btn imv2-forward icon-nav2" href="http://www.imooc.com/article/25167#">
+			</a>
+			<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_left&#39;, &#39;share&#39;, &#39;wx&#39;])" data-track="letfshare-1-1" href="http://www.imooc.com/article/25167#" class="bds_weixin icon-nav2 icon-share-weichat share-icon" data-cmd="weixin" title="分享到微信"></a>
+			<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_left&#39;, &#39;share&#39;, &#39;wb&#39;])" data-track="letfshare-1-2" href="http://www.imooc.com/article/25167#" class="bds_tsina icon-nav2 icon-share-weibo share-icon" data-cmd="tsina" title="分享到新浪微博"></a>
+			<a onclick="_hmt.push([&#39;_trackEvent&#39;, &#39;sjtj_left&#39;, &#39;share&#39;, &#39;qq&#39;])" data-track="letfshare-1-3" href="http://www.imooc.com/article/25167#" class="bds_qzone icon-nav2 icon-share-qq share-icon" data-cmd="qzone" title="分享到QQ空间"></a>                                  
+		</li>
+	</ul>
+</div>
+
+
+
+
+<div class="hide">
+	<input type="hidden" data-pic="" id="js-share-img">
+	<input type="hidden" data-pic="//img4.mukewang.com/5abe468b0001664107390741-100-100.jpg" id="js-img-author">
+</div>
+<div class="r"></div>
+
+</div>
+
+
+
+<div id="J_GotoTop" class="elevator">
+
+    <a href="http://www.imooc.com/user/feedback" class="elevator-msg" target="_blank">
+        <i class="icon-feedback"></i>
+        <span class="">意见反馈</span>
+    </a>
+    <a href="http://www.imooc.com/about/faq" class="elevator-faq" target="_blank">
+        <i class="icon-ques"></i>
+        <span class="">常见问题</span>
+    </a>
+    <a href="http://www.imooc.com/mobile/app" target="_blank" class="elevator-app">
+        <i class="icon-appdownload"></i>
+        <span class="">APP下载</span>
+        <div class="elevator-app-box"></div>
+    </a>
+    <a href="javascript:void(0)" class="elevator-weixin no-goto" id="js-elevator-weixin">
+        <i class="icon-wxgzh"></i>
+        <span class="">官方微信</span>
+        <div class="elevator-weixin-box"></div>
+    </a>
+    <a href="javascript:void(0)" class="elevator-top no-goto" style="display: none;" id="backTop">
+        <i class="icon-up2"></i>
+        <span class="">返回顶部</span>
+    </a>
+</div>
+
+
+
+<script type="text/javascript" charset="utf-8" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/ueditor.final.min.js"></script>
+
+<!--script-->
+<script type="text/javascript" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/error.js"></script>
+<script src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/ssologin.js"></script>
+<script type="text/javascript" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/sea.js"></script>
+<script type="text/javascript" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/sea_config.js"></script>
+<script type="text/javascript">seajs.use("/static/page/"+OP_CONFIG.module+"/"+OP_CONFIG.page);</script>
+
+
+<script src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/captcha.min.js"></script><script type="text/javascript" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/user"></script><script type="text/javascript" src="./借助axios的拦截器实现Vue.js中登陆状态校验的思路_慕课手记_files/iplookup.php"></script>
+
+
+<div class="tipoff-block js-tipoff-block"></div>
+<div class="tipoff-box js-tipoff-box">
+	<div class="tipoff-top-box clearfix">
+		<p class="l tipoff-title">举报</p>
+		<span class="r tipoff-close-btn icon-close2 js-tipoff-close"></span>
+	</div>
+	<div class="tipoff-type-box js-tipoff-typebox clearfix">
+		<div class="tipoff-loading">
+		  	<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</div>
+	</div>
+	<div class="tipoff-content">
+		<textarea name="tipoff-content" class="tipoff-desc js-tipoff-desc" placeholder="写下举报理由"></textarea>
+		<div class="tipoff-text"><span class="js-tipoff-text">0</span>/150</div>
+	</div>
+	<div class="tipoff-btn-box clearfix">
+		<div class="r tipoff-submit-btn js-tipoff-submit" data-tipofftype="">提交</div>
+		<div class="r tipoff-cancel-btn js-tipoff-close">取消</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+<div style="display: none">
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?f0cfcccd7b1393990c78efdeebff3968";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+(function (d) {
+window.bd_cpro_rtid="rHT4P1c";
+var s = d.createElement("script");s.type = "text/javascript";s.async = true;s.src = location.protocol + "//cpro.baidu.com/cpro/ui/rt.js";
+var s0 = d.getElementsByTagName("script")[0];s0.parentNode.insertBefore(s, s0);
+})(document);
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</div>
+
+
+<div></div><div style="position: absolute; top: 100px; left: 100px; width: 164px; height: 164px; margin-left: -82px; margin-top: -82px; opacity: 1; display: none; transform: rotate(0deg) translate(0px, 0px);"><svg style="position: absolute; width: 100%; height: 100%;"><ellipse cy="0" cx="0" ry="7" rx="7" transform="rotate(0,0,0)" fill-opacity="1" stroke-linecap="" stroke-dashoffset="NaN " fill="deeppink" stroke-dasharray="NaN " stroke-opacity="1" stroke-width="0" stroke="transparent" style="opacity: 1; display: none;"></ellipse><ellipse cy="0" cx="0" ry="7" rx="7" transform="rotate(0,0,0)" fill-opacity="1" stroke-linecap="" stroke-dashoffset="NaN " fill="deeppink" stroke-dasharray="NaN " stroke-opacity="1" stroke-width="0" stroke="transparent" style="opacity: 1; display: none;"></ellipse><ellipse cy="0" cx="0" ry="7" rx="7" transform="rotate(0,0,0)" fill-opacity="1" stroke-linecap="" stroke-dashoffset="NaN " fill="deeppink" stroke-dasharray="NaN " stroke-opacity="1" stroke-width="0" stroke="transparent" style="opacity: 1; display: none;"></ellipse><ellipse cy="0" cx="0" ry="7" rx="7" transform="rotate(0,0,0)" fill-opacity="1" stroke-linecap="" stroke-dashoffset="NaN " fill="deeppink" stroke-dasharray="NaN " stroke-opacity="1" stroke-width="0" stroke="transparent" style="opacity: 1; display: none;"></ellipse><ellipse cy="0" cx="0" ry="7" rx="7" transform="rotate(0,0,0)" fill-opacity="1" stroke-linecap="" stroke-dashoffset="NaN " fill="deeppink" stroke-dasharray="NaN " stroke-opacity="1" stroke-width="0" stroke="transparent" style="opacity: 1; display: none;"></ellipse></svg></div></body></html>
