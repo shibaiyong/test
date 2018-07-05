@@ -68,6 +68,13 @@
        text-align: right; 
        margin-right: 10px;
     }
+    .natureWeather{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width:100%;
+        flex-wrap: wrap;
+    }
 </style>
 <body>
     <div class='index-wrapper'>
@@ -83,6 +90,10 @@
             <div id='map-show'>
                 
             </div>
+        </div>
+        <h3>未来4天的天气</h3>
+        <div class='natureWeather'>
+
         </div>
     </div>
 </body>
@@ -173,23 +184,38 @@
     
     //回调函数处理ajax请求
     function process(res){
-        var str = '';
+        var str1 = '';
+        var str2 = '';
+        $('.natureWeather').html('');
         console.log(res);
+        var natureWeather=res.data.forecast;
         if(res.message=='Success !'){
-            str=`<dl>
-                    <dt><span>今天</span><span>${res.date}</span></dt>
-                    <dd><span>城市:</span><span>${res.city}</span></dd>
-                    <dd><span>天气状况:</span><span>${res.data.forecast[0].type}</span></dd>
-                    <dd><span>高温:</span><span>${res.data.forecast[0].high}</span></dd>
-                    <dd><span>低温:</span><span>${res.data.forecast[0].low}</span></dd>
-                    <dd><span>湿度:</span><span>${res.data.shidu}</span></dd>
-                    <dd><span>风力:</span><span>${res.data.forecast[0].fl}</span></dd>
-                    <dd><span>风向:</span><span>${res.data.forecast[0].fx}</span></dd>
-                    <dd><span>PM2.5:</span><span>${res.data.pm25}</span></dd>
-                    <dd><span>空气质量:</span><span>${res.data.quality}</span></dd>
-                    <dd><span>建议:</span><span>${res.data.forecast[0].notice}</span></dd>
+            str1=`<dl>
+                <dt><span>今天</span><span>${res.date}</span></dt>
+                <dd><span>城市:</span><span>${res.city}</span></dd>
+                <dd><span>天气状况:</span><span>${res.data.forecast[0].type}</span></dd>
+                <dd><span>高温:</span><span>${res.data.forecast[0].high}</span></dd>
+                <dd><span>低温:</span><span>${res.data.forecast[0].low}</span></dd>
+                <dd><span>湿度:</span><span>${res.data.shidu}</span></dd>
+                <dd><span>风力:</span><span>${res.data.forecast[0].fl}</span></dd>
+                <dd><span>风向:</span><span>${res.data.forecast[0].fx}</span></dd>
+                <dd><span>PM2.5:</span><span>${res.data.pm25}</span></dd>
+                <dd><span>空气质量:</span><span>${res.data.quality}</span></dd>
+                <dd><span>建议:</span><span>${res.data.forecast[0].notice}</span></dd>
                 </dl>`
-            $('.weather-info').html(str)   
+                for(var i = 0; i < natureWeather.length; i++){
+                    str2=`<dl>
+                        <dd><span>天气状况:</span><span>${res.data.forecast[i].date}</span></dd>
+                        <dd><span>天气状况:</span><span>${res.data.forecast[i].type}</span></dd>
+                        <dd><span>高温:</span><span>${res.data.forecast[i].high}</span></dd>
+                        <dd><span>低温:</span><span>${res.data.forecast[i].low}</span></dd>
+                        <dd><span>风力:</span><span>${res.data.forecast[i].fl}</span></dd>
+                        <dd><span>风向:</span><span>${res.data.forecast[i].fx}</span></dd>
+                        <dd><span>建议:</span><span>${res.data.forecast[i].notice}</span></dd>
+                    </dl>`
+                    $('.natureWeather').append(str2);  
+                }
+                $('.weather-info').html(str1);   
         }
         if(res.city_id=='CH'){
             localStorage.citylist=JSON.stringify(res.list)

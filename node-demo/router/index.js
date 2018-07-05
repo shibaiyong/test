@@ -1,7 +1,7 @@
 const data = require('./data.js')
 const html = require('./html.js')
 const static = require('./static.js')
-const url = require('url');
+const url = require('url')
 let router={
     classifyProcess(req,res){
         let urlInfo = url.parse(req.url,true,true);
