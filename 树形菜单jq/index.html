@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>树形菜单</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<style type="text/css">
+		ul li {
+			list-style-image: url(img/1.gif);
+		}
+		li>ul{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+    <ul>
+		<li class="yijii" >主题市场
+			<ul>
+				<li>运动派
+					<ul>
+						<li>三级菜单a</li>
+						<li>三级菜单b</li>
+						<li>三级菜单c</li>
+						<li>三级菜单d</li>
+					</ul>
+				</li>
+				<li>有车族
+					<ul>
+						<li>三级
+							<ul>
+								<li>四级</li>
+								<li>四级</li>
+								<li>四级</li>
+							</ul>
+						</li>
+						<li>三级</li>
+						<li>三级</li>
+						<li>三级</li>
+					</ul>
+				</li>
+				<li>生活家</li>
+			</ul>
+		</li>
+		<li class="yiji">特色购物
+			<ul>
+				<li>淘宝二手
+					<ul>
+						<li>三级目录
+							<ul>
+								<li>四级</li>
+							</ul>
+						</li>
+						<li>三级目录</li>
+						<li>三级目录</li>
+					</ul>
+				</li>
+				<li>拍卖会</li>
+				<li>爱逛街</li>
+				<li>全球购</li>
+				<li>淘女郎</li>
+			</ul>
+		</li>
+		<li class="yiji">优惠促销
+			<ul>
+				<li>天天特价</li>
+				<li>免费试用</li>
+				<li>清仓</li>
+				<li>1元起拍</li>
+			</ul>
+		</li>
+	</ul>
+</body>
+</html>
+
+<script type="text/javascript">
+	$(function(){
+
+		judgeIconfont();//给有子集的目录加上对应的标志。
+		function judgeIconfont(){
+			var lis = $('li');
+			var len = lis.length;
+			for(var i= 0; i<len; i++){
+				if($(lis[i]).children().is('ul')){//相当于原生dom了。.get(0)jq对象转成原生dom对象。
+					$(lis[i]).css("list-style-image","url(img/1.gif)");
+				}else{
+					$(lis[i]).css("list-style-image","url(img/-.gif)");					
+				}
+			}
+		}
+		$("li").click(function(e){
+			var ev = e || window.event;
+			var status = $(this).attr('status'); 
+			// window.event?ev.cancelBubble=true:ev.stopPropagation();
+			var targ = ev.target||ev.srcElement;
+			if(targ==this){//作用是阻止冒泡。
+				if(status!='open' && $(this).children('ul')){
+					$(this).children('ul').slideDown();
+					$(this).attr('status','open');
+				}else{
+					$(this).children('ul').slideUp();
+					$(this).attr('status','close')
+				}
+			}
+		})
+	})
+</script>
