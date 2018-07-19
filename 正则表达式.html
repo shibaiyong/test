@@ -16,9 +16,38 @@
     // 其中pattern为表示表达式内容,如上表示匹配abc
     // attributes：g,全局匹配，i不区分大小写，m执行多行匹配，用最多的为g和i
     
-    var str=`djfld123ldfk123`;
-    var reg=new RegExp('123','mg');
-    var arr=reg.exec(str);
-    console.log(arr);
+    var str = `djfld123ldfk123`;
+    var reg = new RegExp('123','mg');
+    var arr = reg.exec(str);
+    // console.log(arr);
+    //正则表达式中;括号的用法
+
+    //1、分组  我们知道/a+/匹配连续出现的“a”，而要匹配连续出现的“ab”时，需要使用/(ab)+/。
+
+    var divideStr = 'lalala lala la';
+    // var reg = /(la)+/;
+    var reggroup = /(la)+/g;
+    var group = divideStr.match(reggroup);
+    // console.log(group);
+
+    //2、提取数据
+    var timeStr = '2017-08-12 04:12';
+    var regextract = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})/;
+    var extract = timeStr.match(regextract);
+    // console.log(extract);
+
+    //3、替换
+    var dateStr = '2017-08-12';
+    var regreplace = /(\d{4})-(\d{2})-(\d{2})/;
+    var replace1 = dateStr.replace(regreplace,"$3/$2/$1");
+    var replace2 = dateStr.replace(regreplace,function(){
+        return RegExp.$3 + '/' + RegExp.$2 + '/' + RegExp.$1;
+    })
+    var replace3 = dateStr.replace(regreplace,function(match,year,month,day){
+        return year + '/' + month + '/' + day;
+    })
+    // console.log(replace1);
+    // console.log(replace2);
+    // console.log(replace3);
     
 </script>
