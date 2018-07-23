@@ -3,6 +3,14 @@
     <h1>
       Welcome to {{ hero.name }}!
     </h1>
-    
+    <div>
+      <input [(ngModel)]="hero.name" type='text'/>
+    </div>
+    <div class="heroesList">
+      <ul>
+          *ngFor="let hero of heroes"
+          <li>
+      </ul>
+    </div>
 </div>
   
