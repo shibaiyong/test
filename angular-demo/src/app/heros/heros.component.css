@@ -1,3 +1,22 @@
-body{
-    background:red;
+.heroesList{
+    display: inline-block;
+}
+.heroesList ul li{
+    text-align: left;
+    list-style: none;
+    margin: 5px;
+}
+.heroesList ul li span{
+    display: inline-block;
+    padding:10px;
+}
+.heroesList ul li span:first-child{
+    background:green;
+}
+.heroesList ul li span:nth-child(2){
+    background:gray;
+    min-width: 120px;
+}
+.heroesList ul li span.selected {
+    background: orange;
 }
