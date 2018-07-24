@@ -1,15 +1,11 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-    <h1>
-      Welcome to {{ selectHero.name }}!
-    </h1>
-    <div>
-      <input [(ngModel)]="selectHero.name" type='text'/>
-    </div>
+    
     <div class="heroesList">
       <ul>
           <li *ngFor="let hero of heroes" (click)="onSelect(hero)"><span>{{hero.id}}</span><span [class.selected]="hero===selectHero">{{hero.name}}</span></li>
       </ul>
     </div>
+    <heroes-details [hero]="selectHero"></heroes-details>
 </div>
   
