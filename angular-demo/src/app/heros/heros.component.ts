@@ -31,7 +31,7 @@ export class HerosComponent implements OnInit {
         this.getHeroes();
     };
 
-    getHeroes():void{
+    getHeroes(): void {
         //this.heroes = this.heroService.getHeroes();//这是同步调用。实际应用中都是异步的。
         this.heroService.getHeroes()
                         .subscribe(heroes => this.heroes=heroes)//这是异步的

@@ -3,9 +3,9 @@
     
     <div class="heroesList">
       <ul>
-          <li *ngFor="let hero of heroes" (click)="onSelect(hero)"><span>{{hero.id}}</span><span [class.selected]="hero===selectHero">{{hero.name}}</span></li>
+          <li *ngFor="let hero of heroes" (click)="onSelect(hero)" routerLink="/herodetail/{{hero.id}}"><span>{{hero.id}}</span><span [class.selected]="hero===selectHero">{{hero.name}}</span></li>
       </ul>
     </div>
-    <heroes-details [hero]="selectHero"></heroes-details>
+    <!-- <heroes-details [hero]="selectHero"></heroes-details> -->
 </div>
   
