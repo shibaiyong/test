@@ -4,6 +4,7 @@
             Welcome {{ hero.name }}!
         </h1>
         <h2>Id:{{ hero.id }}</h2>
+        <button (click)="goBack()">后退-Back</button>
     </div>
     <div class='name'>
         <input [(ngModel)]="hero.name" type='text'/>

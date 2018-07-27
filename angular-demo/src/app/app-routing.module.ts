@@ -8,7 +8,7 @@ import { HeroesDetailComponent } from './heroes-details/heroes-details'
 const routes: Routes = [
   { path: 'heroes',component: HerosComponent },
   { path: 'dashboard',component: DashBoardComponent },
-  { path: 'herodetail', component: HeroesDetailComponent }
+  { path: 'herodetail/:id', component: HeroesDetailComponent }
 ]
 
 @NgModule({
