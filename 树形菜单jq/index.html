@@ -77,6 +77,7 @@
 
 <script type="text/javascript">
 	$(function(){
+		//一、初始化 下拉菜单的样式
 
 		judgeIconfont();//给有子集的目录加上对应的标志。
 		function judgeIconfont(){
@@ -90,18 +91,23 @@
 				}
 			}
 		}
+		//二、业务逻辑
+
 		$("li").click(function(e){
 			var ev = e || window.event;
 			var status = $(this).attr('status'); 
 			// window.event?ev.cancelBubble=true:ev.stopPropagation();
 			var targ = ev.target||ev.srcElement;
 			if(targ==this){//作用是阻止冒泡。
-				if(status!='open' && $(this).children('ul')){
+				if(status!='open' && $(this).children('ul').length){
 					$(this).children('ul').slideDown();
-					$(this).attr('status','open');
+					$(this).attr('status','open').css('list-style-image','url(img/-.gif)');
+
 				}else{
-					$(this).children('ul').slideUp();
-					$(this).attr('status','close')
+					if($(this).children('ul').length){
+						$(this).children('ul').slideUp();
+						$(this).attr('status','close').css('list-style-image','url(img/1.gif)');
+					}
 				}
 			}
 		})
