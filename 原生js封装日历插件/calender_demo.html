@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>原生js日历封装</title>
+    <style>
+        *{
+            margin:0;padding:0;
+        }
+        .inputCalender input{
+            padding-left:10px;
+            margin:0;
+            height:30px;
+            border:1px solid #ddd;
+            /* 防止出现内阴影 */
+            border-radius: 3px;
+            outline: none;
+            outline: 0px;
+        }
+        ul {
+            overflow: hidden;
+        }
+        ul,ul li{
+            list-style: none;
+        }
+        ul li{
+            float:left;
+            width:14%;
+        }
+        ul li span{
+            display: inline-block;
+            width:100%;
+            padding:10px 0;
+            text-align: center;
+        }
+        .calenderWrapper{
+            width:400px;
+            margin:0 auto;
+        }
+        .calenderContainer .title{
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding:0 4%;
+            box-sizing: border-box;
+        }
+        .calenderContainer .title a{
+            display: inline-block;
+            text-decoration: none;
+            padding:10px;
+            background:#ddd;
+            border-radius: 4px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="calenderWrapper">
+        <div class="inputCalender">
+            <input type="text" placeholder="请选择日期"/>
+        </div>
+        <div class="calenderContainer">
+            <div class="title">
+
+                <a href="javascript:viod(0);">&#x3C;</a>
+
+                <span>2018年8月</span>
+                
+                <a href="javascript:viod(0);">&#x3E;</a>
+            </div>
+            <ul>
+                <li><span>日</span></li>
+                <li><span>一</span></li>
+                <li><span>二</span></li>
+                <li><span>三</span></li>
+                <li><span>四</span></li>
+                <li><span>五</span></li>
+                <li><span>六</span></li>
+            </ul>
+            <ul>
+                <li><span>1</span></li>
+                <li><span>2</span></li>
+                <li><span>3</span></li>
+                <li><span>4</span></li>
+                <li><span>5</span></li>
+                <li><span>6</span></li>
+                <li><span>7</span></li>
+
+                <li><span>8</span></li>
+                <li><span>9</span></li>
+                <li><span>10</span></li>
+                <li><span>11</span></li>
+                <li><span>12</span></li>
+                <li><span>13</span></li>
+                <li><span>14</span></li>
+            </ul>
+        </div>
+    </div>   
+</body>
+</html>
+<script>
+    
+</script>
