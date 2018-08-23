@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>原生js日历封装</title>
+    <script src='https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js'></script>
     <style>
         *{
             margin:0;padding:0;
@@ -34,10 +35,12 @@
             width:100%;
             padding:10px 0;
             text-align: center;
+            cursor: pointer;
         }
         .calenderWrapper{
             width:400px;
             margin:0 auto;
+            float:left;
         }
         .calenderContainer .title{
             background: #eee;
@@ -54,7 +57,13 @@
             background:#ddd;
             border-radius: 4px;
         }
-        
+
+        .calenderContainer{
+            display:none;
+        }
+        .active{
+            background:rgba(161, 0, 233, 0.5)
+        }
     </style>
 </head>
 <body>
@@ -65,11 +74,11 @@
         <div class="calenderContainer">
             <div class="title">
 
-                <a href="javascript:viod(0);">&#x3C;</a>
+                <a href="javascript:void(0);" class="prev">&#x3C;</a>
 
                 <span>2018年8月</span>
                 
-                <a href="javascript:viod(0);">&#x3E;</a>
+                <a href="javascript:void(0);" class="next">&#x3E;</a>
             </div>
             <ul>
                 <li><span>日</span></li>
@@ -79,28 +88,177 @@
                 <li><span>四</span></li>
                 <li><span>五</span></li>
                 <li><span>六</span></li>
+                <!--<li><span>日</span></li>-->
             </ul>
-            <ul>
-                <li><span>1</span></li>
-                <li><span>2</span></li>
-                <li><span>3</span></li>
-                <li><span>4</span></li>
-                <li><span>5</span></li>
-                <li><span>6</span></li>
-                <li><span>7</span></li>
-
-                <li><span>8</span></li>
-                <li><span>9</span></li>
-                <li><span>10</span></li>
-                <li><span>11</span></li>
-                <li><span>12</span></li>
-                <li><span>13</span></li>
-                <li><span>14</span></li>
+            <ul class="dateTable">
+                
             </ul>
         </div>
-    </div>   
+    </div>
+    
+    <div class="calenderWrapper">
+            <div class="inputCalender">
+                <input type="text" placeholder="请选择日期"/>
+            </div>
+            <div class="calenderContainer">
+                <div class="title">
+    
+                    <a href="javascript:void(0);" class="prev">&#x3C;</a>
+    
+                    <span>2018年8月</span>
+                    
+                    <a href="javascript:void(0);" class="next">&#x3E;</a>
+                </div>
+                <ul>
+                    <li><span>日</span></li>
+                    <li><span>一</span></li>
+                    <li><span>二</span></li>
+                    <li><span>三</span></li>
+                    <li><span>四</span></li>
+                    <li><span>五</span></li>
+                    <li><span>六</span></li>
+                    <!--<li><span>日</span></li>-->
+                </ul>
+                <ul class="dateTable">
+                    
+                </ul>
+            </div>
+        </div>
+
+        <div class="calenderWrapper">
+                <div class="inputCalender">
+                    <input type="text" placeholder="请选择日期"/>
+                </div>
+                <div class="calenderContainer">
+                    <div class="title">
+        
+                        <a href="javascript:void(0);" class="prev">&#x3C;</a>
+        
+                        <span>2018年8月</span>
+                        
+                        <a href="javascript:void(0);" class="next">&#x3E;</a>
+                    </div>
+                    <ul>
+                        <li><span>日</span></li>
+                        <li><span>一</span></li>
+                        <li><span>二</span></li>
+                        <li><span>三</span></li>
+                        <li><span>四</span></li>
+                        <li><span>五</span></li>
+                        <li><span>六</span></li>
+                        <!--<li><span>日</span></li>-->
+                    </ul>
+                    <ul class="dateTable">
+                        
+                    </ul>
+                </div>
+            </div>
 </body>
 </html>
 <script>
+    var nowDate = new Date();
+    var nowYear = nowDate.getFullYear();
+    var nowMonth = nowDate.getMonth();
+    var initeMonth = nowMonth;
+    var nowDay = nowDate.getDate();
+
+    //初始化日历
+    $('.calenderContainer').each(function(){
+        createCurrentDate(nowYear, nowMonth, $(this))
+    })
+
     
+
+    $('.inputCalender input').each(function(){
+        $(this).click(function(){
+
+            //可以在input上绑定属性 来定制日期的显示格式。
+            var ele = $(this).parent().next();
+
+            $('.calenderContainer').hide();
+
+            $(this).parent().next().show();
+            ele.find('.next')[0].onclick = function(){
+                createCurrentDate(nowYear, ++nowMonth, ele)
+            }
+
+            ele.find('.prev')[0].onclick = function(){
+                createCurrentDate(nowYear, --nowMonth, ele)
+            }
+
+        })
+    })
+
+    
+    function createCurrentDate(year, month, ele){
+
+        var currentDate = new Date(year,month,1);
+        var currentMonth = currentDate.getMonth();
+        var currentYear = currentDate.getFullYear();
+        var currentDateForWeek = currentDate.getDay();
+
+        //过程一
+
+        //星期日在最后
+        // var n = 1 + 1 - currentDateForWeek;//一下三行代码作用是补全当前月一号之前的，展示的上个月份部分日期。
+        // n = n == 2 ? -6 : n;
+        //星期日在第一
+        var n = 1 - currentDateForWeek;
+        n = n == 1 ? -6 : n;
+        currentDate.setDate( n );
+        var titleDom = ele[0];
+        var title = titleDom.children[0].children[1];
+        title.innerHTML = currentYear + '年' + ( currentMonth + 1 ) + '月';
+        //先清空日历
+        titleDom.children[2].remove();
+
+        //如果想利用字符串拼接的方式，生成dom。html结构是有要求的。这时就不能虽已布局了。
+        //所以，下面采用方法创建dom.
+        var ulEle = document.createElement('ul');
+        ulEle.className = 'dateTable';
+        titleDom.appendChild(ulEle);
+        for(var i = 0; i < 42; i++){
+            var day = currentDate.getDate();
+            var month = currentDate.getMonth();
+
+            var liEle = document.createElement('li');
+            var spEle = document.createElement('span');
+            spEle.setAttribute('dateValue',currentYear + '-' + ( currentMonth + 1 > 9 ? currentMonth + 1 : '0' + (currentMonth + 1)) + '-' + day);
+            spEle.innerHTML = day;
+            liEle.appendChild(spEle);
+            ulEle.appendChild(liEle);
+            if(month != currentMonth){
+                spEle.style.color = '#999'
+            }else if(nowDay == day && initeMonth == currentMonth && nowYear == currentYear){
+                spEle.style.background = '#a100e9';
+                spEle.style.color = '#fff';
+            }
+            currentDate.setDate( day + 1 );
+        }
+
+        //过程二 //必须将这段代码放到这里；
+
+        //将日期显示到输入框中
+        var calenderLi = titleDom.children[2];
+        //事件委托
+        calenderLi.addEventListener('click',function(e){
+            var ev = e || event;
+            var targetEle = ev.target || ev.srcElement;
+            var date = targetEle.getAttribute('dateValue');
+
+            $(targetEle).addClass('active').parents('.calenderWrapper').find('.inputCalender').find('input').val(date);
+            $(targetEle).parent().siblings().children().removeClass('active');
+            $(targetEle).parents('.calenderContainer').hide();
+        })
+        
+    }
+
+    //点击日历以外的区域，日历隐藏
+
+    $(document).on('click',function(e){
+            var target = e.target;
+            if(!$(target).parents('.calenderWrapper').length){
+                $('.calenderContainer').hide();
+            }
+        })
 </script>

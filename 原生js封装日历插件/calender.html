@@ -147,7 +147,7 @@
             content.innerHTML = year + '年' + (month + 1) + '月';
             //创建日历上面的日期行数
             console.log(activeDate.getDay())
-            var n = 1 - activeDate.getDay();
+            var n = 1 - activeDate.getDay();//getDay()获取当前日期对应的星期几 
             if (n == 1) {
                 n = -6;
             } //为了日历更友好的显示三个月，让用户看的更明白。
