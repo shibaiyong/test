@@ -224,11 +224,13 @@
             var liEle = document.createElement('li');
             var spEle = document.createElement('span');
             spEle.setAttribute('dateValue',currentYear + '-' + ( currentMonth + 1 > 9 ? currentMonth + 1 : '0' + (currentMonth + 1)) + '-' + day);
+            
             spEle.innerHTML = day;
             liEle.appendChild(spEle);
             ulEle.appendChild(liEle);
             if(month != currentMonth){
-                spEle.style.color = '#999'
+                $(spEle).attr('isClick','disable');
+                spEle.style.color = '#999';
             }else if(nowDay == day && initeMonth == currentMonth && nowYear == currentYear){
                 spEle.style.background = '#a100e9';
                 spEle.style.color = '#fff';
@@ -245,7 +247,10 @@
             var ev = e || event;
             var targetEle = ev.target || ev.srcElement;
             var date = targetEle.getAttribute('dateValue');
-
+            //置灰的日期不能被点击。
+            if($(targetEle).attr('isClick') == 'disable'){
+                return false;
+            }
             $(targetEle).addClass('active').parents('.calenderWrapper').find('.inputCalender').find('input').val(date);
             $(targetEle).parent().siblings().children().removeClass('active');
             $(targetEle).parents('.calenderContainer').hide();

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>canvas 烟花</title>
+    <script src='https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js'></script>
+</head>
+<body>
+    <div class="demo">
+        <canvas id="fireworksField" width="1920" height="583" style="position: absolute; top: 0px; left: 0px; opacity: 0.9;"></canvas>
+    </div>
+</body>
+</html>
+<script src="fireworks.js"></script>
+<script>
+    
+	$('.demo').fireworks({ 
+	  sound: false, // sound effect
+	  opacity: 0.9, 
+	  width: '100%', 
+	  height: '100%' 
+	});
+
+</script>        
