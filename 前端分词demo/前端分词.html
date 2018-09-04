@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+
+    // 字典
+    var dict  = {
+        "家乡"     : 0,
+        "松花"     : 0,
+        "松花江"   : 0,
+        "那里"     : 0,
+        "四季"     : 0,
+        "四季迷人" : 0,
+        "迷人"     : 0,
+        "花香"     : 0
+    };
+
+    // 停止词
+    var stop  = {
+        "的" : 0,
+        "地" :0
+    };
+
+    // 待分词的字符串
+    var words = "我的家乡在松花江边上，那里有四季迷人的花香。我的家乡在松花江边上，那里有四季迷人的花香。我的家乡在松花江边上，那里有四季迷人的花香。";
+
+    // function splitWords(words) {
+    //     var start = 0, end = words.length - 1, result = [];
+    //     while (start != end) {
+    //         var str = [];
+    //         for (var i = start; i <= end; i++) {
+    //             var s = words.substring(i, i + 1);
+    //             if (s in stop) {
+    //                 break;
+    //             }
+    //             str.push(s);
+    //             if (str.join('') in dict) {
+    //                 result.push(str.join(''));
+    //             }
+    //         }
+    //         start++;
+    //     }
+    //     return result;
+    // }
+
+    function splitWords2(words) {
+        var result = [];
+        var end = words.length;
+        var count = 0;
+        for(var start = 0; start < end; start++){
+            var separateStr = '';
+            for(var i = start; i < end; i++){
+                separateStr = words.slice(start, i+1);
+                if(separateStr in stop){
+                    break;
+                }
+                if(separateStr in dict){
+                    if(result.indexOf(separateStr) == -1){
+                        result.push(separateStr);    
+                    }
+                    dict[separateStr] = dict[separateStr] + 1;
+                }
+            }
+        }
+        return result;
+    }
+// console.log(splitWords(words));
+console.log(splitWords2(words));
+console.log(dict);
+</script>

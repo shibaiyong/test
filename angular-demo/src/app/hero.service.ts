@@ -11,7 +11,7 @@ import { MessageService } from './message.service'
 })
 export class HeroService {
 
-  constructor(private messageService:MessageService) {  }
+  constructor(private messageService:MessageService) {  }//利用服务的形式实现数据共享
 
   getHeroes(): Observable<Hero[]> {
     this.messageService.add('HeroService: fetched heroes')
