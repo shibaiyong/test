@@ -2,7 +2,7 @@ const http = require('http');
 
 const router = require('./router');
 
-const host = '127.0.0.1';
+const host = '127.0.0.2';
 
 const port = '1235';
 
