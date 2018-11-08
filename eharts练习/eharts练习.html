@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>eharts练习</title>
+  <style>
+    #container{
+      width:300px;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+
+  </div>
+</body>
+</html>
+<script src="echarts.js"></script>
+<script>
+  var echartsBox = document.getElementById('container');
+
+  var mediaChart = echarts.init(echartsBox);
+
+  var mediaReport = [{ value:"今日科学", id:1 }, { value:"中国天气", id:1 }, { value:"lalalal", id:1 }, { value:"hahahah", id:1 }];
+
+  var count = ["1", "2", "3", "4"];
+  var data2 = ['d','f','e','a'];
+  var data = {
+    mediaReport:mediaReport,
+    count:count,
+    adddata:data2
+  }
+  var mediaOption = {
+		color : [ '#d9534f' ],
+		tooltip : {
+			trigger : 'axis',
+			axisPointer : {
+				type : 'none'
+			},
+			formatter : '{a}<br/>{b} : {c}',
+		},
+		grid : {
+			left : '1%',
+			right : '10%',
+			bottom : '5%',
+			top : '8%',
+			containLabel : true
+		},
+		xAxis : {
+			type : 'value',
+			boundaryGap : [ 0, 0.01 ],
+			position : 'top',
+			name : ''
+		},
+		yAxis : {
+			type : 'category',
+			axisLabel: {
+	            interval: 0,
+	            //rotate: 30
+	            formatter: function(value, index){
+                console.log(value)
+	            	var valueStr = '';
+	            	if(value.length>8){
+	            		valueStr = value.substring(0,8)+'...';
+	            	}else{
+	            		valueStr = value;
+	            	}
+	            	
+	            	return valueStr
+	            },
+	            textStyle:{
+	            	fontFamily:'Microsoft Yahei'
+	            }
+	        },
+			data : data.mediaReport
+		},
+		series : [ {
+			name : '媒体提及率',
+			type : 'bar',
+			data : data.count,
+			/*barWidth : '20px',*/
+			barMaxWidth:'20px',
+			barGap : '10px',
+			label: {
+                normal: {
+                    show: true,
+                    position: 'right'
+                }
+            },
+		}, ]
+  };
+  mediaChart.setOption(mediaOption);
+	mediaChart.on('click',function(params){
+		console.log(params)
+		
+	});
+</script>
