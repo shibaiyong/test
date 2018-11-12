@@ -3,7 +3,7 @@ var qs= require('querystring');
 const http = require('http');
 const https = require('https');
 const url = require('url');
-const html = require('./html.js')
+const html = require('./html.js');
 let dataRouter = {
     dataProcess(req,pathname,res){
         let urlInfo = url.parse(req.url,true,true);

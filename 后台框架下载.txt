@@ -61,3 +61,7 @@ dataTable 给服务器的参数说明                            http://net08118.blog.163
 auxre 注册码:                                           https://www.jianshu.com/p/db2a506e8f1c
 
 ajax全局拦截                                            https://github.com/wendux/Ajax-hook
+
+react脚手架工具                                         https://segmentfault.com/a/1190000014972817?utm_source=channel-hottest
+
+react中文文档                                           https://react.docschina.org/docs/hello-world.html
