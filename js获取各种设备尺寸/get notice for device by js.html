@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h2>js获取移动端屏幕高度和宽度等设备尺寸，兼容性比较好的方法：</h2>
+
+  <p>document.documentElement.clientWidth;</p>
+  <p>document.documentElement.clientHeight;</p>
+
+  <p>document.documentElement是个什么鬼？documentElement 是整个节点树的根节点root，即html标签，而body是子节点，要访问到body标签，在脚本中应该写：document.body</p>
+
+    <p>h += " 网页可见区域宽："+ document.body.clientWidth+"</p>
+    
+    <p>h += " 网页可见区域高："+ document.body.clientHeight+"</p>
+    
+    <p>h += " 网页可见区域宽："+ document.body.offsetWidth +" (包括边线和滚动条的宽)"+"</p>
+    
+    <p>h += " 网页可见区域高："+ document.body.offsetHeight +" (包括边线的宽)"+"</p>
+    
+    <p>h += " 网页正文全文宽："+ document.body.scrollWidth+"</p>
+    
+    <p>h += " 网页正文全文高："+ document.body.scrollHeight+"</p>
+    
+    <p>h += " 网页被卷去的上："+ document.body.scrollTop+"</p>
+    
+    <p>h += " 网页被卷去的左："+ document.body.scrollLeft+"</p>
+    
+    <p>h += " 网页正文部分上："+ window.screenTop+"</p>
+    
+    <p>h += " 网页正文部分左："+ window.screenLeft+"</p>
+    
+    <p>h += " 屏幕分辨率的宽："+ window.screen.width+"</p>
+    
+    <p>h += " 屏幕分辨率的高："+ window.screen.height+"</p>
+    
+    <p>h += " 屏幕可用工作区宽度："+ window.screen.availWidth+"</p>
+    
+    <p>h += " 屏幕可用工作区高度："+ window.screen.availHeight+"</p>
+    
+    <p>h += " 你的屏幕设置是 "+ window.screen.colorDepth +" 位彩色"+"</p>
+    
+    <p>h += " 你的屏幕设置 "+ window.screen.deviceXDPI +" 像素/英寸"+"</p>
+    
+    
+</body>
+</html>
