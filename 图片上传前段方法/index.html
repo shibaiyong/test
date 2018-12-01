@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <form action="/uploadImage" id="upload_form" method="post" enctype="multipart/form-data">
+    <input id="upImg" name="image" accept="image/*" class="file" onchange="reviewImg()" type="file">
+  </form>
+</body>
+
+</html>
+<script>
+  // var $upImg = $("#upImg").val();
+  // var $imgName = $("#imgName").val($upImg);
+
+  // function upLoadImg(id, url, data, sucssback, errback) {
+
+  //   $(`${id}`).ajaxSubmit({
+  //     url: $baseUrl + url,
+  //     type: type,
+  //     data: data,
+  //     headers: { "user_token": user_token },
+  //     dataType: "json",
+  //     success: function (res) {
+  //       sucssback(res);
+  //     },
+  //     errback: function (err) {
+  //       if (Unit.ajaxErrorDefault(err.statusCode, err.responseJSON ? err.responseJSON.error : "")) {
+  //         errback(err);
+  //       }
+  //     }
+  //   });
+
+  // }
+
+  //图片预览
+  function reviewImg(id) {
+    var e = event || window.event;
+    var fileSize = e.target.files[0];
+    console.log(fileSize);
+    console.log(e.target.files.item);
+    for (var i = 0; i < e.target.files.length; i++) {
+      var file = e.target.files.item(i);
+      console.log(file);
+    }
+    // if (fileSize.size > 1048576) {
+    //   Layer.error("图片超过1MB");
+    //   $("#img").val("");
+    //   $("#" + id).attr("src", "ssssss");
+    //   return;
+    // }
+    // for (let i = 0; i < e.target.files.length; i++) {
+    //   let file = e.target.files.item(i);
+    //   if (!(/^image\/.*$/i.test(file.type))) {
+    //     continue; //不是图片 就跳出这一次循环
+    //   }
+    //   //实例化FileReader API
+      let freader = new FileReader();
+      freader.readAsDataURL(file);//转成base64格式的图片
+      freader.onload = function (e) {
+        //$("#" + id).attr("src", e.target.result);
+        console.log(e.target.result);
+      }
+    //   this.setState({
+    //     flag: true,
+    //   })
+    // }
+  }
+</script>
