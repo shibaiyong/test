@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>js传入参数为字符串的问题</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+  acceptString('hahahah')
+ function acceptString( param ){
+  // var str = "<input type='button' value='分析' onclick='showCollectInfo(\""+param+"\")'/>";
+  // var str2 = '<input type="button" value="fenxi" onclick="showCollectInfo('+param+')"/>'
+  var input = document.createElement('input');
+  input.setAttribute('onclick','showCollectInfo(\''+param+'\')')
+  input.type="button";
+  input.value="fenxi";
+  var body = document.getElementsByTagName('body')[0];
+  body.appendChild(input);
+ }
+
+ function showCollectInfo( param ){
+   console.log( param );
+ }
+</script>
