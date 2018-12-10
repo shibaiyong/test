@@ -50,4 +50,21 @@
     // console.log(replace2);
     // console.log(replace3);
    
+
+    //匹配标签  高亮显示某个词
+    function highlight(word) {
+
+        var str = $(".newsDetailCon").html();
+        var pattern = new RegExp(word, "mg");
+        var pool = [];
+        var i = 0;
+        str = str.replace(/<[\/]{0,1}[a-z]+[^>]*>/img,function() {
+            pool[pool.length] = arguments[0];
+            return "\x00"
+        }).replace(pattern, "<span style=\"color:red\">" + word + "</span>")
+        .replace(/\x00/mg,function() {
+            return pool[i++]
+        })
+        $(".newsDetailCon").html(str);
+    }
 </script>
