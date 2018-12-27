@@ -14,11 +14,14 @@
 </head>
 <body>
     <p>&#8592;</p>
+    <button onClick="getWindowName()">获取window.name</button>
 </body>
 </html>
 <script>
     var boolean='true';
     var val=eval(boolean);
-    console.log(typeof val);
-
+    //console.log(typeof val);
+    function getWindowName(){
+      console.log(window.name);
+    }
 </script>
