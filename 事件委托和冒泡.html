@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>事件冒泡和委托</title>
+  <script src="jquery.min.js"></script>
+  <style>
+    .maopao{
+      width: 50px;
+      height:50px;
+      background:gray;
+    }
+    .maopao1{
+      width: 100px;
+      height:100px;
+      background:red;
+    }
+    .maopao2{
+      width: 200px;
+      height:200px;
+      background:yellow;
+    }
+  </style>
+</head>
+<body>
+<div class="maopao2">
+  <div class="maopao1">
+    <div class="maopao">
+
+    </div>
+  </div>
+</div>
+  
+</body>
+</html>
+<script>
+  $('.maopao').click(function(e){
+    console.log('hahahahahah111111')
+  })
+  $('.maopao').off();
+  $('.maopao').click(function(e){
+    console.log('hahahahahah222222')
+  })
+  $('.maopao').off();
+  $('.maopao').click(function(e){
+    console.log('hahahahahah33333')
+  })
+
+  // $(document).on('click','.maopao',function(){
+  //   console.log('hahahahahah111111')
+  // })
+  // $(document).on('click','.maopao1',function(){
+  //   console.log('hahahahahah222222')
+  // })
+  // $(document).on('click','.maopao2',function(){
+  //   console.log('hahahahahah33333')
+  // })
+</script>
