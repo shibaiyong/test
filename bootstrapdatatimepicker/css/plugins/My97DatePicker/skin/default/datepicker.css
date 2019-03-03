@@ -1,0 +1,72 @@
+/* 
+ * My97 DatePicker 4.8
+ */
+
+.WdateDiv { width: 240px; background-color: #FFFFFF;}
+.WdateDiv2 { width: 360px; }
+.WdateDiv * { font-size: 12px; }
+.WdateDiv .NavImg a { display: block; cursor: pointer; height: 26px; width: 26px; }
+
+.WdateDiv .NavImgll a { float: left; background: transparent url(img.gif) no-repeat scroll 5px 10px; margin-left:4px; }
+.WdateDiv .NavImgl a { float: left; background: transparent url(img.gif) no-repeat scroll -18px 10px; }
+.WdateDiv .NavImgr a { float: right; background: transparent url(img.gif) no-repeat scroll -41px 10px; }
+.WdateDiv .NavImgrr a { float: right; background: transparent url(img.gif) no-repeat scroll -65px 10px; margin-right:4px; }
+
+.WdateDiv #dpTitle { height: 24px; margin-bottom: 2px; padding: 1px; }
+.WdateDiv .yminput { margin-top: 2px; text-align: center; height: 20px; border: 0px; width: 63px; cursor: pointer; padding-top:4px; color:#545a5f; font-size: 13px; font-weight: 700;}
+.WdateDiv .yminputfocus { margin-top: 2px; text-align: center; font-weight: bold; height: 25px; color: #3498db; border: #eaeef1 1px solid; width: 63px; }
+.WdateDiv .menuSel { z-index: 1; position: absolute; background-color: #FFFFFF; border: #eaeef1 1px solid; display: none; }
+.WdateDiv .menu { cursor: pointer; background-color: #fff; padding:5px; }
+.WdateDiv .menuOn { cursor: pointer; background-color: #f9f9f9; color:#3498db; padding:5px; }
+.WdateDiv .invalidMenu { color: #aaa; }
+.WdateDiv .YMenu { margin-top: 25px; }
+.WdateDiv .MMenu { margin-top: 25px;  *width:62px;}
+.WdateDiv .hhMenu { margin-top: -90px; margin-left: 26px; }
+.WdateDiv .mmMenu { margin-top: -46px; margin-left: 26px; }
+.WdateDiv .ssMenu { margin-top: -24px; margin-left: 26px; }
+.WdateDiv .Wweek { text-align: center; background: #DAF3F5; border-right: #BDEBEE 1px solid; }
+.WdateDiv .MTitle { background-color: #fbfbfb; color:#788188; border-top:1px solid #eaeef1; border-bottom:1px solid #eaeef1; }
+.WdateDiv .MTitle div { padding-left:4px;}
+.WdateDiv .WdayTable2 { border-collapse: collapse; border: #c5d9e8 1px solid; }
+.WdateDiv .WdayTable2 table { border: 0; }
+.WdateDiv .WdayTable { line-height: 20px; color:#545a5f; }
+.WdateDiv .WdayTable td { text-align: center; padding:5px 2px; }
+.WdateDiv .Wday { cursor: pointer; }
+.WdateDiv .WdayOn { cursor: pointer; background-color: #f9f9f9; }
+.WdateDiv .Wwday { cursor: pointer; color: #f27474; }
+.WdateDiv .WwdayOn { cursor: pointer; color: #000; background-color: #f9f9f9; }
+.WdateDiv .Wtoday { cursor: pointer; color: #3498db; }
+.WdateDiv .Wselday { background-color: #3498db; color:#fff; }
+.WdateDiv .WspecialDay { background-color: #66F4DF; }
+.WdateDiv .WotherDay { cursor: pointer; color: #a4aaaf; }
+.WdateDiv .WotherDayOn { cursor: pointer; background-color: #f9f9f9; }
+.WdateDiv .WinvalidDay { color: #aaa; }
+.WdateDiv #dpTime { float: left; margin-top: 6px; margin-left: 6px; }
+.WdateDiv #dpTime #dpTimeStr { margin-left: 1px; }
+.WdateDiv #dpTime input { width: 18px; height: 20px; text-align: center; border: #ccc 1px solid; }
+.WdateDiv #dpTime .tB { border-right: 0px; }
+.WdateDiv #dpTime .tE { border-left: 0; border-right: 0; }
+.WdateDiv #dpTime .tm { width: 7px; border-left: 0; border-right: 0; }
+.WdateDiv #dpTime #dpTimeUp {
+    height: 10px;
+    width: 13px;
+    border: 0px;
+    background: url(img.gif) no-repeat -3px -19px;
+}
+/*.WdateDiv #dpTime #dpTimeUp:after{*/
+    /*content: '\f106';*/
+    /*display: inline-block;*/
+    /*width: 10px;*/
+    /*height: 10px;*/
+/*}*/
+.WdateDiv #dpTime #dpTimeDown {
+    height: 10px;
+    width: 13px;
+    border: 0px;
+    background: url(img.gif) no-repeat -19px -19px;
+}
+.WdateDiv #dpQS { display:none; float: left; margin-right: 3px; margin-top: 3px; background: url(img.gif) no-repeat 0px -16px; width: 20px; height: 20px; cursor: pointer; }
+.WdateDiv #dpControl {  height:30px; border-top:1px solid #eaeef1; text-align: right; }
+.WdateDiv .dpButton { height: 30px; width:15.333%; cursor: pointer; border:none; border-left:1px solid #eaeef1; background:#fff; margin-top: 0px; margin-right: 0px; }
+.WdateDiv .dpButton:hover { background:#f9f9f9;}
+

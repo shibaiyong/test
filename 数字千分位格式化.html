@@ -7,9 +7,12 @@
     <title>数字千分位格式化</title>
 </head>
 <body>
+    <input id="defaultValue" type="text" defaultValue="aaaa"/>
 </body>
 </html>
 <script>
+    var dom = document.getElementById("defaultValue");
+    console.log(dom.value);
     var num=12345678901234;
     var str='lsddjfslskdj'
     function toTousand(num){

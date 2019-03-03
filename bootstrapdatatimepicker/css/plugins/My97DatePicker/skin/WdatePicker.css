@@ -1,0 +1,22 @@
+.Wdate{
+                     background-color: #fff;
+    background-image: none;
+    border: 1px solid #eaeef1;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555;
+    display: block;
+    font-size: 14px;
+    height: 34px;
+    line-height: 1.42857;
+    padding: 7px 0px 5px 0px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    color: #788188;
+    text-align:center;
+    float:left;
+}
+.Wdate::-ms-clear{display:none;}
+
+.WdateFmtErr{
+	color:788188;
+}

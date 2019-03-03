@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>es6 Promise</title>
+</head>
+<body>
+  
+</body>
+</html>
+<script>
+  var a = {};
+  let resolve = new Promise((resolve,reject) => {
+    setTimeout( () => {
+      // if(a.b){
+      //   console.log('a是真的')
+      // }else{
+      //   console.log('a是假的')
+      // }
+      resolve(a.b)
+    },1000)
+  })
+
+  resolve.then(
+    ( res ) => {
+      console.log('hahah')
+      console.log(res);
+    }
+  ).catch(
+    ( err )=>{
+      console.log('hiii')
+      console.log(err)
+    }
+  )
+
+
+</script>

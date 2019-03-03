@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>发布订阅模式</title>
+</head>
+<body>
+  <input type="text" class="bindValue" v-value="value"/>
+  <div class="innerHtml" v-text="value"></div>
+  <div class="innerHtml1" v-text="text"></div>
+</body>
+</html>
+<script>
+  var bindvalue = document.getElementsByClassName('bindValue')[0];
+  var bindtext = document.getElementsByClassName('innerHtml')[0];
+  var bindtext1 = document.getElementsByClassName('innerHtml1')[0];
+
+  //view 层
+  var nodes = [bindtext,bindvalue,bindtext1];
+
+  //数据层
+  var data = {
+    value:'hello',
+    text:'helloword'
+  }
+
+  //指令的类型
+  //操作dom的方法
+  var commond = {
+    text:function(val){
+      this.innerHTML = val;
+    },
+    value:function(val){
+      this.setAttribute("value",val);
+    }
+  }
+
+  //操作数据的方法
+  function mvSet(key, value){
+    data[key] = value;
+    scan();
+  }
+
+  //遍历所有绑定指令的节点 设置初始值
+
+  //数据 控制 视图层
+  function scan(){
+    for(var i = 0; i < nodes.length; i++){
+      var ele = nodes[i];
+      var attrs = ele.attributes;
+      for(var j= 0; j < attrs.length; j++){
+        var nodeName = attrs[j].nodeName;
+        if(nodeName.indexOf('v-') > -1){
+          
+          //实际上的逻辑是 判断 text (用innerhtml) 还是value ( value )
+          var attrVal = attrs[j].nodeValue;
+          var attrType = nodeName.slice(2);
+          commond[attrType].call(ele,data[attrVal]);//数据显示到视图层
+
+        }
+      }
+    }
+  }
+
+  //视图 控制 数据
+
+  nodes[1].addEventListener('keyup', function(e){
+    mvSet('value', e.target.value);
+  }, false);
+
+  scan();
+
+</script>
