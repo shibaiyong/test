@@ -15,7 +15,8 @@ let dataRouter = {
         }
         else if(pathname == '/data/weather/city'){
             var data = qs.stringify(urlInfo.query);
-            this.getCityWeather(data,res)    
+            console.log(data);
+            this.getCityWeather(data,res);    
         }
         else if(pathname == '/data/weather/citylist'){
             this.getCityList(data,res)
@@ -38,13 +39,15 @@ let dataRouter = {
         });    
     },
     getCityWeather(data,res){
+        //https://www.sojson.com/blog/305.html
+        
+        //免费天气借口
         var options={
-            hostname: 'www.sojson.com', 
-            path:'/open/api/weather/json.shtml?',
+            hostname: 't.weather.sojson.com', 
+            path:'/api/weather/city/101030100',
             method: 'GET',
-            data:data
         }
-        this.requestMthods(options,res)
+        this.requestMthod(options,res)
     },
     getCityList(data,res){
         var options={
@@ -85,7 +88,7 @@ let dataRouter = {
         var city=options.data;
         var req = https.request({
             host:options.hostname,
-            path:options.path + city,
+            path:options.path+city,
             method:options.method
         }, function (res) { 
             res.on('data', function (chunk) { 
