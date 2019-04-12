@@ -1,0 +1,14 @@
+{
+  "name": "layui-test",
+  "version": "1.0.0",
+  "description": "layUI study",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shibaiyong",
+  "license": "ISC",
+  "dependencies": {
+    "layui-src": "^2.4.5"
+  }
+}

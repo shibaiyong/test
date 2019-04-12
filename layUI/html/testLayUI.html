@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../plugin/dist/css/layui.css" />
+    <title>layUI 测试</title>
+</head>
+
+<body>
+    <div class="layui-container">
+        <p>我是layUI测试111</p>
+        <div class="layui-collapse" lay-filter="colla">
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">杜甫</h2>
+                <div class="layui-colla-content layui-show">内容区域</div>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">李清照</h2>
+                <div class="layui-colla-content layui-show">内容区域</div>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">鲁迅</h2>
+                <div class="layui-colla-content layui-show">内容区域</div>
+            </div>
+        </div>
+
+
+
+
+
+
+    </div>
+</body>
+
+</html>
+<script src="../plugin/dist/layui.js"></script>
+<!-- <script src="../config/config.js"></script> -->
+<script>
+    // var id = parseInt(Math.random()*10)
+    // console.log(id)
+    layui.use(['layim','jquery'], function (layim,jquery) {
+        var $ = jQuery = jquery
+        $.ajax({
+            url: '../static/data/collapse.json',
+            type: 'get',
+            dataType: 'json',
+            data: {},
+            success: function (res) {
+                var data = res.data
+                var str = ''
+                for (var i = 0; i < data.length; i++) {
+                    str += '<div class="layui-colla-item">' +
+                           '<h2 class="layui-colla-title">' + data[i].title + '</h2>' +
+                           '<div class="layui-colla-content layui-show">' + data[i].content + '</div>' +
+                           '</div>'
+                }
+                $('.layui-collapse').html(str);
+                layui.use('element', function () {
+                    var element = layui.element
+                });
+            }
+        })
+
+        layim.config({
+            brief: true
+        })
+        layim.chat({
+            name: '在线客服1',
+            type: 'kefu1',
+            avatar: '../static/',
+            id: 1
+        }).chat({
+            name: '在线客服2',
+            type: 'kefu2',
+            avatar: '',
+            id: 2
+        })
+    });
+
+</script>
