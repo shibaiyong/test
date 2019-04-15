@@ -11,27 +11,67 @@
 
 <body>
     <div class="layui-container">
-        <p>我是layUI测试111</p>
-        <div class="layui-collapse" lay-filter="colla">
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">杜甫</h2>
-                <div class="layui-colla-content layui-show">内容区域</div>
+        <div class="layui-row">
+            <ul class="layui-nav layui-bg-green" lay-filter="">
+                <li class="layui-nav-item"><a href="javascript:;">最新活动</a></li>
+                <li class="layui-nav-item layui-this"><a href="">产品</a></li>
+                <li class="layui-nav-item"><a href="">大数据</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">解决方案</a>
+                    <dl class="layui-nav-child">
+                        <!-- 二级菜单 -->
+                        <dd><a href="">移动模块</a></dd>
+                        <dd><a href="">后台模版</a></dd>
+                        <dd><a href="">电商平台</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">社区</a></li>
+            </ul>
+        </div>
+        <div class="layui-row" style="margin-top:10px;">
+            <div class="layui-col-md3">
+                <!-- 水平导航 -->
+                <!-- 注意：导航 依赖 element 模块，否则无法进行功能性操作 -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="testnav">
+                    <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">默认展开</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">选项1</a></dd>
+                            <dd><a href="javascript:;">选项2</a></dd>
+                            <dd><a href="">跳转</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">解决方案</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="">移动模块</a></dd>
+                            <dd><a href="">后台模版</a></dd>
+                            <dd><a href="">电商平台</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a href="">产品</a></li>
+                    <li class="layui-nav-item"><a href="">大数据</a></li>
+                </ul>
             </div>
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">李清照</h2>
-                <div class="layui-colla-content layui-show">内容区域</div>
-            </div>
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">鲁迅</h2>
-                <div class="layui-colla-content layui-show">内容区域</div>
+            <div class="layui-col-md9">
+                <!-- 折叠面板 -->
+                <div class="layui-collapse" lay-filter="colla">
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">杜甫</h2>
+                        <div class="layui-colla-content layui-show">内容区域</div>
+                    </div>
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">李清照</h2>
+                        <div class="layui-colla-content layui-show">内容区域</div>
+                    </div>
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">鲁迅</h2>
+                        <div class="layui-colla-content layui-show">内容区域</div>
+                    </div>
+                </div>
             </div>
         </div>
-
-
-
-
-
-
     </div>
 </body>
 
@@ -39,9 +79,7 @@
 <script src="../plugin/dist/layui.js"></script>
 <!-- <script src="../config/config.js"></script> -->
 <script>
-    // var id = parseInt(Math.random()*10)
-    // console.log(id)
-    layui.use(['layim','jquery'], function (layim,jquery) {
+    layui.use(['layim', 'jquery'], function (layim, jquery) {
         var $ = jQuery = jquery
         $.ajax({
             url: '../static/data/collapse.json',
@@ -53,31 +91,35 @@
                 var str = ''
                 for (var i = 0; i < data.length; i++) {
                     str += '<div class="layui-colla-item">' +
-                           '<h2 class="layui-colla-title">' + data[i].title + '</h2>' +
-                           '<div class="layui-colla-content layui-show">' + data[i].content + '</div>' +
-                           '</div>'
+                        '<h2 class="layui-colla-title">' + data[i].title + '</h2>' +
+                        '<div class="layui-colla-content layui-show">' + data[i].content + '</div>' +
+                        '</div>'
                 }
                 $('.layui-collapse').html(str);
                 layui.use('element', function () {
                     var element = layui.element
+                    //监听导航点击事件
+                    element.on('nav(testnav)', function (elem) {
+                        console.log(elem); //得到当前点击的DOM对象
+                    });
                 });
             }
         })
-
-        layim.config({
-            brief: true
-        })
-        layim.chat({
-            name: '在线客服1',
-            type: 'kefu1',
-            avatar: '../static/',
-            id: 1
-        }).chat({
-            name: '在线客服2',
-            type: 'kefu2',
-            avatar: '',
-            id: 2
-        })
+        // 即时通信对话框
+        // layim.config({
+        //     brief: true
+        // })
+        // layim.chat({
+        //     name: '在线客服1',
+        //     type: 'kefu1',
+        //     avatar: '../static/img/timg.jpg',
+        //     id: 1
+        // }).chat({
+        //     name: '在线客服2',
+        //     type: 'kefu2',
+        //     avatar: '../static/img/friendimg.jpg',
+        //     id: 2
+        // })
     });
 
 </script>
