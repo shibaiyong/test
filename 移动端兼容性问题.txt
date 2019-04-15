@@ -1,0 +1,95 @@
+禁止苹果手机，点击文本输入框页面缩放。
+
+1.meta 标签设置缩放 属性（听说只在安卓机上生效）
+2.js强行禁止
+window.onload = function () {
+
+
+	document.addEventListener('gesturestart', function (e) {
+e.preventDefault();
+});
+
+
+	document.addEventListener('dblclick', function (e) {
+e.preventDefault();
+});
+
+
+	document.addEventListener('touchstart', function (event) {
+
+	if (event.touches.length > 1) {
+
+		event.preventDefault();
+
+	}
+
+	});
+
+
+var lastTouchEnd = 0;
+
+document.addEventListener('touchend', function (event) {
+
+	var now = (new Date()).getTime();
+
+
+	if (now - lastTouchEnd <= 300) {
+
+	event.preventDefault();
+
+}
+
+
+	lastTouchEnd = now;
+}, false);
+
+}
+
+
+2.
+window.onload=function () {
+    document.addEventListener('touchstart',function (event) {
+        if(event.touches.length>1){
+            event.preventDefault();
+        }
+    })
+    var lastTouchEnd=0;
+    document.addEventListener('touchend',function (event) {
+        var now=(new Date()).getTime();
+        if(now-lastTouchEnd<=300){
+            event.preventDefault();
+        }
+        lastTouchEnd=now;
+    },false)
+}
+
+1、混合开发总结点：5 + APP
+   （1）混合开发的一些效果要在真机或模拟器上才能查看。像创建的子页面。
+   （2）侧向滑动的页面，不能添加子页面。
+   （3）双webview模式的上拉加载和下拉刷新，对DOM结构有固定的要求见文档。否则，会出现子页面滑动遮盖主页面的标题栏问题。
+
+2、小程序开发总结：
+
+   （1）wx.navigate跳转时，通过在路径的后面拼接参数的方式实现页面之间的传值。
+   （2）onLauch的生命周期函数中获取路由传递的参数。
+   （3）表单输入框的事件，通过e.detail.value取值。
+
+3、react技术点总结
+
+   （1）生命周期的执行顺序：willMount(可以在这里改变state的里的数据，不会引起二次渲染这也是他跟didmount的区别之一)---render---didMount
+   （2）函数的参数，e事件对象这个形参验放到最后。
+   （3）有些场景下，当改变状态的时候，并不希望它实时的更新页面的显示。例如表单输入完成时采取更新，输入过程中的数据是不希望更新页面的变化，这时可以用非受控组件
+
+4、layUI前端框架总结
+
+   （1）layUI自带jQuery,无需单独引入jquery。否则，会因冲突报错。
+
+   （2）
+
+5、window.open 在回调中会被谷歌浏览器拦截 有几种办法:ajax请求改成同步的
+
+6、JS中height、clientHeight、scrollHeight、offsetHeight区别         https://blog.csdn.net/sdta25196/article/details/78986618
+
+7、MUI+H5plus+HBuilder开发app（android，ios）介绍                   https://blog.csdn.net/rth362147773/article/details/77124691
+
+
