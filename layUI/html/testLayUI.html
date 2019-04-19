@@ -90,10 +90,10 @@
                 var data = res.data
                 var str = ''
                 for (var i = 0; i < data.length; i++) {
-                    str += '<div class="layui-colla-item">' +
-                        '<h2 class="layui-colla-title">' + data[i].title + '</h2>' +
-                        '<div class="layui-colla-content layui-show">' + data[i].content + '</div>' +
-                        '</div>'
+                    str +=  '<div class="layui-colla-item">' +
+                            '<h2 class="layui-colla-title">' + data[i].title + '</h2>' +
+                            '<div class="layui-colla-content layui-show">' + data[i].content + '</div>' +
+                            '</div>'
                 }
                 $('.layui-collapse').html(str);
                 layui.use('element', function () {

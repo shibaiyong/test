@@ -3,7 +3,7 @@
 function ShowToast(options){
     this.elem = options.elem;
     this.content = options.content;
-    this.title = options.title
+    this.title = options.title;
     this.comfirmButton = options.comfirmText;
     this.cancelButton = options.cancelText;
 }

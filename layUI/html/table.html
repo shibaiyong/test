@@ -22,12 +22,12 @@
     layui.use(['table', 'jquery'], function (table, jquery) {
         table.render({
             elem: '#demo',
-            limits:[5,10],
+            limits: [5, 10],
             page: {
-                limit:5
+                limit: 5
             }, //开启分页
-            height:272,
-            width:460,
+            height: 272,
+            width: 500,
             cols: [[ //表头
                 { field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' }
                 , { field: 'name', title: '用户名', width: 80 }
@@ -50,7 +50,9 @@
                 { "id": "12", "name": "鲁迅", "age": "32", "city": "北京", "wealth": "21332" },
                 { "id": "13", "name": "杜甫", "age": "12", "city": "北京", "wealth": "21332" },
                 { "id": "14", "name": "李清照", "age": "34", "city": "北京", "wealth": "21332" },
-                { "id": "15", "name": "鲁迅", "age": "32", "city": "北京", "wealth": "21332" }
+                { "id": "15", "name": "鲁迅", "age": "32", "city": "北京", "wealth": "21332" },
+                { "id": "16", "name": "李清照", "age": "34", "city": "北京", "wealth": "21332" },
+                { "id": "17", "name": "鲁迅", "age": "32", "city": "北京", "wealth": "21332" }
             ]
         });
     });

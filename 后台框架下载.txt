@@ -60,6 +60,8 @@ dataTable 参数说明                               	https://www.cnblogs.com/hyywaq
 
 dataTable 给服务器的参数说明                            http://net08118.blog.163.com/blog/static/11011170420144753828272/
 
+datatables——数据的服务器端处理                        https://blog.csdn.net/zhuyunhe/article/details/49273301
+
 auxre 注册码:                                           https://www.jianshu.com/p/db2a506e8f1c
 
 ajax全局拦截                                            https://github.com/wendux/Ajax-hook

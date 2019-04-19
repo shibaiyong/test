@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>dataTable</title>
   <link rel="stylesheet" href="resource/dataTable.css" />
+  <!-- <link rel="stylesheet" href="http://cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.css" /> -->
   <style>
     
     .dom{
@@ -32,30 +33,22 @@
   </style>
 </head>
 <body>
-  <table id="table_id_example" class="display">
-    <thead>
-      <tr>
-        <th>Column 1</th>
-        <th>Column 2</th>
-        <th>Column 3</th>
-        <th>Column 4</th>
-        <th>Column 5</th>
-        <th>Column 6</th>
-      </tr> 
-    </thead>
+  <table id="table_id_example" class="display table">
+    
   </table>
 
 </body>
 </html>
 <script src="resource/jquery3.3.1.min.js"></script>
 <script src="resource/dataTable.js"></script>
+<!-- <script src="http://cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script> -->
 <script>
  var a=0;
   $(document).ready( function () {
     //修改默认配置。
     $.extend( $.fn.dataTable.defaults, {
-      //searching: false,
-      //ordering:  false
+      searching: true,
+      ordering:  true
     } );
     var dataTable = $('#table_id_example').DataTable({
       ajax:{
@@ -76,8 +69,8 @@
           sSearch: "模糊查询:  ",
           oPaginate: {
               "sFirst": "首页",
-              "sPrevious": "前一页",
-              "sNext": "后一页",
+              "sPrevious": "<",
+              "sNext": ">",
               "sLast": "尾页"
           }
         },
@@ -88,12 +81,12 @@
           //$('td:eq(3)', row).html( '<input type="date"/>')
       },
       columns:[
-        {data: "name", bSortable: false},
-        {data: "position"},
-        {data: "salary"},
-        {data: "start_date"},
-        {data: "office", bSortable: false},
-        {data: "extn", bSortable: false}
+        {data: "name", title:'Column 1', bSortable: false},
+        {data: "position", title:'Column 2',bSortable: true},
+        {data: "salary", title:'Column 3',bSortable: true},
+        {data: "start_date",title:'Column 4',bSortable: true},
+        {data: "office", title:'Column 5',bSortable: true},
+        {data: "extn", title:'Column 6',bSortable: true}
       ],
       "aoColumnDefs":[
         {//倒数第一列
@@ -125,6 +118,6 @@
   })
 
 
-  dataTable.page.len( 20 ).draw();//控制当前页显示条数。
+  dataTable.page.len( 5 ).draw();//控制当前页显示条数。
 } );
 </script>

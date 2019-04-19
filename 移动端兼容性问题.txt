@@ -92,4 +92,22 @@ window.onload=function () {
 
 7、MUI+H5plus+HBuilder开发app（android，ios）介绍                   https://blog.csdn.net/rth362147773/article/details/77124691
 
+8、chrome浏览器中，输入框显示之前的输入记录。
 
+	解决办法：给form，或者是input 加autocomplete="off"属性；
+
+9、移动端a标签点击时出现背景颜色
+
+	解决办法：.credit-card-item a:active{
+                      -webkit-tap-highlight-color:rgba(0,0,0,0);
+                      -webkit-tap-highlight-color: transparent;
+                      outline:none;
+                      background: none;
+                      text-decoration: none;
+                   }
+10、margin-top加载了父元素上
+
+       解决办法：.info-list::after{
+                     content:'';
+                     display: table;
+                 }
