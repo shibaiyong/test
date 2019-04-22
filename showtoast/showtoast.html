@@ -5,9 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./bootstrap.min.css">
     <script src='https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js'></script>
     <style>
-        .showtoast,.showtoast1{
+
+        .showtoastcontainer{
+            position: fixed;
+            top:0;left:0;bottom:0;right: 0;
+            background:rgba(0,0,0,0.5);
+            display:flex;
+            flex-direction: column;
+            justify-content:center;
+            align-items: center;
+        }
+        .showtoast{
+            width:350px;
+            box-shadow: 0 0 10px #ddd;
+            text-align: center;
+            background:white;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .showtoast1{
             display: none;
             position: fixed;
             width:300px;
@@ -21,26 +40,36 @@
         
         .showtoast .showtoastcontent{
             display: inline-block;
-            text-align: left;
-            height: 120px;
+            text-align: center;
             word-break: break-all;
             padding: 10px;
             box-sizing: border-box;
-            margin: 0;
+            margin: 20px 0;
+        }
+        .showtoast .showtoastcontent span{
+            display: inline-block;
+            margin-top:10px;
         }
         .showtoast_footer{
-            height:40px;
-            text-align: right;
+            text-align: center;
             border-top: 1px solid #eee;
-            line-height: 40px;
-            padding-right: 10px;
-            box-sizing: border-box;
+            box-sizing: border-box
+        }
+        .showtoast_footer .confirm{
+            display:inline-block;
+            width:60%;
+            margin:20px 0;
         }
         .toast_title{
-            text-align: center;
+            text-align: left;
             height: 40px;
             line-height: 40px;
             border-bottom: 1px solid #eee;
+            padding-left:12px;
+            background:#ebebeb;
+        }
+        .showtoastcontainer .closeicon{
+            margin-top:30px;
         }
     </style>
 </head>
@@ -50,16 +79,22 @@
 
     <button class='checkbox1'>tip</button>
 
-
-
-    <div class="showtoast">
-        <div class="toast_title">提示</div>
-        <p class="showtoastcontent">提示信息？</p>
-        <div class="showtoast_footer">
-            <button class="btn btn-danger btn-sm confirm">确认</button>
-            <button class="btn btn-default btn-sm cancel">取消</button>
+    <div class="showtoastcontainer">
+        <div class="showtoast">
+            <div class="toast_title">修改成功</div>
+            <p class="showtoastcontent">
+                <img src="./confirmicon.png"/>
+                <br/>
+                <span>密码修改成功</span>
+            </p>
+            <div class="showtoast_footer">
+                <button class="btn btn-primary confirm">完成</button>
+            </div>
         </div>
+        <div class="closeicon"><img src="./closeicon.png"/></div>
     </div>
+
+    
 
     <div class="showtoast1">
         <div class="toast_title">提示</div>
@@ -75,10 +110,9 @@
 //js各个配置项示例
 var showtoast = new ShowToast({
         elem:'.showtoast',
-        title:'我是模态框',
+        title:'修改成功',
         content:'hahahhahahahhahahahhahahjhahahhahahhahhahahahha',
-        comfirmText:'ok',
-        cancelText:'no'
+        comfirmText:'完成'
     })
 var showtip = new ShowTip({
         elem:'.showtoast1',
