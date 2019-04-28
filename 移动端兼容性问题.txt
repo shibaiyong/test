@@ -67,6 +67,16 @@ window.onload=function () {
    （1）混合开发的一些效果要在真机或模拟器上才能查看。像创建的子页面。
    （2）侧向滑动的页面，不能添加子页面。
    （3）双webview模式的上拉加载和下拉刷新，对DOM结构有固定的要求见文档。否则，会出现子页面滑动遮盖主页面的标题栏问题。
+   （4）更改下拉刷新文字位置
+        *可以解决修改下拉刷新子页面默认top值后,下拉刷新提示框位置异常问题
+
+         根据实际需求在父页面给mui-content设置top属性，目前仅支持 双 webview 模式
+
+         .mui-bar-nav ~ .mui-content .mui-pull-top-pocket{
+
+           top: 180px !important;
+
+         }
 
 2、小程序开发总结：
 
