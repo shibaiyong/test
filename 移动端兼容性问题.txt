@@ -81,8 +81,13 @@ window.onload=function () {
 2、小程序开发总结：
 
    （1）wx.navigate跳转时，通过在路径的后面拼接参数的方式实现页面之间的传值。
-   （2）onLauch的生命周期函数中获取路由传递的参数。
+   （2）onLoad的生命周期函数中获取路由传递的参数。
    （3）表单输入框的事件，通过e.detail.value取值。
+   （4）在app.js中，onlaunch生命周期是异步的，想获取里面的数据可以采用promise的形式。网上有
+   （5）在app.js中，跳转页面wx.navigateTo注意路径的写法。网上有
+   （6）本地路径的背景图片是无法显示的，必须把图片上传到服务器，使用网络地址。图片展示用本地地址没问题。
+   （7）事件触发的方法传参通过e.currentTarget.dataset获取。
+	
 
 3、react技术点总结
 
