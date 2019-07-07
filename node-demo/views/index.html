@@ -188,8 +188,9 @@
         var str2 = '';
         $('.natureWeather').html('');
         console.log(res);
-        var natureWeather=res.data.forecast;
+        
         if(res.message=='Success !'){
+            var natureWeather=res.data.forecast;
             str1=`<dl>
                 <dt><span>今天</span><span>${res.date}</span></dt>
                 <dd><span>城市:</span><span>${res.city}</span></dd>

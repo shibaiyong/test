@@ -6,6 +6,8 @@ bootswitch                                       	https://bootswatch.com/cerulea
 
 10款基于bootstrap 的后台管理框架                 	http://www.laozuo.org/5886.html
 
+vue移动端UI框架以及插件                                 https://www.jianshu.com/p/1e05c8d68407
+
 metro                                            	https://www.js-css.cn/divcss/admin/metro/index.html
 
 git 获取远程指定分支上的代码                     	https://www.cnblogs.com/phpper/p/7136048.html
@@ -61,6 +63,8 @@ https://www.ico.la/   ico图标
 dataTable 参数说明                               	https://www.cnblogs.com/hyywaq/p/5919412.html
 
 dataTable 给服务器的参数说明                            http://net08118.blog.163.com/blog/static/11011170420144753828272/
+
+datatables——数据的服务器端处理                        https://blog.csdn.net/zhuyunhe/article/details/49273301
 
 auxre 注册码:                                           https://www.jianshu.com/p/db2a506e8f1c
 

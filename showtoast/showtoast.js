@@ -3,6 +3,7 @@
 function ShowToast(options){
     this.elem = options.elem;
     this.content = options.content;
+    this.title = options.title;
     this.comfirmButton = options.comfirmText;
     this.cancelButton = options.cancelText;
 }
@@ -11,6 +12,7 @@ ShowToast.prototype={
     inite:function(callbacks){
         $(this.elem).show();
         $(this.elem).find('.showtoastcontent').text(this.content);
+        $(this.elem).find('.toast_title').text(this.title);
         $(this.elem).find('.confirm').text(this.comfirmButton);
         $(this.elem).find('.cancel').text(this.cancelButton);
         this.confirmCallback(callbacks.confirmfun);

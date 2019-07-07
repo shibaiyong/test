@@ -17,23 +17,7 @@
 	</body>
 </html>
 <script type="text/javascript">
-	// var fartherobj=(function fun(){
-	// 	var obj={
-	// 		one:'one',
-	// 		mothed:function(){
-	// 			alert('我是方法！！！')
-	// 		}
-	// 	}
-	// 	return function(){
-	// 		return obj;
-	// 	}
-	// })()
-	// var new_obj=fartherobj();
-	// new_obj.one='two';
-	// var new_obj1=fartherobj();
-	// console.log(new_obj1.one);
 	var doms = document.getElementsByClassName('num');
-
 	for(var i = 0; i < doms.length; i++){
 		(function(i){
 			doms[i].onclick = function(){
