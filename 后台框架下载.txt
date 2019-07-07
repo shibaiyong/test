@@ -20,6 +20,8 @@ Git 分支 - 分支的新建与合并（实战）              	https://git-scm.com/book/zh/v2
 
 git 生成ssh                                      	https://www.cnblogs.com/superGG1990/p/6844952.html
 
+Git命令行操作以及报错信息解决办法（持续更新中。。。）https://blog.csdn.net/zezezuiaiya/article/details/80014509
+
 DOM事件的监听                                    	https://davidwalsh.name/dom-events-javascript
 
 Unicode 字符编码百科                             	https://unicode-table.com/cn/#control-character
@@ -73,3 +75,5 @@ react中文文档                                           https://react.docschina.
 require.ensure按需加载                           https://www.cnblogs.com/fantasy-zxf/p/6760390.html
 
 vue-router 按需加载 官方推荐                           https://www.cnblogs.com/xiaochongchong/p/7772773.html
+
+redux 示例代码                                       http://cn.redux.js.org/docs/introduction/Examples.html#counter-vanilla
