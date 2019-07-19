@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          name="viewport"/>
+    <link href="Keyboard/keyboard.css" rel="stylesheet" type="text/css"/>
+    <title>H5密码控件Demo</title>
+
+    <script type="text/javascript" src="sip.min.js"></script>
+    <script type="text/javascript">
+        var RSA_PUBLIC_KEY = "30818702818100B9800F6965ECCDD3621E2DF1974FEDF8B8BFCD5ECF58155DCB279CAA8F8838480B6DFC973752CC678C2A291A799927C08CCD7CB31218DB8B3A5A675C4E83B997F7D0479C3692DD53D52B52C61ECEE4708B1C0F2199001DD298A52BBF5750EDED9F03CA05B19E295D84CFB1798E084458E972A506F6629C4B22509713B9C72F5F020103";
+        var RSA_PUBLIC_KEY_SIG = "0821AFBC831EA062B9BEC0F0D10EAC5CB53FF6D608DFF1783C24BB6A6A1E650EA6F98ED29DEAC94D436A122AB40514A6985E4130C2115562A9DE0896F612E85ACB9DA5CB49A30BF2653E9CA542BE4B287B5EB37CBD97B045ECD1621E90E542FBA8F394CDA8E752F7AE0F2C83F589F46B3F2121F4D010090FB898514DCB8A5F90";
+        var Random = "0123456789012345";
+
+        window.onload = function () {
+            var myKeyBoard = ({
+                rule: {
+                    t: {//总长度
+                        min: 6,
+                        max: 16
+                    },
+                    d: {// 数字
+                        min: 0,
+                        max: 16
+                    },
+                    l: {// 小写字母
+                        min: 0,
+                        max: 16
+                    },
+                    u: {// 大写字母
+                        min: 0,
+                        max: 16
+                    },
+                    s: {// 特殊字符
+                        min: 0,
+                        max: 16
+                    }
+                },
+                keyBoards: [{
+                    name: "CompleteKeyboard",
+                    type: KEYBOARD_TYPE_COMPLETE,
+                    keyboard: null
+                }, {
+                    name: "NumberKeyboard",
+                    type: KEYBOARD_TYPE_DIGITAL,
+                    keyboard: null
+                }],
+                cacheKeyBoards: {},
+                bindEvent: function (elem, eventType, handler) {
+                    return (elem.attachEvent ? elem.attachEvent("on" + eventType, handler)
+                            : ((elem.addEventListener) ? elem.addEventListener(eventType, handler, false) : null));
+                },
+                hideAllKeybords: function () {
+                    for (var i = 0; i < this.keyBoards.length; i++) {
+                        this.keyBoards[i].keyboard.hideKeyboard();
+                    }
+                },
+                getRange: function (min, max) {
+                    return new CFCAKeyboard.Range(min, max);
+                },
+                addKeyBoard: function (inputName, type) {
+                    for (var i = 0; i < this.keyBoards.length; i++) {
+                        if (this.keyBoards[i].type != type) {
+                            continue;
+                        }
+
+                        this.keyBoards[i].keyboard.bindInputBox(inputName);
+                        if (CFCA_OK != this.keyBoards[i].keyboard.setServerRandom(Random, inputName)) {
+                            alert("SetServerRandom error");
+                        }
+                        if (CFCA_OK != this.keyBoards[i].keyboard.setPublicKey(RSA_PUBLIC_KEY, RSA_PUBLIC_KEY_SIG, inputName)) {
+                            alert("SetPublicKey error");
+                        }
+
+                        var _this = this;
+                        (function (idx) {
+                            _this.bindEvent(document.getElementById(inputName), "focus", function (event) {
+                                this.blur();
+                                _this.hideAllKeybords();
+                                _this.keyBoards[idx].keyboard.showKeyboard();
+                            });
+                        })(i);
+
+                        this.cacheKeyBoards[inputName] = this.keyBoards[i].keyboard;
+                    }
+                },
+                init: function () {
+                    for (var i = 0; i < this.keyBoards.length; i++) {
+                        if (!this.keyBoards[i].keyboard) {
+                            this.keyBoards[i].keyboard = new CFCAKeyboard(this.keyBoards[i].name, this.keyBoards[i].type);
+                            this.keyBoards[i].keyboard.hideKeyboard();
+                        }
+                    }
+                    return this;
+                }
+            }).init();
+
+            myKeyBoard.addKeyBoard("SIPBox1", KEYBOARD_TYPE_COMPLETE);
+            myKeyBoard.addKeyBoard("SIPBox2", KEYBOARD_TYPE_DIGITAL);
+
+            document.getElementById("checkPwd1").onclick = function () {
+               checkPwd("SIPBox1");
+            };
+
+            document.getElementById("checkPwd2").onclick = function () {
+                checkPwd("SIPBox2");
+            };
+
+            function checkPwd(inputName) {
+                var keyboard = myKeyBoard.cacheKeyBoards[inputName];
+
+                var t = myKeyBoard.getRange(myKeyBoard.rule.t.min, myKeyBoard.rule.t.max);
+                var d = myKeyBoard.getRange(myKeyBoard.rule.d.min, myKeyBoard.rule.d.max);
+                var l = myKeyBoard.getRange(myKeyBoard.rule.l.min, myKeyBoard.rule.l.max);
+                var u = myKeyBoard.getRange(myKeyBoard.rule.u.min, myKeyBoard.rule.u.max);
+                var s = myKeyBoard.getRange(myKeyBoard.rule.s.min, myKeyBoard.rule.s.max);
+
+                // 检查输入
+                var res = keyboard.checkPasswordStrength(inputName, t, d, l, u, s);
+                if (res) {
+                    var encryptedInputValue = keyboard.getEncryptedInputValue(inputName);
+                    var errorCode = keyboard.getErrorCode(inputName).toString(16);
+                    if (errorCode != CFCA_OK) {
+                        alert("加密输入数据错误: 0x" + errorCode + "\n");
+                    } else {
+                        alert("加密输入数据: " + encryptedInputValue + "\n");
+                        console.log(encryptedInputValue);
+                    }
+                } else {
+                    alert("密码不符合规范");
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<div>
+    <div>
+        <input type="text" id="SIPBox1" name="SIPBox1" value="" readonly="true"/>
+        <button id="checkPwd1">查看密码</button>
+    </div>
+    <br/>
+    <div>
+        <input type="text" id="SIPBox2" name="SIPBox2" value="" readonly="true"/>
+        <button id="checkPwd2">查看密码</button>
+    </div>
+</div>
+
+
+<div id="CompleteKeyboard"></div>
+<div id="NumberKeyboard"></div>
+</body>
+</html>

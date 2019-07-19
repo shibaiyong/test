@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<HTML>
+ <HEAD>
+ <meta charset="utf-8" />
+ <title>HTML5 SIP DEMO(CMBC) </title>
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+
+<link href="Keyboard/keyboard.css" rel="stylesheet" type="text/css"/>
+     <style>
+         body, html {
+             -webkit-user-select: none;
+             -moz-user-select: none;
+             -ms-user-select: none;
+             user-select: none;
+         }
+     </style>
+<SCRIPT>
+function log(msg) {
+    var p = document.getElementById("log");
+    var tmp = "";
+    for(var i = 0; i < msg.length; i += 30) {
+        tmp += msg.substr(i, 30) + "\n";
+    }
+    p.innerHTML = tmp + p.innerHTML;
+}
+</SCRIPT>
+<script type="text/javascript" src="sip.min.js"></script>
+
+<SCRIPT>
+    var completeKeyboard = null;
+    var numberKeyboard = null;  
+
+    var RSA_PUBLIC_KEY = "30818702818100B9800F6965ECCDD3621E2DF1974FEDF8B8BFCD5ECF58155DCB279CAA8F8838480B6DFC973752CC678C2A291A799927C08CCD7CB31218DB8B3A5A675C4E83B997F7D0479C3692DD53D52B52C61ECEE4708B1C0F2199001DD298A52BBF5750EDED9F03CA05B19E295D84CFB1798E084458E972A506F6629C4B22509713B9C72F5F020103";
+    // 用于解密
+    //var RSA_PUBLIC_KEY =   "30818902818100AC681DBF90C8C2DE37EECB315B43058A6A5C7DCF40E21AE492DCC48C1AD3506EC07F71DB23074D3B8F44139D731A79874B82F6BCB4D7CD1D9AE21921B156759A4D37467E54B5CC60818A5F65F9567FBFC2AACB1FD5F36CE8CF2217FAAEF41550F355B7B9D99874CBEA525C223C5F0A4D2736E83514301D96E5A9B7C912CB65E30203010001"
+    var RSA_PUBLIC_KEY_SIG = "0821AFBC831EA062B9BEC0F0D10EAC5CB53FF6D608DFF1783C24BB6A6A1E650EA6F98ED29DEAC94D436A122AB40514A6985E4130C2115562A9DE0896F612E85ACB9DA5CB49A30BF2653E9CA542BE4B287B5EB37CBD97B045ECD1621E90E542FBA8F394CDA8E752F7AE0F2C83F589F46B3F2121F4D010090FB898514DCB8A5F90";
+
+    function doneCallback(sipBoxId) {
+        log(sipBoxId);
+    }
+    function initInput() {
+        initCompleteKeyboard();
+        initNumberKeyboard();
+        initSipBoxComplete("SIPBox1");
+        initSipBoxComplete("SIPBox2");
+        initSipBoxNum("SIPBox3");
+    }
+    function setUpEvent(elem, eventType, handler) {
+        return (elem.attachEvent ? elem.attachEvent("on" + eventType, handler)
+                : ((elem.addEventListener) ? elem.addEventListener(eventType, handler, false) : null));
+    }
+    function initCompleteKeyboard() {
+        if(completeKeyboard == null) {
+            completeKeyboard = new CFCAKeyboard("CompleteKeyboard", KEYBOARD_TYPE_COMPLETE);
+        }
+        completeKeyboard.setDoneCallback(doneCallback);
+        var serverRandom = document.getElementById("serverRandom").value;
+        // 安全控件1和2需要绑定到全键盘
+        completeKeyboard.bindInputBox("SIPBox1");
+        if(CFCA_OK != completeKeyboard.setServerRandom(serverRandom, "SIPBox1")) alert("setServerRandom error");
+        if(CFCA_OK != completeKeyboard.setPublicKey(RSA_PUBLIC_KEY, RSA_PUBLIC_KEY_SIG, "SIPBox1")) alert("setPublicKey error");
+        completeKeyboard.bindInputBox("SIPBox2");
+        if(CFCA_OK != completeKeyboard.setServerRandom(serverRandom, "SIPBox2")) alert("setServerRandom error");
+        if(CFCA_OK != completeKeyboard.setPublicKey(RSA_PUBLIC_KEY, RSA_PUBLIC_KEY_SIG, "SIPBox2")) alert("setPublicKey error");
+        completeKeyboard.hideKeyboard();
+    }
+    function initNumberKeyboard() {
+        if(numberKeyboard == null) {
+            numberKeyboard = new CFCAKeyboard("NumberKeyboard", KEYBOARD_TYPE_DIGITAL);
+        }
+        var x = document.getElementById("SIPBox3");
+        numberKeyboard.bindInputBox(x || "SIPBox3");
+        numberKeyboard.hideKeyboard();
+        var serverRandom = document.getElementById("serverRandom").value;
+        if(CFCA_OK != numberKeyboard.setServerRandom(serverRandom)) alert("setServerRandom error");
+        if(CFCA_OK != numberKeyboard.setPublicKey(RSA_PUBLIC_KEY, RSA_PUBLIC_KEY_SIG, "SIPBox3")) alert("setPublicKey error");
+    }
+    function initSipBoxComplete(sipboxId) {
+        var sipBox1 = document.getElementById(sipboxId);
+        setUpEvent(sipBox1, "focus",function(event) {
+                sipBox1.blur();
+                completeKeyboard.bindInputBox(sipboxId);
+                numberKeyboard.hideKeyboard();
+                completeKeyboard.showKeyboard();
+        });
+    }
+    function initSipBoxNum(sipboxId) {
+        var sipBox2 = document.getElementById(sipboxId);
+        setUpEvent(sipBox2, "focus",function(event) {
+                sipBox2.blur();
+                numberKeyboard.bindInputBox(sipboxId);
+                completeKeyboard.hideKeyboard();
+                numberKeyboard.showKeyboard();
+        });
+    }
+    function getKeyboard(sipboxId) {
+        if(sipboxId !== "SIPBox3") {
+            return completeKeyboard;
+        }
+        else{
+            return numberKeyboard;
+        }
+    }
+    function setProperty(sipboxId) {
+        var keyboard = getKeyboard(sipboxId);
+        var minLength = parseInt(document.getElementById("minLength").value);
+        var maxLength = parseInt(document.getElementById("maxLength").value);
+        var serverRandom = document.getElementById("serverRandom").value;
+        var inputRegex = document.getElementById("inputRegex").value;
+        if(CFCA_OK != keyboard.setMinLength(minLength, sipboxId)) alert("setMinLength error");
+        if(CFCA_OK != keyboard.setMaxLength(maxLength, sipboxId)) alert("setMaxLength error");
+        if(CFCA_OK != keyboard.setServerRandom(serverRandom, sipboxId)) alert("setServerRandom error");
+        if(CFCA_OK != keyboard.setInputRegex(inputRegex, sipboxId)) alert("setInputRegex error");
+    }
+    function updateServerRandom(sipboxId) {
+        var keyboard = getKeyboard(sipboxId);
+        var serverRandom = document.getElementById("serverRandom").value;
+        keyboard.clearInputValue(sipboxId);
+        if(CFCA_OK != keyboard.setServerRandom(serverRandom, sipboxId)) alert("setServerRandom error");
+        //if(CFCA_OK != initSIPEncryptor(sipboxId)) alert("initSIPEncryptor error");
+    }
+    function getRange(strength, t) {
+        if(t == -1) { return null;}
+        var middle = strength.indexOf('-', t);
+        var end = strength.indexOf(')', t);
+        return new CFCAKeyboard.Range(
+                parseInt(strength.substring(t + 2, middle), 10),
+                parseInt(strength.substring(middle+1, end), 10) );
+    }
+    function checkStrength(sipboxId) {
+        var keyboard = getKeyboard(sipboxId);
+        var strength = document.getElementById("strength").value;
+        if(strength.length == 0) {
+            alert("请输入密码强度规则");
+            return;
+        }
+        strength = strength.toLowerCase();
+        var t, d, l, u, s;
+        var rt, rd, rl, ru, rs;
+        t = strength.indexOf('t(');
+        rt = getRange(strength, t);
+        if(rt) {
+            log("总长度范围:" + rt.getMin() + "-" + rt.getMax());
+        } else {
+            log("不检测总长度");
+        }
+        d = strength.indexOf('d(');
+        rd = getRange(strength, d);
+        if(rd) {
+            log("数字范围:" + rd.getMin() + "-" + rd.getMax());
+        } else {
+            log("不检测数字");
+        }
+        l = strength.indexOf('l(');
+        rl = getRange(strength, l);
+        if(rl) {
+            log("小写字母范围:" + rl.getMin() + "-" + rl.getMax());
+        } else {
+            log("不检测小写字母");
+        }
+        u = strength.indexOf('u(');
+        ru = getRange(strength, u);
+        if(ru) {
+            log("大写字母范围:" + ru.getMin() + "-" + ru.getMax());
+        } else {
+            log("不检测大写字母");
+        }
+        s = strength.indexOf('s(');
+        rs = getRange(strength, s);
+        if(rs) {
+            log("特殊字符范围:" + rs.getMin() + "-" + rs.getMax());
+        } else {
+            log("不检测特殊字符");
+        }
+        log(sipboxId + "是否在指定范围中:" + keyboard.checkPasswordStrength(sipboxId, rt, rd, rl, ru, rs));
+    }
+    function clearInput(sipboxId) {
+        var keyboard = getKeyboard(sipboxId);
+        keyboard.clearInputValue(sipboxId);
+    }
+    function getEncrypt(sipboxId) {
+        var keyboard = getKeyboard(sipboxId);
+        var resultTextarea = document.getElementById("encryptedResult");
+        resultTextarea.value = "";
+        var encryptedInputValue = keyboard.getEncryptedInputValue(sipboxId);
+        var errorCode = keyboard.getErrorCode(sipboxId).toString(16);
+        if(errorCode != CFCA_OK) {
+            resultTextarea.value += "加密输入数据错误: 0x" + errorCode + "\n";
+            return;
+        } else{
+            resultTextarea.value += "加密输入数据: " + encryptedInputValue + "\n";
+        }
+    }
+    function getVersion() {alert("Version: " + getCFCAKeyboardVersion()); }
+	window.onload=initInput;
+	mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent);
+	setUpEvent(document, mobile ? "touchstart" : "mousedown", function(e) {
+        var elem = e.srcElement || e.target;
+        var noNeedHideIds = ["CompleteKeyboard", "NumberKeyboard",
+            "SIPBox1", "SIPBox2", "SIPBox3",
+            "clearSIPBox1", "clearSIPBox2", "clearSIPBox3",
+            "getSIPBox1Value", "getSIPBox2Value", "getSIPBox3Value",
+            "checkInputValueMatch", "getVersion"
+        ];
+        while(elem) {
+            if(noNeedHideIds.indexOf(elem.id) !== -1) {
+                return;
+            }
+            elem = elem.parentNode;
+        }
+        completeKeyboard.hideKeyboard();
+        numberKeyboard.hideKeyboard();
+    });
+</SCRIPT>
+</HEAD>
+
+<body id="mobile" style="margin:0; padding:0;">
+<div id="pagewrap" data-role="page" data-theme="b">
+	<h4>JavaScript SIP Demo</h4>
+	<h3>公共属性</h3>
+	<div id = "publicProperties" data-mini="true">
+    <table border="0" cellspacing="0">
+        <tr>
+            <td colspan="1" height="30">MinLength:</td>
+            <td colspan="1" height="30">
+                <input id="minLength" name="minLength" value="6" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" height="30">Maxlength:</td>
+            <td colspan="1" height="30">
+                <input id="maxLength"  name="maxLength" value="8" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" height="30">InputRegex:</td>
+            <td colspan="1" height="30">
+            	<!-- BOC regex
+            	^[A-Za-z0-9\!\@\#\$\%\^\&\*\_]*([0-9]+[A-Za-z0-9\!\@\#\$\%\^\&\*\_]*[A-Za-z]+|[A-Za-z]+[A-Za-z0-9\!\@\#\$\%\^\&\*\_]*[0-9]+)[A-Za-z0-9\!\@\#\$\%\^\&\*\_]*$
+            	-->
+                <input id="inputRegex" name="inputRegex"  value="\S"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" height="30">ServerRandom:</td>
+            <td colspan="1" height="30">
+                <input id="serverRandom" name="serverRandom"  value="01234567890123456789" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="setSIPBox1Porperties" name="SIPBox1" onClick='setProperty("SIPBox1")'>应用至控件1</button>
+            </td>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="setSIPBox2Porperties" name="SIPBox2" onClick='setProperty("SIPBox2")'>应用至控件2</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="setSIPBox3Porperties" name="SIPBox2" onClick='setProperty("SIPBox3")'>应用至控件3</button>
+            </td>
+
+        </tr>
+        <tr>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="updateSIPBox1ServerRandom" name="updateSIPBox1ServerRandom" onClick='updateServerRandom("SIPBox1")'>应用服务器随机数至控件1</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="updateSIPBox2ServerRandom" name="updateSIPBox2ServerRandom" onClick='updateServerRandom("SIPBox2")'>应用服务器随机数至控件2</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="updateSIPBox3ServerRandom" name="updateSIPBox3ServerRandom" onClick='updateServerRandom("SIPBox3")'>应用服务器随机数至控件3</button>
+            </td>
+        </tr>
+    </table>
+	</div>
+<hr/>
+    <h3>密码强度检测</h3>
+    <table border="0" cellpadding="2" cellspacing="0">
+        <tr>
+            <td colspan="2" height="30">密码强度(输入框输入内容说明如下)</td>
+        </tr>
+        <tr>
+            <td colspan="2" height="15">总长度(t)6到16,数字(d),小写字母(l),</td>
+        </tr>
+        <tr>
+            <td colspan="2" height="15">大写字母(u)长度范围1到16,</td>
+        </tr>
+        <tr>
+            <td colspan="2" height="15">特殊字符(s)长度范围0到16</td>
+        </tr>
+        <tr>
+            <td colspan="2" height="30">
+                <input type="text" id="strength" name="strength" value="t(6-16)d(1-16)l(1-16)u(1-16)s(0-16)" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="checkStrength1" name="checkStrength1" onClick='checkStrength("SIPBox1")'>检测控件1</button>
+            </td>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="checkStrength2" name="checkStrength2" onClick='checkStrength("SIPBox2")'>检测控件2</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="checkStrength3" name="checkStrength3" onClick='checkStrength("SIPBox3")'>检测控件3</button>
+            </td>
+        </tr>
+    </table>
+    <hr/>
+<h3>安全控件</h3>
+	<div id="SIPBox" >
+    <table border="0" cellpadding="2" cellspacing="0">
+        <tr>
+            <td colspan="2" height="30">安全控件1</td>
+		</tr>
+		<tr>
+            <td colspan="1" height="30">
+                <input type="text" id="SIPBox1" name="SIPBox1"  value="" readonly="true" />
+            </td>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="clearSIPBox1" name="SIPBox1" onClick = 'clearInput("SIPBox1")'>清空</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="30">安全控件2</td>
+		</tr>
+		<tr>
+            <td colspan="1" height="30">
+                <input type="text" id="SIPBox2" name="SIPBox2"  value="" readonly="true" />
+            </td>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="clearSIPBox2" name="SIPBox2" onClick = 'clearInput("SIPBox2")'>清空</button>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" height="30">
+                <button data-mini="true" id="getSIPBox1Value" name="SIPBox1" onClick = 'getEncrypt("SIPBox1")' >获取控件1结果</button>
+            </td>
+        </tr>
+		<tr>
+            <td colspan="2" height="30">
+                <button data-mini="true" id="getSIPBox2Value" name="SIPBox2" onClick = 'getEncrypt("SIPBox2")'>获取控件2结果</button>
+            </td>
+        </tr>
+		<tr>
+            <td colspan="2" height="30">
+                <button data-mini="true" id="getSIPBox3Value" name="SIPBox3" onClick = 'getEncrypt("SIPBox3")'>获取控件3结果</button>
+            </td>
+        </tr>
+        <tr><td colspan="2">加密结果:</td></tr>
+        <tr>
+            <td colspan="2">
+                <textarea id="encryptedResult" name="encryptedResult" cols="30" rows="30"></textarea>
+            </td>
+        </tr>
+        <tr>
+        	<td colspan="2">
+                log: <pre id="log" style="border: 1px solid #ccc;height:100px;overflow: scroll;"></pre>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="30">安全控件3</td>
+		</tr>
+		<tr>
+            <td colspan="1" height="30">
+                <input type="text" id="SIPBox3" name="SIPBox3"  value="" readonly="true"/>
+            </td>
+            <td colspan="1" height="30">
+                <button data-mini="true" id="clearSIPBox3" name="SIPBox3" onClick = 'clearInput("SIPBox3")'>清空</button>
+            </td>
+        </tr>
+    </table>
+	</div>
+<hr/>
+<h3>公共接口</h3>
+	<div id="wrap">
+    <table border="0" cellpadding="2" cellspacing="0">
+        <tr>
+            <td colspan="1" height="30">
+                <button type="button" data-mini="true" id="getVersion" onClick = 'getVersion()'>获取版本号</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</div>
+<DIV id="CompleteKeyboard"></DIV>
+<DIV id="NumberKeyboard"></DIV>
+</body>
+</html>
