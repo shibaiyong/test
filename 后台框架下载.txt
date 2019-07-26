@@ -74,6 +74,10 @@ react中文文档                                           https://react.docschina.
 
 移动端rem适配                                           https://www.jianshu.com/p/8300a5ec6480
 
-require.ensure按需加载                           https://www.cnblogs.com/fantasy-zxf/p/6760390.html
+require.ensure按需加载                                https://www.cnblogs.com/fantasy-zxf/p/6760390.html
 
-vue-router 按需加载 官方推荐                           https://www.cnblogs.com/xiaochongchong/p/7772773.html
+vue-router 按需加载 官方推荐                            https://www.cnblogs.com/xiaochongchong/p/7772773.html
+
+JS中数据类型的判断                                      https://blog.csdn.net/zjy_android_blog/article/details/81023177
+
+for in 和 for of的区别                                 https://www.jianshu.com/p/15859385eb24
