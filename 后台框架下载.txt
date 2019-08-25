@@ -80,8 +80,8 @@ require.ensure按需加载                                https://www.cnblogs.com/fa
 
 vue-router 按需加载 官方推荐                           https://www.cnblogs.com/xiaochongchong/p/7772773.html
 
-redux 示例代码                                      http://cn.redux.js.org/docs/introduction/Examples.html#counter-vanilla
-
 JS中数据类型的判断                                      https://blog.csdn.net/zjy_android_blog/article/details/81023177
 
 for in 和 for of的区别                                 https://www.jianshu.com/p/15859385eb24
+
+redux 示例代码                                      http://cn.redux.js.org/docs/introduction/Examples.html#counter-vanilla
