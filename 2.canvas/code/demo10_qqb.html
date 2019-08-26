@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+		:root{
+			background: #333;
+		}
+		canvas{
+			display: block;
+			margin: 0 auto;
+		}
+	</style>
+	<body>
+		<canvas id="can" width="" height=""></canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('can');
+		canvas.width=500;
+		canvas.height=500;
+		canvas.style.background='#ccc';	
+		var ctx=canvas.getContext('2d');
+		
+		var pArr=[
+			{ps:[{x:0,y:0},{x:0,y:500},{x:250,y:250}],color:'blue'},
+			{ps:[{x:0,y:0},{x:500,y:0},{x:250,y:250}],color:'red'},
+			{ps:[{x:500,y:0},{x:500,y:250},{x:375,y:375},{x:375,y:125}],color:'pink'},
+			{ps:[{x:250,y:250},{x:375,y:375},{x:375,y:125}],color:'gold'},
+			{ps:[{x:250,y:250},{x:375,y:375},{x:250,y:500},{x:125,y:375}],color:'green'},
+			{ps:[{x:250,y:500},{x:125,y:375},{x:0,y:500}],color:'yellow'},
+			{ps:[{x:250,y:500},{x:500,y:250},{x:500,y:500}],color:'orange'}
+		]
+		
+		//一点一点解析
+		
+		//先绘制一个图形
+		//如果绘制的时候没有moveTo，会将第一个lineTo当做moveTo
+		
+		
+		a()
+		
+		function a(){
+			for(var i =0;i<7;i++){
+				safeDraw(function(){
+					b(i)
+				})				
+			}
+		}
+		
+		function b(i){
+			var len=pArr[i].ps.length;
+			for(var j=0;j<len;j++){
+				ctx.lineTo(pArr[i].ps[j].x,pArr[i].ps[j].y)
+			}
+			ctx.fillStyle=pArr[i].color
+			ctx.fill()
+		}
+		
+		
+		
+		
+//		ctx.fillStyle='red'
+//		ctx.fillRect(0,0,100,100)
+//		
+//
+//		ctx.fillRect(100,100,100,100)
+		
+		
+		function safeDraw(callback){
+			ctx.save();
+			ctx.beginPath();
+			callback()
+			ctx.closePath();
+			ctx.restore()
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		function safe(fn){
+			ctx.save();
+			ctx.beginPath();
+			
+			fn();
+			
+			ctx.closePath();
+			ctx.restore();
+		}
+		
+		
+		
+
+	</script>
+	
+</html>

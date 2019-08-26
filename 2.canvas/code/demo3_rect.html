@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+				<div class="panel-body">
+					<p>canvas通过一些方法绘制出来的路径，需要填充或者描边才能看见</p>
+					<p>fill是填充，stroke是描边</p>
+					<p>通过fillStyle和strokeStyle去设置画笔颜色</p>
+					<p>它们的值是一个颜色值的字符串，可以是关键字，也可以是十六进制、rgb、rgba都可以</p>
+					<p>绘制矩形的方法：</p>
+					<p>
+						1.
+						<pre>
+@params x   起始点(左上)的x坐标
+@params y   起始点(左上)的y坐标
+@params w   矩形的宽
+@params h   矩形的高
+ctx.rect(x,y,w,h);
+ctx.fillStyle="rgba(255,0,0,0.5)"
+ctx.fill();
+						</pre>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body">
+					<canvas id="mycanvas" width="400" height="400"></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('mycanvas');
+		var ctx=canvas.getContext('2d');
+		
+		//绘制出来的是路径
+		ctx.rect(100,100,100,100)
+		
+		//颜色值可以是：关键字、#..、rgb、rgba
+		
+		ctx.fillStyle="red"
+		ctx.fill()
+		
+		
+		ctx.strokeStyle='green'
+		ctx.stroke()
+		
+		
+
+
+	</script>
+	
+</html>

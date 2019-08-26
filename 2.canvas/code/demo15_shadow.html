@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		:root{
+			background: #333;
+		}
+		canvas{
+			display: block;
+			margin: 0 auto;
+			background: #fff;
+		}
+		h4{
+			text-align: center;
+			color: #fff;
+		}
+		button{
+			display: block;
+			margin: 0 auto;
+		}
+	</style>
+	<body>
+		<canvas id="can" width="" height=""></canvas>
+		
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('can');
+		canvas.width=500;
+		canvas.height=500;
+	
+		var ctx=canvas.getContext('2d');
+		
+		//绘制阴影
+		//ctx.shadowOffsetX = "50";   阴影x轴偏移量
+		//ctx.shadowOffsetY = "5";		y轴的偏移量
+		//ctx.shadowBlur = "5";			模糊半径
+		//ctx.shadowColor = "red";		阴影颜色
+		
+		safe(function(){
+			
+			ctx.shadowOffsetX="50"
+			ctx.shadowOffsetY="50"
+			ctx.shadowBlur="15"
+			ctx.shadowColor="red"
+			
+			ctx.fillRect(100,100,150,150)
+		})
+		
+		
+		
+		
+		
+		
+		function safe(fn){
+			ctx.save();
+			ctx.beginPath();
+			
+			fn();
+			
+			ctx.closePath();
+			ctx.restore();
+		}
+		
+		
+		
+
+	</script>
+	
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="mycanvas" ></canvas>
+		<script>
+			//canvas标签及画笔
+			var canvas=document.getElementById('mycanvas');
+			var ctx=canvas.getContext('2d');
+			//宽高
+			var w=500;
+			var h=500;
+			canvas.width=w;
+			canvas.height=h;
+			//数据
+			var data=[
+				{year:2001,money:10},
+				{year:2002,money:18},
+				{year:2003,money:22},
+				{year:2004,money:45},
+				{year:2005,money:33},
+				{year:2006,money:70},
+				{year:2007,money:66},
+				{year:2008,money:58},
+				{year:2009,money:92}
+			]
+			
+			//绘图
+			
+			draw();
+			
+			function draw(){
+				drawFramwork();
+				xMark();
+				yMark();
+				drawData();
+			}
+			
+			//框架 绘制x轴和y轴
+			function drawFramwork(){	
+				var distance=50;
+				ctx.beginPath();
+				ctx.moveTo(distance,h-distance);
+				ctx.lineTo(w-distance,h-distance);
+				ctx.stroke();
+				
+				ctx.beginPath();
+				ctx.moveTo(distance,h-distance);
+				ctx.lineTo(distance,distance-20);
+				ctx.stroke();			
+			}
+			//绘制x轴的文字
+			function xMark(){
+				var begin=50;
+				var end=450;
+				var dis=(end-begin)/data.length;
+				for (var i=0;i<data.length;i++) {
+					ctx.font="normal 12px 微软雅黑";//顺序不能改
+					ctx.fillStyle = "#333";
+					ctx.textBaseline = "center";
+					ctx.textAlign = "left";
+					ctx.fillText(data[i].year,60+(dis*i),h-30);
+				}			
+			}
+			//绘制y轴的节点和文字
+			function yMark(){
+				var begin=50;
+				var end=450;
+				var dis=(end-begin)/10;
+				for (var i=1;i<11;i++) {
+					ctx.beginPath();
+					ctx.moveTo(50,h-(dis*i)-50);
+					ctx.lineTo(48,h-(dis*i)-50);
+					ctx.stroke();
+					ctx.font="normal 12px 微软雅黑";//顺序不能改
+					ctx.fillStyle = "#333";
+					ctx.textBaseline = "middle";
+					ctx.textAlign = "left";
+					if(i>9){
+						ctx.fillText(i*10,25,h-(dis*i)-50);							
+					}else{
+						ctx.fillText(i*10,30,h-(dis*i)-50);
+					}
+
+				}			
+				
+			}
+			//画数据矩形
+			function drawData(){
+				var dis=400/data.length;
+				var start=50;
+				for (var i=0;i<data.length;i++) {
+					ctx.fillStyle=getColor();
+					ctx.fillRect(50+(dis*i)+8,450-(data[i].money*4),30,data[i].money*4)							
+					ctx.font="normal 12px 微软雅黑";//顺序不能改
+					ctx.textBaseline = "bottom";
+					ctx.textAlign = "left";
+					ctx.fillText(data[i].money,50+(dis*i)+15,450-(data[i].money*4));
+				}
+
+			}
+			//获取随机颜色
+			function getColor(){
+				
+				var num1=Math.floor(Math.random()*255)
+				var num2=Math.floor(Math.random()*255)
+				var num3=Math.floor(Math.random()*255)
+				return "rgb("+num1+","+num2+","+num3+")"
+			}
+			
+		</script>
+	</body>
+</html>

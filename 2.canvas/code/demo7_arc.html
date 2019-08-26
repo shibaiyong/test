@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+				<div class="panel-body">
+					
+					<p>画弧的时候是不闭合的，填充会首尾相连..，但是注意，这个时候会和其他的影响</p>
+					<p>最好在绘制路径前后加上beginPath和closePath</p>
+					<p>画园或弧的方法“：</p>
+					
+					<p>
+						<pre>
+@params x,y 圆心的位置
+@params r 圆的半径
+@params start,end 起始弧度和结束弧度
+@params isAnitic 是否是逆时针 默认是false		
+ctx.arc(x,y,r,start,end,isAnitic)
+						</pre>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body">
+					<canvas id="mycanvas" width="" height=""></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('mycanvas');
+		canvas.width=300;
+		canvas.height=300;
+		canvas.style.background='#f5f5f5';
+	
+		var ctx=canvas.getContext('2d');	
+		var pi=Math.PI;
+		//圆心的位置、半径、起始弧度和结束弧度，是否是逆时针（false）
+//		ctx.arc(x,y,r,start,end,boolean)
+
+//		ctx.arc(150,150,100,pi,pi*2)
+//		ctx.arc(150,150,100,0,-pi,true)
+		
+		//路径没有闭合的话，填充的时候会首尾相连   ，继续绘制路径的话也会连起来
+		ctx.beginPath();
+		ctx.arc(150,150,100,pi,pi*3/2);
+		ctx.closePath();
+		ctx.fill()
+//		ctx.stroke();
+		
+		ctx.beginPath();
+		ctx.arc(150,150,100,pi/2,0,true);
+		ctx.closePath();
+		ctx.stroke();
+		
+		//ctx.fill();
+
+	</script>
+	
+</html>

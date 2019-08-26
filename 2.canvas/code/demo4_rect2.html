@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+				<div class="panel-body">
+					<p>使用fillRect和strokeRect可以直接画出描边或填充的矩形</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body">
+					<canvas id="mycanvas" width="400" height="400"></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('mycanvas');
+		var ctx=canvas.getContext('2d');
+		
+		ctx.fillStyle='red'
+		ctx.fillRect(0,0,100,100)
+
+
+		ctx.strokeStyle='blue'
+		ctx.strokeRect(100,100,100,100)
+	</script>
+	
+</html>

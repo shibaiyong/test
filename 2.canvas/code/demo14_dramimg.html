@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+				<div class="panel-body">
+					<p>canvas可以绘制图片。drawImage方法</p>
+					<p>必须在img对象加载完成后才能绘制</p>
+					<p>
+						<pre>
+var img=new Image();
+img.src="qqb.jpg";
+img.onload=function(){
+//	ctx.drawImage(img,0,0,300,300)//将图片绘制到canvas的某一个区域
+	ctx.drawImage(img,0,0,214,213,0,0,300,300)//将图片的某一个区域绘制到canvas 的某一个区域
+}
+						</pre>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body box">
+					<input type="text" name="imgurl" id="imgurl" value="qqb.jpg" />
+					<button onclick="getImg()">get</button>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		
+		var w=400;
+		var h=400;
+		
+		
+		function getImg(){
+			var canvas = $('<canvas>')[0];
+			$(".box").append($(canvas))
+			canvas.width=w;
+			canvas.height=h;
+			var ctx=canvas.getContext('2d');
+			var img=new Image();
+			img.src=$("#imgurl").val()
+			
+			img.onload=function(){
+//				ctx.drawImage(img,0,0,w,h)
+				ctx.drawImage(img,0,0,600,600,0,0,w,h)
+			}
+		}
+		
+		
+		function safe(fn){
+			ctx.save();
+			ctx.beginPath();			
+			fn();			
+			ctx.closePath();
+			ctx.restore();
+		}
+		
+		
+		
+
+	</script>
+	
+</html>

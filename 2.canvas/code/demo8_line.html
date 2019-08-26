@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+				<div class="panel-body">
+					<p>save可以保存当前的画笔设置，restore可以恢复到上一次保存的画笔设置</p>
+					<p>回调函数：A函数作为参数传入到B函数内，并且在某种特点情况下会触发，A就是回调函数</p>
+					<p>画线段的方法</p>
+					<p>
+						<pre>
+moveTo表示起点
+ctx.moveTo(x,y);
+lineTo表示的是下一个点
+ctx.lineTo(x,y);
+						</pre>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body">
+					<canvas id="mycanvas" width="" height=""></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('mycanvas');
+		canvas.width=400;
+		canvas.height=400;
+		canvas.style.background='#ccc';
+	
+		var ctx=canvas.getContext('2d');	
+		
+		
+//		ctx.moveTo(0,0)
+//		ctx.lineTo(100,100)
+//		ctx.lineTo(200,100)
+//		ctx.lineTo(200,200)
+		
+		ctx.beginPath()
+		ctx.arc(200,200,100,Math.PI,Math.PI*3/2)
+		//ctx.moveTo(0,0)
+		ctx.lineTo(200,200)
+		ctx.moveTo(0,0)
+		// ctx.lineTo(100,200)
+		ctx.closePath()
+		ctx.stroke()
+		//ctx.fill()
+		
+
+	</script>
+	
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+				<div class="panel-body">	
+					<p>lineWidth可以设置线宽</p>
+					<p>lineCap给不闭合的路径两端设置样式：butt默认无样式，round突出圆头，square突出方头</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body">
+					<canvas id="mycanvas" width="" height=""></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('mycanvas');
+		canvas.width=300;
+		canvas.height=300;
+		canvas.style.background='#ccc';
+		
+		var ctx=canvas.getContext('2d');	
+	
+		
+//		ctx.lineCap="butt";
+//		ctx.lineCap="round";//突出圆头
+//		ctx.lineCap="square";//突出方头
+
+		ctx.lineWidth=20
+
+		ctx.moveTo(100,100)
+		ctx.lineTo(200,200)
+		ctx.lineCap="round";//突出圆头
+		ctx.stroke()
+		
+
+		
+		
+
+	</script>
+	
+</html>

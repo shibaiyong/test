@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		:root{
+			background: #333;
+		}
+		canvas{
+			display: block;
+			margin: 0 auto;
+			background: #fff;
+		}
+		h4{
+			text-align: center;
+			color: #fff;
+		}
+		button{
+			display: block;
+			margin: 0 auto;
+		}
+	</style>
+	<body>
+		<button id="go">go go go</button>
+		<canvas id="can" width="" height=""></canvas>
+		
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('can');
+		canvas.width=500;
+		canvas.height=500;
+		
+		//抽象：将与需要解决的问题相关的信息提取后针对不同的情况做出不同的处理
+		
+		//动画：setInterval clearRect    函数来专门画每一张的图形，画之前先把前面的先情况
+		//绘制文字  绘制弧 绘制边
+		
+		
+		var ctx=canvas.getContext('2d');
+		
+		//为什么Math对象用的时候不用new
+		//内置 静态对象（不能new）      宿主 BOM DOM      本地 非静态对象   String Number Array...
+		
+		var pi=Math.PI;
+		var r=150;
+		var progress=0;
+		var timer;
+		document.getElementById("go").onclick=function(){
+			run(function(){
+				alert('ok')
+			})
+		}
+		
+		
+		
+		//开启进度  
+		function run(callback){
+			timer=setInterval(draw.bind(null,callback),30)
+		}	
+		
+		//画所有图形
+		function draw(callback){
+			
+			progress++;
+			if(progress>100){
+				clearInterval(timer);
+				callback()
+				return false;
+			}
+			ctx.clearRect(0,0,500,500)
+			drawCircle()
+			drawText()
+			drawHu()
+		}
+		
+		
+		//绘制圆圈的函数
+		function drawCircle(){
+			
+			safe(function(){
+				ctx.arc(250,250,r,0,pi*2);
+				ctx.stroke()
+			})
+		}
+		//根据progress绘制文字
+		function drawText(){
+			
+			safe(function(){
+				ctx.lineWidth=10;
+				ctx.fillStyle="deepskyblue"
+				ctx.font="normal 30px 微软雅黑";
+				ctx.textBaseline = "middle";// top  bottom  middle 设置垂直对齐方式
+				ctx.textAlign = "center";//设置水平对齐方式   left right center
+
+				ctx.fillText(progress+'%',250,250)
+			})
+		}
+		
+		//绘制弧
+		function drawHu(){
+			var step=pi/50;
+			safe(function(){
+				ctx.lineCap="round"
+				ctx.lineWidth=30;
+				ctx.strokeStyle="deepskyblue"
+				ctx.arc(250,250,r,-pi/2,(-pi/2+step*progress))
+				ctx.stroke()
+			})
+		}
+		
+		
+		function safe(fn){
+			ctx.save();
+			ctx.beginPath();			
+			fn();			
+			ctx.closePath();
+			ctx.restore();
+		}
+
+	</script>
+	
+</html>

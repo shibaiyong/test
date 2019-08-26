@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<link rel="stylesheet" type="text/css" href="../../base/bootstrap.min.css"/>
+	</head>
+	<body>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+					<p>canvas可以绘制文字</p>
+				<div class="panel-body">	
+					<p>
+						<pre>
+ctx.font="normal 30px 微软雅黑";//设置字体的样式，顺序不能改style,size,family
+ctx.fillStyle = "red";
+ctx.strokeStyle = "red";
+ctx.textBaseline = "top";// top  bottom  middle 设置垂直对齐方式
+ctx.textAlign = "left";//设置水平对齐方式   left right center
+ctx.fillText("哈哈H5",0,0);//（实心字）
+//ctx.strokeText("文本",x,y)（字的轮廓）;
+						</pre>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body">
+					<canvas id="mycanvas" width="" height=""></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('mycanvas');
+		canvas.width=300;
+		canvas.height=300;
+	
+		var ctx=canvas.getContext('2d');
+//		ctx.font="normal 30px 微软雅黑";//设置字体的样式，顺序不能改style,size,family
+//		ctx.fillStyle = "red";
+//		ctx.strokeStyle = "red";
+//		ctx.textBaseline = "top";// top  bottom  middle 设置垂直对齐方式
+//		ctx.textAlign = "left";//设置水平对齐方式   left right center
+//		ctx.fillText("哈哈H5",0,0);//（实心字）
+//		//ctx.strokeText("文本",x,y)（字的轮廓）;
+		
+		safe(function(){	
+			ctx.font="normal 30px 微软雅黑";
+			ctx.textBaseline = "middle";// top  bottom  middle 设置垂直对齐方式
+			ctx.textAlign = "center";//设置水平对齐方式   left right center
+			
+//			ctx.fillText("哈哈H5",150,150)
+			ctx.strokeText("哈哈H5",150,150)
+			
+		})
+		
+		
+		
+		
+		
+		
+		function safe(fn){
+			ctx.save();
+			ctx.beginPath();
+			
+			fn();
+			
+			ctx.closePath();
+			ctx.restore();
+		}
+		
+		
+		
+
+	</script>
+	
+</html>

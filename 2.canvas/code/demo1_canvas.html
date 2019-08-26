@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	</head>
+	<style>
+		canvas{
+			background: red;
+			/*height: 400px;
+			width: 400px;*/
+		}
+	</style>
+	<body>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+				<div class="panel-body">
+					
+				<p>canvas是h5新增的一个标签，双标签，默认的宽高 300*150</p>
+				<p>canvas标签是透明的</p>
+				<p>我们可以利用canvas来绘制图形图像</p>
+				<p>如何给canvas设置宽高</p>
+				<p>1.标签属性：width、height</p>
+				<p>2.*不能设置canvas标签的css样式里的宽高，这样就会将画布拉伸变形</p>
+				<p>3.在js里给canvas dom元素来设置width、height属性</p>
+				
+				
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body">
+					<canvas id="canvas"></canvas>
+				</div>
+			</div>
+		</div>
+		
+		
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('canvas')
+		canvas.width=400;
+		canvas.height=400;
+		
+		
+		var ctx=canvas.getContext('2d')
+		ctx.fillRect(10,10,100,100)
+		
+	</script>
+</html>

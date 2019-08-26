@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		
+		.clock canvas{
+			display: block;
+			margin: 0 auto;
+		}
+	</style>
+	<body>
+		<header>
+			
+		</header>
+		<section>
+			<div class="content">
+				<div id="clock"></div>
+			</div>
+			<div class="a"></div>
+		</section>
+		<footer>
+			
+		</footer>
+	</body>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script src="clock.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">	
+		
+		var clock=new Clock("#clock",{
+			size:300,
+			bgColor:'#333'
+		})
+		
+		new Clock(".a",{
+			size:200,
+			bgColor:'red'
+		})
+	</script>
+	
+</html>

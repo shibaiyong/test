@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			canvas,#ze{
+				background: #f5f5f5;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			#mycanvas{
+				z-index: 10;
+				background: rgba(0,0,0,0);
+				/*display: none;*/
+			}
+			#ze{
+				width: 300px;
+				height: 200px;
+				z-index: 100;
+				background: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="ze"></div>
+		<canvas id="mycanvas" ></canvas>
+		<canvas id="mycanvas2" ></canvas>
+		
+		<script>
+			//canvas标签及画笔
+			var canvas=document.getElementById('mycanvas');
+			var ctx=canvas.getContext('2d');
+			
+			var canvas2=document.getElementById('mycanvas2');
+			var ctx2=canvas2.getContext('2d');
+			
+			//宽高
+			var w=300;
+			var h=200;
+			canvas.width=w;
+			canvas.height=h;
+			canvas2.width=w;
+			canvas2.height=h;
+			//数据
+			
+			//绘图
+			prize();
+			draw();
+			
+			var ze=document.getElementById('ze');
+			ze.onmousedown=function(e){
+				
+				document.onmousemove=function(e){
+					var x=e.offsetX;
+					var y=e.offsetY;
+					scratch({x:x,y:y})
+				}
+				document.onmouseup=function(){
+					document.onmousemove=null;
+					document.onmouseup=null;
+				}
+				
+			}
+			
+			
+			function draw(){
+				drawBackground();
+				ctx.globalCompositeOperation='destination-out';
+			}
+			function scratch(position){
+				safe(function(){
+					ctx.fillStyle="rgba(0,0,0,1)";
+					
+					ctx.arc(position.x,position.y,10,0,Math.PI*2);
+					ctx.fill();
+				})
+			}
+			
+			function drawBackground(){
+				safe(function(){
+					ctx.fillStyle="#ccc";
+					ctx.translate(w/2,h/2);
+					ctx.fillRect(-w/2,-h/2,w,h);
+					
+				})
+			}
+			function prize(){
+				safe(function(){
+					
+					ctx2.translate(w/2,h/2);
+					ctx2.font="normal 30px 微软雅黑";//顺序不能改
+					ctx2.fillStyle = "#333";
+					ctx2.textBaseline = "middle";
+					ctx2.textAlign = "center";
+					ctx2.fillText('一等奖',0,0);
+				})
+			}
+			function safe(fn){
+				ctx.save();
+				ctx.beginPath();
+				fn()
+				ctx.closePath();
+				ctx.restore();
+			}
+		</script>
+	</body>
+</html>

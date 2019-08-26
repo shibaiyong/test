@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+				<div class="panel-body">
+					<p>注意，渐变创建的只是一个颜色</p>
+					<p>使用createLinearGradient来创建线性渐变，参数是两个点来缺点渐变的范围</p>
+					<p>通过addColorStop来给渐变添加颜色...参数第一个是0-1的数，表示这个颜色最深的地方在哪，第二个参数是颜色</p>
+					<p>使用createRadialGradient来创建径向渐变，参数是两个圆来缺点渐变的范围</p>
+					<p>通过addColorStop来给渐变添加颜色...参数第一个是0-1的数，表示这个颜色最深的地方在哪，第二个参数是颜色</p>
+					<p>渐变设置好后不会更改，它只是一个颜色，需要通过其他方式来使用</p>
+					<p><pre>
+var lg=ctx.createLinearGradient(0,0,0,300);
+lg.addColorStop(0,'red');
+lg.addColorStop(0.5,'blue');
+lg.addColorStop(1,'green');
+					</pre></p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body">
+					<canvas id="mycanvas" width="400" height="400"></canvas>
+					<canvas id="mycanvas2" width="400" height="400"></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('mycanvas');
+		var canvas2=document.getElementById('mycanvas2');
+		
+		
+		var ctx=canvas.getContext("2d");
+		var ctx2=canvas2.getContext("2d");
+		
+		//注意：这只是一个颜色,在创建的时候，颜色、范围、方向都已经创建好了
+		var lg = ctx.createLinearGradient(0,0,400,0)		
+		//0-1
+		lg.addColorStop(0,'red')
+		// lg.addColorStop(0.3,'blue')
+		// lg.addColorStop(0.6,'yellow')
+		lg.addColorStop(1,'white')
+		
+
+		ctx.fillStyle=lg
+		ctx.fillRect(0,0,200,200)
+		
+		
+//		-----------------
+
+		var rg = ctx2.createRadialGradient(200,200,0,200,200,200)
+		
+		rg.addColorStop(0,'red')
+		rg.addColorStop(0.5,'blue')
+		rg.addColorStop(1,'yellow')
+		
+		ctx2.fillStyle=rg
+		
+		ctx2.fillRect(0,0,200,200)
+	</script>
+	
+</html>

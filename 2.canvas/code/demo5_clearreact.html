@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+				<div class="panel-body">
+					<p>可以使用clearRect来清除某一区域的图形</p>
+					<p>
+						<pre>
+ctx.fillRect(0,0,300,150);
+//	@params x,y 清除矩形区域的坐标
+//	@params w,h 清除矩形区域的宽高
+ctx.clearRect(50,50,50,50)
+						</pre>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body">
+					<canvas id="mycanvas" width="400" height="400"></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('mycanvas');
+	
+		var ctx=canvas.getContext('2d');	
+		
+		
+		
+		//canvas绘制的图形都是虚拟的
+		
+		//canvas里的元素都是怎么动起来的？？
+		//canvas动画的原理，一直的画，一直的清除
+		
+		
+		ctx.fillRect(100,100,100,50)
+//		ctx.clearRect(100,100,100,100)
+		
+		
+
+//		canvas.onclick=function(e){
+//			if()
+//		}
+		
+		
+
+
+	</script>
+	
+</html>

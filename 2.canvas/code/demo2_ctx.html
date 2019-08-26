@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+				<div class="panel-body">
+					<p>在绘图的时候需要使用画笔工具，通过canvas.getContext('2d')来获取</p>
+					<p>注意：不要写成getContent</p>
+					<p>
+						<pre>
+var canvas=document.getElementById('mycanvas');
+//画笔
+var ctx=canvas.getContext('2d');
+
+ctx.fillRect(0,0,100,100)
+						</pre>
+					</p>
+					
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body">
+					<canvas id="mycanvas" width="" height=""></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('mycanvas');
+		//画笔
+		var ctx = canvas.getContext('2d')
+		
+		
+	</script>
+	
+</html>

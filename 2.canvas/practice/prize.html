@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="mycanvas" ></canvas>
+		<script>
+			
+			//蒙... 
+			//canvas标签及画笔
+			var canvas=document.getElementById('mycanvas');
+			var ctx=canvas.getContext('2d');
+			//宽高
+			var w=500;
+			var h=500;
+			canvas.width=w;
+			canvas.height=h;
+			//数据//每一份的度数
+			var dis=360/26;
+			var data=[
+				{prize:'幸运',s:0,e:3*dis},{prize:'二等',e:dis*(4.5),s:3*dis},{prize:'三等',s:dis*(4.5),e:(6.5)*dis},
+				{prize:'幸运',s:dis*(6.5),e:(9.5)*dis},{prize:'一等',e:dis*(10.5),s:(9.5)*dis},
+				{prize:'三等',s:dis*(10.5),e:(12.5)*dis},{prize:'二等',s:dis*(12.5),e:(14)*dis},
+				{prize:'幸运',e:dis*(18),s:(14)*dis},{prize:'三等',s:dis*(18),e:(20)*dis},
+				{prize:'二等',s:dis*(20),e:(21.5)*dis},{prize:'幸运',s:dis*(21.5),e:(24)*dis},
+				{prize:'三等',s:dis*(24),e:(26)*dis}
+			]
+			
+			
+			
+			//绘图
+			var pi=Math.PI;
+			var img=new Image();
+			img.src='./circle.png';
+			var flag=true;
+			img.onload=function(){
+				draw(0);
+				canvas.onclick=function(e){
+					if(e.offsetX>200&&e.offsetX<300&&e.offsetY>200&&e.offsetY<300&&flag){
+						ctx.clearRect(0,0,w,h);
+						draw(0);						
+						flag=false;	
+						
+						var a=0;
+						var step=1;
+						var bb=20;
+						var time=0;
+						var ran=Math.floor(Math.random()*18)*20;
+						var timer=setInterval(function(){
+							
+							time+=20;
+							bb*=step;
+							a+=bb;
+							if(a>360){a=0}
+							if(time/1000>2&&Math.floor(a)==ran){
+								step=0.95
+							}
+							ctx.clearRect(0,0,w,h);
+							draw(a/180*pi);
+							if(bb<0.01){
+								
+								clearInterval(timer);
+								data.forEach(function(item){
+									console.log(item.s,item.e,item.prize)
+									if((360-a)>item.s&&(360-a)<item.e){
+										alert('恭喜您获取：'+item.prize+'奖')
+									}
+								})
+								flag=true;
+							}
+							
+						},20)
+					}
+				}
+			}
+			
+			//根据角度 来画旋转后的图片图片
+			function draw(angle){			
+				circle(angle);
+				pointer();
+			}
+			
+			//画指针的函数
+			function pointer(){
+				var r=70;
+				safe(function(){
+					ctx.translate(w/2,h/2)
+					ctx.fillStyle='#333';
+					ctx.moveTo(-15,-r+8);
+					ctx.lineTo(15,-r+8);
+					ctx.lineTo(0,-w/2+100);
+					ctx.fill();
+				})
+				safe(function(){
+					ctx.translate(w/2,h/2)
+					ctx.fillStyle='#333';
+					ctx.arc(0,0,r,0,2*pi);
+					ctx.fill();
+				})
+				safe(function(){
+					ctx.translate(w/2,h/2)
+					ctx.fillStyle="deepskyblue"
+					ctx.arc(0,0,r-20,0,2*pi);
+					ctx.fill();
+				})
+				safe(function(){
+					ctx.translate(w/2,h/2)
+					ctx.font="normal 18px 微软雅黑";//顺序不能改
+					ctx.fillStyle = "#333";
+					ctx.textBaseline = "middle";
+					ctx.textAlign = "center";
+					ctx.fillText('开始抽奖',0,0);
+				})
+
+			}
+			//根据角度画转盘
+			function circle(angle){
+				ctx.save();
+				ctx.translate(w/2,w/2);
+				ctx.rotate(angle);
+				ctx.drawImage(img,-w/2,-w/2,w,w)				
+				ctx.restore();
+			}
+			
+			function safe(fn){
+				ctx.save();
+				ctx.beginPath();
+				fn()
+				ctx.closePath();
+				ctx.restore();
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<style type="text/css">
+			canvas{
+				background: #f5f5f5;
+			}
+		</style>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">知识点：</div>
+				<div class="panel-body">
+					<p>canvas绘制曲线有两种方式</p>
+					<p>1.贝塞尔曲线，bezierCurveTo()参数是三个点的坐标，前两个点是控制点，后一个点是结束点</p>
+					<p>2.二次样条曲线，quadraticCurveTo()参数是两个点的坐标，前面的点是控制点，后一个点是结束点</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading">效果：</div>
+				<div class="panel-body">
+					<canvas id="mycanvas" width="" height=""></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('mycanvas');
+		canvas.width=300;
+		canvas.height=300;
+		canvas.style.background='#ccc';
+	
+		var ctx=canvas.getContext('2d');	
+		
+		
+		//ctx.moveTo(0,0);
+		//三个点
+		ctx.bezierCurveTo(0,0,300,0,300,300)
+		//ctx.quadraticCurveTo(0,300,300,300)
+		
+		ctx.stroke()
+
+	</script>
+	
+</html>

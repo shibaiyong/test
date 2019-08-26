@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		:root{
+			background: #333;
+		}
+		canvas{
+			display: block;
+			margin: 0 auto;
+			
+		}
+		h4{
+			text-align: center;
+			color: #fff;
+		}
+		button{
+			display: block;
+			margin: 0 auto;
+		}
+	</style>
+	<body>
+		<canvas id="can" width="" height=""></canvas>
+		<h4><span id="type"></span>: <span id="des"></span></h4>
+		<button onclick="change()">换！！！</button>
+	</body>
+	<script type="text/javascript">
+		var canvas=document.getElementById('can');
+		canvas.width=500;
+		canvas.height=500;
+	
+		var ctx=canvas.getContext('2d');
+		
+		var arr=[
+			{type:'source-over',des:'在原有图形上绘制新图形'},
+			{type:'destination-over',des:'在原有图形下绘制新图形'},
+			{type:'source-in',des:'显示原有图形和新图形的交集，新图形在上，所以颜色为新图形的颜色'},
+			{type:'destination-in',des:'显示原有图形和新图形的交集，原有图形在上，所以颜色为原有图形的颜色'},
+			{type:'source-out',des:'只显示新图形非交集部分'},
+			{type:'destination-out',des:'只显示原有图形非交集部分'},
+			{type:'source-atop',des:'显示原有图形和交集部分，新图形在上，所以交集部分的颜色为新图形的颜色'},
+			{type:'destination-atop',des:'显示新图形和交集部分，新图形在下，所以交集部分的颜色为原有图形的颜色'},
+			{type:'lighter',des:'原有图形和新图形都显示，交集部分做颜色叠加'},
+			{type:'xor',des:'重叠部分不显示'},
+			{type:'copy',des:'只显示新图形'}
+			
+		]
+		
+		var _type=document.getElementById("type")
+		var _des=document.getElementById("des")
+		var num=0;
+		
+		init()
+		
+		function change(){
+			num++;
+			if(num>arr.length-1){
+				num=0
+			}
+			showText()
+			draw()
+		}
+			
+		
+		function init(){
+			showText()
+			draw()
+		}
+		
+		function showText(){
+			_type.innerHTML=arr[num].type;
+			_des.innerHTML=arr[num].des;
+		}
+
+		function draw(){
+			
+			ctx.clearRect(0,0,500,500)
+			
+			safe(function(){
+				ctx.fillStyle="red"
+				ctx.fillRect(150,150,150,150)
+				
+				ctx.globalCompositeOperation=arr[num].type
+				
+				ctx.fillStyle="green"
+				ctx.arc(300,225,75,0,Math.PI*2)	;
+				ctx.fill()
+			})
+		}
+				
+		
+		function safe(fn){
+			ctx.save();
+			ctx.beginPath();
+			
+			fn();
+			
+			ctx.closePath();
+			ctx.restore();
+		}
+		
+		
+		
+
+	</script>
+	
+</html>
