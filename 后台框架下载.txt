@@ -24,6 +24,8 @@ git 生成ssh                                      	 https://www.cnblogs.com/super
 
 git 清除缓存解决gitegnore修改不起作用                    git rm -r --cached .
 
+Git命令行操作以及报错信息解决办法（持续更新中。。。）https://blog.csdn.net/zezezuiaiya/article/details/80014509
+
 DOM事件的监听                                    	 https://davidwalsh.name/dom-events-javascript
 
 Unicode 字符编码百科                             	 https://unicode-table.com/cn/#control-character
@@ -83,6 +85,8 @@ vue-router 按需加载 官方推荐                             https://www.cnblogs.com
 JS中数据类型的判断                                       https://blog.csdn.net/zjy_android_blog/article/details/81023177
 
 for in 和 for of的区别                                  https://www.jianshu.com/p/15859385eb24
+
+vue-router 按需加载 官方推荐                           https://www.cnblogs.com/xiaochongchong/p/7772773.html
 
 React爬坑之路三：Dva                                    https://www.jianshu.com/p/513c5eab17c1
 
