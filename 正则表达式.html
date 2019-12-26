@@ -13,8 +13,11 @@
         0,0,1,.2559-.2559L4.4838,4.21785a.18149.18149,0,0,1,0,.2559L.30958,8.648A.18149.18149,
         0,0,1,.18254,8.697Z
       " fill="currentColor"></path></svg>
+	  
+	  <input id="test" type="text"/>
 </body>
 </html>
+<script src="./jquery.min.js"></script>
 <script>
     // 1、第一种定义（构造函数定义)
     // new RegExp(pattern, attributes);如var reg = new RegExp("abc","g")
@@ -55,6 +58,9 @@
     // console.log(replace2);
     // console.log(replace3);
    
+   
+   //匹配这些中文标点符号 。 ？ ！ ， 、 ； ： “ ” ‘ ' （ ） 《 》 〈 〉 【 】 『 』 「 」 ﹃ ﹄ 〔 〕 … — ～ ﹏ ￥
+ //var reg = /[\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3008|\u3009|\u3010|\u3011|\u300e|\u300f|\u300c|\u300d|\ufe43|\ufe44|\u3014|\u3015|\u2026|\u2014|\uff5e|\ufe4f|\uffe5]/;
 
     //匹配标签  高亮显示某个词
     function highlight(word) {
@@ -72,4 +78,15 @@
         })
         $(".newsDetailCon").html(str);
     }
+	
+	$('#test').blur(function(){
+		var val = $(this).val()
+		// var reg = /^[^,]+(,[^,]+){0,4}$/
+		var reg = /^(\d+\uff0c?)+$/g
+		if(reg.test(val)){
+			alert('ok')
+		}else{
+			alert('no')
+		}
+	})
 </script>

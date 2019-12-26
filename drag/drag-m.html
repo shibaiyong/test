@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title></title>
+		<style>
+			*{
+				margin:0;padding:0;
+			}
+			body{
+				background:gray;
+			}
+			body,html{width:100%;}
+			#box{
+				width:300px;height:300px;background: orangered;
+				position:fixed;top:0;left:0;
+			}
+			ul li{
+				font-size:20px;
+				height:26px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			
+		</div>
+		<div class="container">
+		<ul class="scrollable">
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+			<li>11111</li>
+		</ul>
+		</div>
+	</body>
+</html>
+<script src="../jquery.min.js"></script>
+<script>
+//封装一个函数用于获取鼠标坐标
+// function getPos(ev){
+// 	var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+// 	var scrollLeft=document.documentElement.scrollLeft||document.body.scrollLeft;
+// 	return {x: ev.clientX+scrollLeft, y: ev.clientY+scrollTop};
+// }
+
+
+// document.body.addEventListener('touchmove', function (e) {
+//   e.preventDefault();
+// }, {passive: false});
+
+//带边界检测 移动端实现
+var flag = true;
+var touchStart_x = null,touchStart_y = null,touchMove_x = null,touchMove_y = null,boxStartX=null,boxStartY=null;
+$("#box").on("touchstart",function(e){
+	
+	touchStart_x = e.targetTouches[0].pageX;
+	touchStart_y = e.targetTouches[0].pageY;
+	boxStartX = $("#box").position().left;
+	boxStartY = $("#box").position().top;
+})
+document.body.addEventListener('touchmove', function (e) {
+	if(!flag){
+		e.preventDefault();
+	}
+	},{passive: false});
+$("#box").on("touchend",function(e){
+	flag = true
+})
+$("#box").on("touchmove",function(e){
+	 flag = false
+		touchMove_x = e.targetTouches[0].pageX-touchStart_x;
+		touchMove_y = e.targetTouches[0].pageY-touchStart_y;
+		var left = boxStartX + touchMove_x;
+		var top = boxStartY + touchMove_y;
+		var maxLeft = $(window).width()-$("#box").width();
+		var maxTop = $(window).height()-$("#box").height();
+		if(left <=0 ){
+			left = 0
+		}
+		if(left >= maxLeft){
+			left = maxLeft
+		}
+		if(top <=0 ){
+			top = 0
+		}
+		if(top >= maxTop){
+			top = maxTop
+		}
+		$("#box").css({
+				left:left,
+				top:top
+		})
+})
+	
+	
+	$.smartScroll($('.container'), '.scrollable');
+	
+</script>

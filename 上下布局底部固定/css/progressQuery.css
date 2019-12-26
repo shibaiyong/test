@@ -1,0 +1,76 @@
+body,html,div,ul,ul li,p,h2,h3,h4,ol,li,dl,dd,dt{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+html{
+    background:#edf3ff;
+}
+a{
+    display:inline-block;
+    text-decoration: none;
+    color:black;
+}
+a,a:hover,a:active,a:visited,a:link,a:focus{
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+    outline:none;
+    background: none;
+    text-decoration: none;
+}
+
+.bank-card-view{
+    background:white;
+    position: absolute;
+    top:0.1rem;
+    left:0;
+    bottom:1.14rem;
+    width:100%;
+    overflow:auto;
+}
+
+.bank-card-view ul li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.12rem;
+}
+
+.bank-card-view ul dl{
+    width:50%;
+    padding:0.12rem 0px;
+    padding-left:0.3rem;
+    box-sizing: border-box;
+    border:1px solid #c7d9fd;
+    border-left:none;
+    border-top:none;
+}
+.bank-card-view ul li dl+dl{
+    border-right: none;
+}
+.bank-card-view ul dt{
+    width:0.32rem;
+    height: 0.32rem;
+    text-align: center;
+    margin-right:0.14rem;
+}
+.bank-card-view ul dt img{
+    width:100%
+}
+.bank-card-view ul dt,.bank-card-view ul dd{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.bottombanner{
+    width:100%;
+    font-size:0px;
+    margin-top:0.2rem;
+    position:absolute;
+    bottom:0;
+    height: 1.04rem;
+}
+.bottombanner img{
+    width:100%;
+    display:block;
+}

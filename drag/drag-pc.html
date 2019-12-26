@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{
+				margin:0;padding:0;
+			}
+			body,html{height: 100%;}
+			#box{
+				width:300px;height:300px;background: orangered;
+				position:absolute;top:0;left:0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box"></div>
+	</body>
+</html>
+<script>
+//封装一个函数用于获取鼠标坐标
+function getPos(ev){
+	var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+	var scrollLeft=document.documentElement.scrollLeft||document.body.scrollLeft;  
+	return {x: ev.clientX+scrollLeft, y: ev.clientY+scrollTop};     
+}
+
+//带边界检测。pc端实现
+
+var oBox=document.getElementById("box");
+oBox.onmousedown=function(ev){
+	var e=ev||event;
+	console.log(e)
+	//var mytarget=e.target||e.srcElement;
+	var mouseffsetx=e.offsetX;
+	var mouseffsety=e.offsetY;
+	document.onmousemove=function(ev){
+		var e=ev||event;
+		var mytarget=e.target||e.srcElement;
+		//可以把mytarget换成oBox;
+		var left=e.clientX-mouseffsetx;
+		var top=e.clientY-mouseffsety;
+		//var cWidth=document.body.clientWidth||document.documentELement.clientWidth;
+		//console.log(cWidth);//有兼容问题，最好不用。
+		//var cHeight=document.body.clientHeight||document.documentELement.clientHeight;
+		var cWidth = document.body.offsetWidth;
+		
+		var cHeight = document.body.offsetHeight;
+		
+		var x=cWidth-left;
+		
+		var y=cHeight-top;
+		
+		if(x<=mytarget.offsetWidth){
+			
+			left=cWidth-mytarget.offsetWidth;
+			
+		}
+		
+		if(y<=mytarget.offsetHeight){
+			top=cHeight-mytarget.offsetHeight;
+		}
+		if(left<=0){
+			left=0;
+		}
+		if(top<=0){
+			top=0;
+		}
+		
+		mytarget.style.left=left+"px";
+		
+		mytarget.style.top=top+"px";
+	}
+	
+	document.onmouseup=function(){//抬起后要关掉document.onmousemove；
+		
+		document.onmousemove=null;
+		
+	}
+	
+}
+</script>
