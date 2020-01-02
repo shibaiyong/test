@@ -93,3 +93,5 @@ React爬坑之路三：Dva                                   https://www.jianshu.com/p
 在react-router@4中传参有三种方式                        https://www.cnblogs.com/bella-lin/p/10026067.html
 
 打包发布流程、步骤                                      https://segmentfault.com/a/1190000017798274
+
+GrowingIO的统计代码吧，方便后续统计数据                  https://docs.growingio.com/#di-1-bu-h5-ye-mian-jin-hang-sdk-de-dai-ma-pei-zhi
