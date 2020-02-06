@@ -82,11 +82,11 @@
 	for (var i = 0; i < nrr.length; i++) {
 		count = 0;
 		for (var j = 0; j < nrr.length; j++) {
-			if (jrr[i] == nrr[j]) {
+			if (nrr[i] == nrr[j]) {
 				if (i > j) {
 					break;
 				} else {
-					count += jrr[i];
+					count += nrr[i];
 					container[nrr[i]] = count;
 				}
 			}
