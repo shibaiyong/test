@@ -139,6 +139,11 @@ document.body.addEventListener('touchmove', function (e) {
 
     （2）net start mysql 启动数据库服务。
 
+             drop user XXX;删除已存在的用户，默认删除的是'XXX'@'%'这个用户，如果还有其他的用户如'XXX'@'localhost'等，不会一起被删除。如果要删除'XXX'@'localhost'，使用drop删除时需要加上host即                   drop user 'XXX'@'localhost'
+             delete from user where user='XXX' and host='localhost';其中XXX为用户名，localhost为主机名。
+             区别
+            drop不仅会将user表中的数据删除，还会删除其他权限表的内容。而delete只删除user表中的内容，所以使用delete删除用户后需要执行FLUSH PRIVILEGES;刷新权限，否则下次使用create语句创建用户时               会报错。
+
     （3）mysql -h远程主机地址 -u 用户名 -p 密码 -P端口。登录数据库（非默认端口启动一定得加-P参数）。
 
     （4）set password for user@host = password('123')。修改用户密码（超级用户才有权限）。
