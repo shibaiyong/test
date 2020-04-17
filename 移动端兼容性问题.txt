@@ -169,3 +169,15 @@ document.body.addEventListener('touchmove', function (e) {
      singlePage: false,   //是否是单页面应用（SPA），启用autoTrack后生效（选填，默认false）  
     debug:true            //实时调试的时候开启，方便检查埋点效果。调试结束后应立即关闭，防止产生大量无用数据。
 （4）对用户，及用户数的统计，前提是用户有相关操作才行。
+
+十三、react-native
+
+Run instructions for iOS:
+    ? cd "D:\data\andriodProject" && npx react-native run-ios
+    - or -
+    ? Open andriodProject\ios\andriodProject.xcodeproj in Xcode or run "xed -b ios"
+    ? Hit the Run button
+
+Run instructions for Android:
+    ? Have an Android emulator running (quickest way to get started), or a device connected.
+    ? cd "D:\data\andriodProject" && npx react-native run-android
