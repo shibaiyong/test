@@ -131,7 +131,8 @@ document.body.addEventListener('touchmove', function (e) {
    （2）函数的参数，e事件对象这个形参验放到最后。最新版本中，原生事件对象需要通过react的合成事件对象获取。即: e = SyntheticEvent.nativeEvent 或 e = SyntheticEvent.persist()
    （3）有些场景下，当改变状态的时候，并不希望它实时的更新页面的显示。例如表单输入完成时采取更新，输入过程中的数据是不希望更新页面的变化，这时可以用非受控组件
    （4）如果某些数据可以由 props 或 state 推导得出，那么它就不应该存在于 state 中。render函数中可以计算。相当于vue中的计算属性和监听。
-
+   （5）react-create-app脚手架，搭配第三方ui框架是可以在package.json 文件中的babel项中按官方文档配置。要提前下载依赖的包。
+		另外，也可以新建.babelrc文件，在其中配置。保证他和package.json文件在同一级目录下。
 十、mysql数据库总结
 
     1、命令行操作相关
