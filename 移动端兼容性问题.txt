@@ -112,6 +112,10 @@ document.body.addEventListener('touchmove', function (e) {
            top: 180px !important;
 
          }
+	(5)mui框架下 多个input输入切换的时候被向上顶起的页面，容易回到顶部，导致输入框被键盘盖住。
+		解决办法：注释掉mui.js中的
+		d.contains(c) && (d.remove(c), setTimeout(function () {
+		window.scrollTo(b.body.scrollLeft, b.body.scrollTop)}, 20))
 
 八、小程序开发总结：
 
@@ -133,6 +137,8 @@ document.body.addEventListener('touchmove', function (e) {
    （4）如果某些数据可以由 props 或 state 推导得出，那么它就不应该存在于 state 中。render函数中可以计算。相当于vue中的计算属性和监听。
    （5）react-create-app脚手架，搭配第三方ui框架是可以在package.json 文件中的babel项中按官方文档配置。要提前下载依赖的包。
 		另外，也可以新建.babelrc文件，在其中配置。保证他和package.json文件在同一级目录下。
+	(6)关于patch(局部更新)、put和delete请求：他们的传参方式分别跟post和get请求的传参方式相同。
+	
 十、mysql数据库总结
 
     1、命令行操作相关
