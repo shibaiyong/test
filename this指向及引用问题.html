@@ -11,18 +11,23 @@
 	</body>
 </html>
 <script>
-	/*	
+		
 	function Myobj(){
+		this.p={pid:0}
 		this.p.pid++
 	}
-	Myobj.prototype.p={'pid':0}
+	//Myobj.prototype.p={'pid':0}
 	Myobj.prototype.getNum=function(num){
-		return this.p.pid+num
+		//这里的this指向Myobj.prototype,并非指向Myobj实例
+				return this.p.pid+num
 	}
-	var obj1=new Myobj()
+	var obj1=new Myobj()//new 可以改变this指向,此时this指向Myobj函数实例.
 	var obj2=new Myobj()
-	console.log(obj1.getNum(1)+obj2.getNum(2))
-	*/
+	//console.log(obj1.p.pid,obj2.p.pid)
+	console.log(obj1.getNum(1)+obj1.getNum(2))//this指向Myobj
+	console.log(Myobj.prototype.getNum(1)+Myobj.prototype.getNum(2))//this指向Myobj.prototype.此时this.p等价于Myobj.prototype.p发现没有定义而报错.
+	//console.log(Myobj.prototype.p.pid)
+	
 	/*
 	var func=(function(a){
 		console.log(this)
