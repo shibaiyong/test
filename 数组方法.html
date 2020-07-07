@@ -40,7 +40,7 @@
 		return fir - sec;      //正序
 	}
 	arr.sort(sortArr);
-	console.log('sort排序' + arr)
+	// console.log('sort排序' + arr)
 	//console.log('冒泡排序'+arr);
 	//去重
 	var brr = [1, 1, 1, 2, 2, 2, 4, 56, 323, 3, 8, 3, 2, 6, 6, 6];
@@ -52,7 +52,7 @@
 			}
 		}
 	}
-	console.log('去重' + brr);
+	// console.log('去重' + brr);
 	//取出数组中的最大最小值;
 	var crr = [1, 1, 1, 2, 2, 2, 4, 56, 323, 3, 8, 3, 2, 6, 6, 6];
 	var min = crr[0];
@@ -65,7 +65,7 @@
 			max = crr[i]
 		}
 	}
-	console.log('min  ' + min, 'max  ' + max);
+	//console.log('min  ' + min, 'max  ' + max);
 	//map方法
 	var err = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 	var frr = err.map(function (item, index) {
@@ -73,7 +73,7 @@
 			return true
 		}
 	})
-	console.log('map方法  ' + frr);
+	//console.log('map方法  ' + frr);
 	//统计字符串的个数;
 	var nrr = [1, 1, 1, 2, 2, 2, 4, 56, 323, 3, 8, 3, 2, 6, 6, 6];
 	var jrr = [1, 1, 1, 2, 2, 2, 4, 56, 323, 3, 8, 3, 2, 6, 6, 6];
@@ -92,10 +92,10 @@
 			}
 		}
 	}
-	console.log("合并求和" + container);
-	console.log(container);
+	// console.log("合并求和" + container);
+	// console.log(container);
 	var hrr = jrr.slice();
-	console.log('slice ' + hrr);//数组深拷贝；
+	//console.log('slice ' + hrr);//数组深拷贝；
 
 	//reduce()方法求和
 
@@ -131,6 +131,25 @@
 	}
 	var sum1 = summ(5);
 	var calcu1 = calcuu(5);
-	console.log('reduce 求和' + sum1);
-	console.log('reduce 阶乘' + calcu1);
+	// console.log('reduce 求和' + sum1);
+	// console.log('reduce 阶乘' + calcu1);
+
+Object.prototype.sayHello = function(){
+	
+	console.log('Hello');
+	
+}
+
+Object.prototype.str = 'World';
+
+var myObject = {name:'zhangsan',age:100};
+
+for(let i in myObject){
+	console.log(i)
+}
+
+// Object.keys(myObject).forEach(function(key){
+// 	console.log(key)
+// })
+
 </script>
