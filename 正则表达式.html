@@ -15,6 +15,11 @@
       " fill="currentColor"></path></svg>
 	  
 	  <input id="test" type="text"/>
+		<div class="newsDetailCon">
+		  <p>你是空，你是空，你是色即是空的空空</p>
+		  <span>君本无意穿堂风，偏偏孤据引山洪</span>
+		  <div>开心的锣鼓敲起来哈，这世界我只来一次，没什么可怕的，干就完了</div>
+		</div>
 </body>
 </html>
 <script src="./jquery.min.js"></script>
@@ -65,20 +70,21 @@
     //匹配标签  高亮显示某个词
     function highlight(word) {
 
-        var str = $(".newsDetailCon").html();
-        var pattern = new RegExp(word, "mg");
-        var pool = [];
-        var i = 0;
-        str = str.replace(/<[\/]{0,1}[a-z]+[^>]*>/img,function() {
-            pool[pool.length] = arguments[0];
-            return "\x00"
-        }).replace(pattern, "<span style=\"color:red\">" + word + "</span>")
-        .replace(/\x00/mg,function() {
-            return pool[i++]
-        })
-        $(".newsDetailCon").html(str);
+			var str = $(".newsDetailCon").html();
+			var pattern = new RegExp(word, "mg");
+			var pool = [];
+			var i = 0;
+			str = str.replace(/<[\/]{0,1}[a-z]+[^>]*>/img,function() {
+				pool[pool.length] = arguments[0];
+				console.log(pool)
+				return "\u0000"
+			}).replace(pattern, "<span style=\"color:red\">" + word + "</span>")
+			.replace(/\u0000/mg,function() {
+					return pool[i++]
+			})
+			$(".newsDetailCon").html(str);
     }
-	
+		highlight('的')
 	$('#test').blur(function(){
 		var val = $(this).val()
 		// var reg = /^[^,]+(,[^,]+){0,4}$/
@@ -89,4 +95,9 @@
 			alert('no')
 		}
 	})
+	//正则断言
+	//2. (?![^a-zA-Z]+$)
+	//断言此位置后,字符串结尾之前,所有的字符不能全部由数字（[^a-zA-Z]表示非英文字母,结合下文,这里匹配数字）组成.
+	//由于当前位置是字符串开始,所以表示整个字符串不能全是数字.
+	//(?!exp)为零宽断言,表示断言之后的内容不能是exp,[^a-zA-Z]表示非英文字母,+表示可以有多个,$匹配结尾.
 </script>
