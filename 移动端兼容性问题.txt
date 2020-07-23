@@ -112,6 +112,10 @@ document.body.addEventListener('touchmove', function (e) {
            top: 180px !important;
 
          }
+	(5)mui框架下 多个input输入切换的时候被向上顶起的页面，容易回到顶部，导致输入框被键盘盖住。
+		解决办法：注释掉mui.js中的
+		d.contains(c) && (d.remove(c), setTimeout(function () {
+		window.scrollTo(b.body.scrollLeft, b.body.scrollTop)}, 20))
 
 八、小程序开发总结：
 
@@ -128,9 +132,13 @@ document.body.addEventListener('touchmove', function (e) {
 九、react技术点总结
 
    （1）生命周期的执行顺序：willMount(可以在这里改变state的里的数据，不会引起二次渲染这也是他跟didmount的区别之一)---render---didMount
-   （2）函数的参数，e事件对象这个形参验放到最后。
+   （2）函数的参数，e事件对象这个形参验放到最后。最新版本中，原生事件对象需要通过react的合成事件对象获取。即: e = SyntheticEvent.nativeEvent 或 e = SyntheticEvent.persist()
    （3）有些场景下，当改变状态的时候，并不希望它实时的更新页面的显示。例如表单输入完成时采取更新，输入过程中的数据是不希望更新页面的变化，这时可以用非受控组件
-
+   （4）如果某些数据可以由 props 或 state 推导得出，那么它就不应该存在于 state 中。render函数中可以计算。相当于vue中的计算属性和监听。
+   （5）react-create-app脚手架，搭配第三方ui框架是可以在package.json 文件中的babel项中按官方文档配置。要提前下载依赖的包。
+		另外，也可以新建.babelrc文件，在其中配置。保证他和package.json文件在同一级目录下。
+	(6)关于patch(局部更新)、put和delete请求：他们的传参方式分别跟post和get请求的传参方式相同。
+	
 十、mysql数据库总结
 
     1、命令行操作相关
@@ -139,9 +147,9 @@ document.body.addEventListener('touchmove', function (e) {
 
     （2）net start mysql 启动数据库服务。
 
-             drop user XXX;删除已存在的用户，默认删除的是'XXX'@'%'这个用户，如果还有其他的用户如'XXX'@'localhost'等，不会一起被删除。如果要删除'XXX'@'localhost'，使用drop删除时需要加上host即                   drop user 'XXX'@'localhost'
-             delete from user where user='XXX' and host='localhost';其中XXX为用户名，localhost为主机名。
-             区别
+            drop user XXX;删除已存在的用户，默认删除的是'XXX'@'%'这个用户，如果还有其他的用户如'XXX'@'localhost'等，不会一起被删除。如果要删除'XXX'@'localhost'，使用drop删除时需要加上host即                   drop user 'XXX'@'localhost'
+            delete from user where user='XXX' and host='localhost';其中XXX为用户名，localhost为主机名。
+            区别
             drop不仅会将user表中的数据删除，还会删除其他权限表的内容。而delete只删除user表中的内容，所以使用delete删除用户后需要执行FLUSH PRIVILEGES;刷新权限，否则下次使用create语句创建用户时               会报错。
 
     （3）mysql -h远程主机地址 -u 用户名 -p 密码 -P端口。登录数据库（非默认端口启动一定得加-P参数）。
@@ -160,8 +168,24 @@ document.body.addEventListener('touchmove', function (e) {
 
    （2）
 
+十二、诸葛io使用流程
 
+（1）注册用户，登录。根据诸葛io的技术标准配置埋点事件
+（2）按照要求引入对应的js-sdk。并进行相关配置。
+（3）autoTrack: false,    //启用全埋点采集（选填，默认false）
+     singlePage: false,   //是否是单页面应用（SPA），启用autoTrack后生效（选填，默认false）  
+    debug:true            //实时调试的时候开启，方便检查埋点效果。调试结束后应立即关闭，防止产生大量无用数据。
+（4）对用户，及用户数的统计，前提是用户有相关操作才行。
 
+十三、react-native
 
+Run instructions for iOS:
+    ? cd "D:\data\andriodProject" && npx react-native run-ios
+    - or -
+    ? Open andriodProject\ios\andriodProject.xcodeproj in Xcode or run "xed -b ios"
+    ? Hit the Run button
 
+Run instructions for Android:
+    ? Have an Android emulator running (quickest way to get started), or a device connected.
+    ? cd "D:\data\andriodProject" && npx react-native run-android
 

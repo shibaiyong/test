@@ -8,7 +8,10 @@ function defineReactive (obj, key, val) {
   Object.defineProperty(obj, key, {
     get: function () {
       // 添加订阅者 watcher 到主题对象 Dep
-      if (Dep.target) dep.addSub(Dep.target);
+
+      if (Dep.target) {
+				dep.addSub(Dep.target)
+			}
       return val
     },
     set: function (newVal) {
@@ -18,6 +21,19 @@ function defineReactive (obj, key, val) {
       dep.notify();
     }
   });
+}
+function Dep () {
+  this.subs = []
+}
+Dep.prototype = {
+  addSub: function(sub) {
+    this.subs.push(sub);
+  },
+  notify: function() {
+    this.subs.forEach(function(sub) {
+      sub.update();
+    });
+  }
 }
 function nodeToFragment (node, vm) {
   var flag = document.createDocumentFragment();
@@ -34,9 +50,14 @@ function nodeToFragment (node, vm) {
   return flag
 }
 function compile (node, vm) {
+	if(!node){
+		return false;
+	}
   var reg = /\{\{(.*)\}\}/;
+	console.log(node)
   // 节点类型为元素
   if (node.nodeType === 1) {
+		compile(node.firstChild,vm)
     var attr = node.attributes;
     // 解析属性
     for (var i = 0; i < attr.length; i++) {
@@ -46,8 +67,8 @@ function compile (node, vm) {
           // 给相应的 data 属性赋值，进而触发该属性的 set 方法
           vm[name] = e.target.value;
         });
+				node.removeAttribute('v-model');
         // node.value = vm[name]; // 将 data 的值赋给该 node
-        node.removeAttribute('v-model');
         new Watcher(vm, node, name, 'input');
       }
     };
@@ -86,19 +107,7 @@ Watcher.prototype = {
     this.value = this.vm[this.name]; // 触发相应属性的 get
   }
 }
-function Dep () {
-  this.subs = []
-}
-Dep.prototype = {
-  addSub: function(sub) {
-    this.subs.push(sub);
-  },
-  notify: function() {
-    this.subs.forEach(function(sub) {
-      sub.update();
-    });
-  }
-}
+
 function Vue (options) {
   this.data = options.data;
   var data = this.data;
@@ -106,11 +115,13 @@ function Vue (options) {
   var id = options.el;
   var dom = nodeToFragment(document.getElementById(id), this);
   // 编译完成后，将 dom 返回到 app 中
-  document.getElementById(id).appendChild(dom); 
+  document.getElementById(id).appendChild(dom);
 }
 var vm = new Vue({
   el: 'app',
   data: {
-    text: 'hello world'
+    text: 'hello world',
+		one:'one',
+		two:'two3243'
   }
 })
