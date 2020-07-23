@@ -14,22 +14,5 @@
 
 </html>
 <script>
-  function teacher(name, age) {
-    this.name = name;
-    this.age = age;
-    this.sayhi = function () {
-      alert('name:' + name + ", age:" + age);
-    }
-  }
-
-  function student() {
-    var args = arguments;
-    console.log(args);
-    teacher.call(this, args[0], args[1]);
-    // teacher.apply(this,arguments);
-  }
-  // var teacher1 = new teacher('xiaoming', 23);
-  // teacher1.sayhi();
-  var student1 = new student('xiaolan', 21);
-  student1.sayhi();
+  
 </script>

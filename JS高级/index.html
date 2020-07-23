@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+  function Parent() {
+    this.name = 'farther';  //this指向window
+    this.age = 80;
+  }
+
+  Parent.prototype.sayHi = function () {
+    alert('hi');
+  }
+
+  function Child1() {
+    this.name = "child";
+    this.age = 2;
+  }
+  //js中new关键字的操作。
+  function _new() {
+    console.log(arguments)
+    var Par = [].shift.apply(arguments);
+    var obj = Object.create(Par.prototype);
+    console.log(obj);
+    //Parent {}
+    //  __proto__: Object  打印结果。
+    console.log(obj.constructor);//Parent(){this.name=.........}
+
+    //通过apply，执行构造函数完成obj空对象 继承 Par的实例属性
+
+    Par.apply(obj, arguments);
+
+    return obj;
+  }
+  // console.log(_new(Parent,2,3));
+  //_new(Parent,2,3).sayHi();
+
+  //js继承的方式
+  //一、对象冒充
+
+  //方式二：原型链继承  原理：JS是一门基于原型的语言。在JS中prototype对象的任何属性和方法都被传递给那个类的所有实例。
+
+  //注意：
+  //调用Parent的构造函数，没有给它传递参数。这是原型链中的标准做法，要确保构造函数没有任何参数。
+
+  //方式三：使用call或apply方法  原理：通过改变this指向实现继承。apply第二个参数必须是数组，call依次传入。
+
+  //方式四：混合使用（推荐）  使用原型链就无法使用带参数的构造函数了
+  function SuperType(name) {
+    this.name = name;
+    this.colors = ["red", "blue", "green"];
+  }
+  SuperType.prototype.sayName = function () {
+    console.log(this.name);
+  };
+  function SubType(name, age) {
+    //继承属性    使用借用构造函数实现对实例属性的继承
+    SuperType.call(this, name);   // 第一次调用 SuperType
+    this.age = age;
+  }
+  //继承方法     使用原型链实现
+  SubType.prototype = new SuperType(); // 第二次调用 SuperType
+  SubType.prototype.constructor = SubType;
+  SubType.prototype.sayAge = function () {
+    console.log(this.age);
+  };
+  var instance1 = new SubType("mary", 22);
+
+  console.log(instance1)
+
+  //方式五：使用Object.create方法
+
+  //父类构造函数
+  var Parent = function (name) {
+    this.name = name;
+  }
+  Parent.prototype.sayHi = function () {
+    console.log("Hi " + this.name + ".");
+  }
+  //子类构造函数
+  var Children = function (name, age) {
+    this.age = age;
+    Parent.call(this, name);     //属性不在prototype上
+  };
+
+  Children.prototype = Object.create(Parent.prototype);
+  Children.prototype.constructor = Children;
+  Children.prototype.getAge = function () {
+    console.log(this.age);
+  };
+
+  var P = new Parent("John");
+  var C = new Children("Joe", 30);
+
+  //方式六：extends关键字实现继承
+  
+
+</script>
