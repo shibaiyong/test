@@ -96,11 +96,9 @@ React爬坑之路三：Dva                                   https://www.jianshu.com/p
 
 GrowingIO的统计代码吧，方便后续统计数据                  https://docs.growingio.com/#di-1-bu-h5-ye-mian-jin-hang-sdk-de-dai-ma-pei-zhi
 
-<<<<<<< HEAD
 JS回调函数实现异步操作的原理                                  https://blog.csdn.net/weixin_42192534/article/details/80917949
-=======
 
 java 相关的实用网站
 
 java jar包线上下载                                     https://javaee.github.io
->>>>>>> e6c0fb800b10d8cc9c391b5a5da5dfb9deca780b
+
