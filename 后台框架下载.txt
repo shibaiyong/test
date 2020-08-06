@@ -100,5 +100,9 @@ JS回调函数实现异步操作的原理                                  https://blog.csdn.
 
 java 相关的实用网站
 
+IJ 添加 jar包的三种方式                              https://www.cnblogs.com/mracale/p/10493823.html
+
+javax.mail  发送邮件报错解决方法                     https://blog.csdn.net/u010695008/article/details/51701661         
+
 java jar包线上下载                                     https://javaee.github.io
 
