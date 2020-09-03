@@ -1,203 +1,277 @@
 <!DOCTYPE html>
 <html>
-	<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title></title>
-	</head>
-	<style>
-    *{
-      margin:0;
-      padding:0;
-    }
 
-    .content{
-      margin:0;
-      width:100%;
-    }
-		
-		.content canvas{
-			
-      background:gray;
-		}
-	</style>
-	<body>
-		
-			<div class="content">
-				
-			</div>
-			
-	</body>
-	<script type="text/javascript">
-    
-    window.canvaslock = function(opts){
-      this.height = opts.height;
-      this.width = opts.width;
-      this.canvasLockType = opts.canvasLockType;
-      this.touchFlag = false;
-    }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
 
-    canvaslock.prototype = {
+  .content {
+    margin: 0;
+    width: 100%;
+  }
 
-      init: function(){
-        this.initDom();
-        this.createCircles();
-        this.bindEvent();
-      },
-      
-      initDom: function(){
-        var canvas = document.createElement('canvas');
-        var contentDom = document.querySelector('.content');
+  .content canvas {
 
-        //高清屏缩放
-        //canvas.style.width = width + 'px';
-        //canvas.style.height = height + 'px';
+    background: gray;
+  }
+</style>
 
-        canvas.height = this.height;
-        canvas.width = this.width;
-        contentDom.appendChild(canvas);
+<body>
 
-        this.canvas = canvas;
+  <div class="content">
 
-        this.ctx = canvas.getContext('2d');
-      },
+  </div>
 
-      bindEvent: function(){
-        var self = this
-        this.canvas.addEventListener('touchstart',function(e){
+</body>
+<script type="text/javascript">
 
-          //数据重置
-          self.lastLocate=[];
-          //引用类型的数据，注意使用的时候深拷贝一份
-          self.restLocate = self.circleLocate.slice();
+ var canvaslock = (function(){
+  var canvaslock = function (opts) {
+    this.height = opts.height;
+    this.width = opts.width;
+    this.canvasLockType = opts.canvasLockType;
+    this.selectNum = opts.selectNum;
+    this.el = opts.el
+    this.touchFlag = false;
+    this.firstSet = false;
+    this.init(opts)
+  }
 
-          var position = self.getPosition(e);
+  canvaslock.prototype = {
 
-          for(var i = 0; i < self.restLocate.length; i++){
-            var item = self.restLocate[i];
-            if(Math.abs(item.x - position.x) < self.r && Math.abs(item.y - position.y) < self.r){
-              self.touchFlag = true;
-              self.lastLocate.push(self.restLocate.splice(i,1)[0]);
-              break;
-            }
-          }
-        })
-        this.canvas.addEventListener('touchmove',function(e){
+    init: function (opts) {
 
-          if(self.touchFlag){
-            self.updateCanvas(self.getPosition(e))
-          }
-          
-        })
-        this.canvas.addEventListener('touchend',function(e){
-          //清空画布 ,重画9个圆
-          self.resetCircles();
-          self.drawPoint();
-          self.drawLine();
-        })
-      },
+      var options = Object.assign({},{
+        width: 300,
+        height: 300,
+        canvasLockType: 3,
+        selectNum:4
+      },opts)
 
-      updateCanvas: function(po){
 
-        // 核心变换方法在touchmove时调用
-        //清空画布       重画9个圆
-        this.resetCircles();
-        this.drawPoint();  //画圆
-        this.drawLine(po); //画线
-        //1.检测手势移动的位置是否处于下一圆的圆内。
-        //2.圆内的话则画实心圆 drawPoint
-        //3.已经画过实心圆的圆，无需重复检测
-        for(var i = 0;i < this.restLocate.length;i++){
-            if(Math.abs(po.x - this.restLocate[i].x) < this.r && Math.abs(po.y - this.restLocate[i].y) < this.r){
-                this.lastLocate.push(this.restLocate[i]);
-                this.restLocate.splice(i,1);  //画完一个圆就将该圆从restPoint数组中去掉
-                break;
-            }
-        }
+      this.initDom();
+      this.createCircles();
+      this.bindEvent(options);
+    },
 
-      },
+    initDom: function () {
+      var canvas = document.createElement('canvas');
+      var contentDom = document.querySelector(this.el);
 
-      getPosition: function(e){
-        var rect = this.canvas.getBoundingClientRect();
-        return {
-          x:e.touches[0].clientX - rect.left,
-          y:e.touches[0].clientY - rect.top
-        }
-      },
+      //高清屏缩放
+      //canvas.style.width = width + 'px';
+      //canvas.style.height = height + 'px';
 
-      drawCircle: function(x,y){
+      canvas.height = this.height;
+      canvas.width = this.width;
+      contentDom.appendChild(canvas);
 
-        this.ctx.strokeStyle = '#ccc';
-        this.ctx.lineWidth = 2;
-        this.ctx.beginPath();
-        this.ctx.arc(x, y, this.r, 0, Math.PI * 2);
-        this.ctx.closePath();
-        this.ctx.stroke();
-      },
+      this.canvas = canvas;
 
-      drawPoint: function(){
-        for(var i = 0; i < this.lastLocate.length;i++){
-            this.ctx.fillStyle = 'green';
-            this.ctx.beginPath();
-            this.ctx.arc(this.lastLocate[i].x, this.lastLocate[i].y, this.r/2, 0, Math.PI*2);
-            this.ctx.fill();
-            this.ctx.closePath();
-        }
-      },
+      this.ctx = canvas.getContext('2d');
+    },
 
-      drawLine: function(po){
-        this.ctx.strokeStyle = 'green';
-        this.ctx.beginPath();
-        this.ctx.lineWidth = 3;
-        // this.ctx.moveTo(this.lastLocate[0].x, this.lastLocate[0].y);
-        for(var i = 0; i < this.lastLocate.length;i++){
-          this.ctx.lineTo(this.lastLocate[i].x, this.lastLocate[i].y);
-        }
-        if(po){
-          this.ctx.lineTo(po.x, po.y);
-        }
-        this.ctx.stroke()
-        this.ctx.closePath();
-      },
+    bindEvent: function (opts) {
+      var self = this
+      this.canvas.addEventListener('touchstart', function (e) {
 
-      createCircles: function(){
-        var n = this.canvasLockType;
-        this.r = this.width / (2 * n + 1) / 2;
-        var count = 0;
-        this.circleLocate = [];
-        for(var i = 0; i < n; i++){
-          for(var j = 0; j < n; j++){
-            var obj = {
-              x: 3 * this.r + 4 * this.r * j,
-              y: 3 * this.r + 4 * this.r * i,
-              ind: count++
-            }
-            this.circleLocate.push(obj);
+        //数据重置
+        self.lastLocate = [];
+        //引用类型的数据，注意使用的时候深拷贝一份
+        self.restLocate = self.circleLocate.slice();
+
+        var position = self.getPosition(e);
+
+        for (var i = 0; i < self.restLocate.length; i++) {
+          var item = self.restLocate[i];
+          if (Math.abs(item.x - position.x) < self.r && Math.abs(item.y - position.y) < self.r) {
+            self.touchFlag = true;
+            self.lastLocate.push(self.restLocate.splice(i, 1)[0]);
+            break;
           }
         }
+      })
+      this.canvas.addEventListener('touchmove', function (e) {
 
-        this.resetCircles();
-      },
-      resetCircles: function(){
-        this.ctx.clearRect(0, 0, this.height, this.width);
-        for(var k = 0; k < this.circleLocate.length; k++){
-          var item = this.circleLocate[k];
-          this.drawCircle(item.x, item.y);
+        if (self.touchFlag) {
+          self.updateCanvas(self.getPosition(e))
+        }
+
+      })
+      this.canvas.addEventListener('touchend', function (e) {
+        //清空画布 ,重画9个圆
+        self.checkGesture(opts);
+      })
+    },
+
+    updateCanvas: function (po) {
+
+      // 核心变换方法在touchmove时调用
+      //清空画布       重画9个圆
+      this.resetCircles();
+      this.drawPoint('#ccc');  //画圆
+      this.drawLine(po,'#ccc'); //画线
+      //1.检测手势移动的位置是否处于下一圆的圆内。
+      //2.圆内的话则画实心圆 drawPoint
+      //3.已经画过实心圆的圆，无需重复检测
+      for (var i = 0; i < this.restLocate.length; i++) {
+        if (Math.abs(po.x - this.restLocate[i].x) < this.r && Math.abs(po.y - this.restLocate[i].y) < this.r) {
+          this.lastLocate.push(this.restLocate[i]);
+          this.restLocate.splice(i, 1);  //画完一个圆就将该圆从restPoint数组中去掉
+          break;
         }
       }
 
+    },
+
+    getPosition: function (e) {
+      var rect = this.canvas.getBoundingClientRect();
+      return {
+        x: e.touches[0].clientX - rect.left,
+        y: e.touches[0].clientY - rect.top
+      }
+    },
+
+    drawCircle: function (x, y, color) {
+
+      this.ctx.strokeStyle = color || '#ccc';
+      this.ctx.lineWidth = 2;
+      this.ctx.beginPath();
+      this.ctx.arc(x, y, this.r, 0, Math.PI * 2);
+      this.ctx.closePath();
+      this.ctx.stroke();
+    },
+
+    drawPoint: function (color) {
+      for (var i = 0; i < this.lastLocate.length; i++) {
+        this.ctx.fillStyle = color || 'green';
+        this.ctx.beginPath();
+        this.ctx.arc(this.lastLocate[i].x, this.lastLocate[i].y, this.r / 2, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.closePath();
+      }
+    },
+
+    drawLine: function (po, color) {
+      this.ctx.strokeStyle = color || 'green';
+      this.ctx.beginPath();
+      this.ctx.lineWidth = 3;
+      // this.ctx.moveTo(this.lastLocate[0].x, this.lastLocate[0].y);
+      for (var i = 0; i < this.lastLocate.length; i++) {
+        this.ctx.lineTo(this.lastLocate[i].x, this.lastLocate[i].y);
+      }
+      if (po) {
+        this.ctx.lineTo(po.x, po.y);
+      }
+      this.ctx.stroke()
+      this.ctx.closePath();
+    },
+
+    createCircles: function () {
+      var n = this.canvasLockType;
+      this.r = this.width / (2 * n + 1) / 2;
+      var count = 0;
+      this.circleLocate = [];
+      for (var i = 0; i < n; i++) {
+        for (var j = 0; j < n; j++) {
+          var obj = {
+            x: 3 * this.r + 4 * this.r * j,
+            y: 3 * this.r + 4 * this.r * i,
+            ind: count++
+          }
+          this.circleLocate.push(obj);
+        }
+      }
+
+      this.resetCircles();
+    },
+    resetCircles: function () {
+      this.ctx.clearRect(0, 0, this.height, this.width);
+      for (var k = 0; k < this.circleLocate.length; k++) {
+        var item = this.circleLocate[k];
+        this.drawCircle(item.x, item.y);
+      }
+    },
+    checkGesture(opts) {
+      var password = '';
+      var unlockPassword = localStorage.unlockPassword;
+      for (var i = 0; i < this.lastLocate.length; i++) {
+        password += this.lastLocate[i].ind;
+      }
+
+      if(password.length < opts.selectNum){
+        this.resetCircles();
+        return false;
+      }
+      
+      if (!unlockPassword) {
+        if (!localStorage.password) {
+          localStorage.password = password;
+          this.resetCircles();
+          opts.inputCallback(this);
+        } else if (localStorage.password == password) {
+          localStorage.unlockPassword = password;
+          this.resetCircles();
+          this.drawPoint('green')
+          this.drawLine(null, 'green')
+          opts.comfirmCallback(1, this)
+        } else {
+          localStorage.removeItem('password')
+          this.resetCircles();
+          this.drawPoint('red')
+          this.drawLine(null, 'red')
+          opts.comfirmCallback(0, this)
+        }
+
+      } else if (unlockPassword == password) {
+        this.resetCircles();
+        this.drawPoint('green')
+        this.drawLine(null, 'green')
+        opts.unlockSucc(this)
+      } else if (unlockPassword != password) {
+        this.resetCircles();
+        this.drawPoint('red')
+        this.drawLine(null, 'red')
+        opts.unlockFail(this)
+      }
     }
+  }
 
-    
+  return canvaslock;
+})()
 
-    var canvasObj = new window.canvaslock({
-      width:300,
-      height:300,
-      canvasLockType:3
-    });
-    canvasObj.init()
-		
-	</script>
-	
+  var canvasObj = new canvaslock({
+    el:'.content',
+    width: 300,
+    height: 300,
+    canvasLockType: 3,
+    selectNum:4,
+    inputCallback: function(vm){
+      alert('请再次输入')
+    },
+    comfirmCallback: function(code, vm){
+      if(code == 1){
+        alert('设置成功')
+      }else{
+        alert('两次密码不一致')
+      }
+    },
+    unlockSucc: function(vm){
+      alert('解锁成功')
+    },
+    unlockFail: function(vm){
+      alert('解锁失败')
+    }
+  });
+
+</script>
+
 </html>
