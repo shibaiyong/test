@@ -18,6 +18,10 @@ git 删除文件                                     	 https://www.jianshu.com/p/c3f
 
 git reset                                          https://www.cnblogs.com/kidsitcn/p/4513297.html
 
+撤销commit及参数说明                          https://www.cnblogs.com/lfxiao/p/9378763.html
+
+git 建立追踪关系，查看。                        https://blog.csdn.net/qq_42780289/article/details/97762596
+
 Git 分支 - 分支的新建与合并（实战）              	   https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6
 
 git 生成ssh                                      	 https://www.cnblogs.com/superGG1990/p/6844952.html
@@ -81,6 +85,8 @@ react中文文档                                           https://react.docschina.
 require.ensure按需加载                                  https://www.cnblogs.com/fantasy-zxf/p/6760390.html
 
 vue-router 按需加载 官方推荐                             https://www.cnblogs.com/xiaochongchong/p/7772773.html
+
+vue-cli3配置多页面应用                                   https://blog.csdn.net/qq_36711388/article/details/88411223
 
 JS中数据类型的判断                                       https://blog.csdn.net/zjy_android_blog/article/details/81023177
 
