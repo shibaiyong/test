@@ -113,3 +113,5 @@ javax.mail  发送邮件报错解决方法                     https://blog.csdn.net/u0106
 java jar包线上下载                                     https://javaee.github.io
 
 maven包下载查询地址                               https://mvnrepository.com/?tdsourcetag=s_pctim_aiomsg
+
+IJ如何配置自动部署war到tomcat服务器     https://jingyan.baidu.com/article/358570f6908f11ce4724fcf5.html     
