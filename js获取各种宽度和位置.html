@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+    }
+    .content{
+      width:100px;
+      height:100px;
+      background: gray;
+    }
+    .autoheight{
+      width:300px;
+      padding:50px;
+      background:yellow;
+      overflow: auto;
+      height:300px;
+      margin:0;
+    }
+    .list{
+      display:inline-block;
+      width:800px;
+      height: 100px;
+      background:green;
+      margin:0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="content">
+    设置宽高的情况下获取元素的宽高
+  </div>
+
+  <div class="autoheight">
+
+    <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
+    <!-- <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
+    <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
+    <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div> -->
+  </div>
+
+
+  
+</body>
+</html>
+<script>
+
+  //获取内联样式的宽高
+  var ele = document.querySelector('.content');
+  var autoheight = document.querySelector('.autoheight');
+  var width = ele.style.width;
+  var height = ele.style.height;
+
+  //获取样式表style的属性
+  console.log(getStyleProp(ele,'width'))
+  console.log(getStyleProp(ele,'height'))
+
+  function getStyleProp(ele,attr){
+
+    if(!ele){
+      return false;
+    }
+
+    var val=null;
+
+    if(window.getComputedStyle){
+      val = getComputedStyle(ele)[attr]
+    }else if(ele.currentStyle){
+      //兼容ie9以下浏览器
+      val = ele.currentStyle[attr]
+    }else{
+      alert('不支持获取样式属性')
+    }
+    return val;
+  }
+
+  //以下是没有设置宽高的情况，获取宽高
+
+  var h1 = autoheight.offsetHeight;//包括边线和滚动条的宽
+  var h2 = autoheight.scrollHeight;//不包括边线，高度超出时，数值会包括横向滚动条，否则不包括。
+  var h3 = autoheight.clientHeight;//不包括边线
+  var w1 = autoheight.offsetWidth;//包括边线和滚动条的宽
+  var w2 = autoheight.scrollWidth;//不包括边线和滚动条的宽度
+  var w3 = autoheight.clientWidth;//不包括边线和滚动条的宽度 滚动条宽度17px;
+
+  console.log(h1,h2,h3)
+  console.log(w1,w2,w3)
+
+
+
+
+
+
+
+
+
+</script>
