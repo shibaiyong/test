@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>模拟光标移动效果</title>
+  <style>
+    .container {
+      position: relative;
+      width: 200px;
+      background: gray;
+      margin: 0;
+      padding: 0;
+      font-size: 0;
+    }
+
+    .container input{
+      position: absolute;
+      left:-200px;
+    }
+
+    p {
+
+      display: inline-block;
+      margin: 0;
+      overflow: hidden;
+      height: 24px;
+      background: #ccc;
+      font-size: 14px;
+      letter-spacing: 2px;
+      line-height: 24px;
+
+    }
+
+    #cursor {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 3px;
+      height: 16px;
+      display: none;
+      background: green;
+      z-index: 1;
+      transform: translateY(-50%);
+      animation: cursorMove 1s infinite;
+      -webkit-animation: cursorMove 1s infinite;
+    }
+
+    @keyframes cursorMove {
+      100% {
+        background: transparent;
+      }
+    }
+
+    @-webkit-keyframes cursorMove {
+
+      100% {
+        background: transparent;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="outcontainer">
+
+      <div class="container">
+          <p id="char"></p>
+          <span id="cursor"></span>
+          <input type="text" style=""/>
+        </div>
+
+  </div>
+
+
+</body>
+
+</html>
+<script>
+
+  function imitateCursor(opts) {
+    this.cursorColor = opts.cursorColor
+  }
+
+  imitateCursor.prototype = {
+
+    init:function(){
+      var me = this
+      this.setProps()
+      this.bindEvent(me)
+    },
+
+    setProps:function(){
+      this.eleChar = document.getElementById("char")
+      this.eleCursor = document.getElementById('cursor')
+      this.eleInput = document.querySelector(".container input")
+      this.eleContainer = document.querySelector(".container")
+      this.eleOutContainer = document.querySelector("#outcontainer")
+      this.eleCursor.style.cssText = "background:" + this.cursorColor
+    },
+
+    bindEvent:function(me){
+
+      document.addEventListener('click',function(e){
+        var ele = e.target
+
+        var flag = me.eleOutContainer.contains(ele)
+        if(!flag){
+          me.eleCursor.style.display = "none"
+          me.eleInput.blur()
+        }
+      },false)
+
+      this.eleContainer.onclick = function(){
+        me.eleCursor.style.display = "inline-block"
+        me.eleInput.focus()
+      }
+
+      this.eleInput.oninput = function(){
+        var val = this.value
+        me.inputToHtml(val)
+      }
+
+    },
+    cursorMove: function (me) {
+      document.addEventListener('keyup', function (e) {
+        
+        var width = me.showChar(e)
+        me.eleCursor.style.left = width + 'px'
+      }, false)
+    },
+    //通过监控按键的值无法判断字母的大小写
+    showChar: function (e) {
+      if (e.keyCode)                //判断浏览器  火狐中ASCII放在event.which属性中
+        var keycode = e.keyCode;    //IE中ASCII放在event.keyCode属性中
+      else
+        keycode = e.which;
+
+        console.log(keycode)
+
+      var str = this.eleChar.innerHTML;
+      if (keycode == 32) {     //按下空格
+        str += "&nbsp;";
+      } else if (keycode == 8) {
+        str = str.length ? str.slice(0, str.length - 1) : ''
+      } else {
+        var char = String.fromCharCode(keycode)
+        str += char
+      }
+      this.eleChar.innerHTML = str
+      return this.eleChar.offsetWidth
+    },
+    inputToHtml:function( content, me ){
+      this.eleChar.innerHTML = content
+      var width = this.eleChar.offsetWidth
+      this.eleCursor.style.left = width + 'px'
+    }
+  }
+
+    var imitateCursorObj = new imitateCursor({
+      cursorColor : "yellow"
+    })
+
+    imitateCursorObj.init()
+
+
+
+</script>
