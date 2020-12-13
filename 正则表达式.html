@@ -50,18 +50,19 @@
     // console.log(extract);
 
     //3、替换
-    var dateStr = '2017-08-12';
-    var regreplace = /(\d{4})-(\d{2})-(\d{2})/;
+    var dateStr = '2017-08-12 2018-10-02';
+    var regreplace = /(\d{4})-(\d{2})-(\d{2})/g;
     var replace1 = dateStr.replace(regreplace,"$3/$2/$1");
     var replace2 = dateStr.replace(regreplace,function(){
         return RegExp.$3 + '/' + RegExp.$2 + '/' + RegExp.$1;
     })
     var replace3 = dateStr.replace(regreplace,function(match,year,month,day){
+        console.log(arguments)
         return year + '/' + month + '/' + day;
     })
     // console.log(replace1);
     // console.log(replace2);
-    // console.log(replace3);
+    //console.log(replace3);
    
    
    //匹配这些中文标点符号 。 ？ ！ ， 、 ； ： “ ” ‘ ' （ ） 《 》 〈 〉 【 】 『 』 「 」 ﹃ ﹄ 〔 〕 … — ～ ﹏ ￥
@@ -98,5 +99,19 @@
 	//2. (?![^a-zA-Z]+$)
 	//断言此位置后,字符串结尾之前,所有的字符不能全部由数字（[^a-zA-Z]表示非英文字母,结合下文,这里匹配数字）组成.
 	//由于当前位置是字符串开始,所以表示整个字符串不能全是数字.
-	//(?!exp)为零宽断言,表示断言之后的内容不能是exp,[^a-zA-Z]表示非英文字母,+表示可以有多个,$匹配结尾.
+    //(?!exp)为零宽断言,表示断言之后的内容不能是exp,[^a-zA-Z]表示非英文字母,+表示可以有多个,$匹配结尾.
+    var checkpassword1 = /^(?![0-9A-Za-z]+$)\w{8,16}$/i
+    var checkpassword2 = /^(?![^a-zA-Z]+$)(?!\D+$)[0-9a-zA-Z]{6,35}$/i
+    var dateStr = "2016-02-12 10:34:02"
+
+    //按正则匹配拆分字符串
+    var arr = dateStr.split(/[: -]/)
+    date = new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5])
+
+    //匹配网址url
+    var urlReg = /(https?|ftp)?:\/\/\w+(\.\w+)+(\/\w+)*(\.\w+)*(\?\w+=[\w\u4e00-\u9fa5]+)?(&\w+=[\w\u4e00-\u9fa5]+)*/
+    var url = "";
+    var vedioStr = "<vedio controls src="+"http://www.abc.com/user/name?id=1&age=2&name=时佰勇"+"/>"
+
+
 </script>
