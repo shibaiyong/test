@@ -20,6 +20,8 @@ git reset                                          https://www.cnblogs.com/kidsi
 
 撤销commit及参数说明                          https://www.cnblogs.com/lfxiao/p/9378763.html
 
+Git恢复之前版本的两种方法reset、revert（图文详解）                      https://www.jb51.net/article/192271.htm
+
 git 建立追踪关系，查看。                        https://blog.csdn.net/qq_42780289/article/details/97762596
 
 Git 分支 - 分支的新建与合并（实战）              	   https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6

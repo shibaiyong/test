@@ -1,0 +1,286 @@
+html{
+  font-size: 100px;
+}
+
+
+main{
+  width: 6.4rem;
+}
+.clear {
+  clear: both;
+}
+
+.header {
+
+  background: #282828;
+
+  padding: 0.2rem 0;
+}
+
+.zjnr {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.ymtb {
+  width: 1.7rem;
+
+}
+
+.ymtb img {
+  width: 100%;
+}
+
+.tbsybt{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.tbsybt li {
+  color: #fff;
+  font-size: 0.21rem;
+  width:1.1rem;
+}
+
+.tbsybt li:nth-child(2) {
+  text-align: center;
+}
+
+.zjnr .tbsybt li:nth-child(3) {
+  text-align: center;
+}
+
+.zjnr .tbsybt li:nth-child(4) {
+  
+border: 0.01rem #ffffff solid;
+  text-align: center;
+  border-radius: 3px;
+  
+}
+
+.tbsybt li:nth-child(5) {
+  border: 0.01rem #ffffff solid;
+  text-align: center;
+  border-radius: 3px;
+}
+
+.tbsybt li:nth-child(2) span {
+  display: none;
+}
+
+.lbt {
+  width: 100%;
+  background: url("../images/baaner.jpg") no-repeat;
+  height: 3.2rem;
+  background-position: center center;
+}
+
+.zcnr {
+  max-width: 1920px;
+  background: #f1f1f1;
+  height: 3.6rem;
+  padding-top: 1px;
+}
+
+.zcnrzw {
+  width: 6rem;
+
+  margin: 0 auto;
+
+}
+
+.zcnr .zcnrzw p:nth-child(1) {
+  color: #333333;
+  font-size: 0.32rem;
+  text-align: center;
+  margin: 1rem 0 0.4rem;
+}
+
+.zcnr .zcnrzw p:nth-child(2) {
+  color: #333333;
+  font-size: 12px;
+  text-align: center;
+
+}
+
+.zcnr .zcnrzw p:nth-child(3) {
+  width: 2.6rem;
+  height: 0.6rem;
+  border: 1px #ff7a0f solid;
+  color: #ff7a0f;
+  text-align: center;
+  line-height: 0.6rem;
+  font-size: 0.3rem;
+  border-radius: 5px;
+  position: absolute;
+  left: 50%;
+  margin-left: -1.3rem;
+  margin-top: 0.5rem;
+}
+
+.zcnr1 {
+  background: #f9f9f9;
+  padding-bottom: 0.2rem;
+}
+
+.hzhb {
+
+  max-width: 1920px;
+  background: #f1f1f1;
+  padding-top: 0.2rem;
+
+
+}
+.hzhbnr li img{
+  width: 100%;
+}
+.hzhbnr {
+  width:100%;
+  margin: 0 auto;
+}
+.hzhbnr li{
+  margin-top: 75px;
+  float: left;
+}
+.hzhbnr li{
+  width: 6rem;
+  line-height: 0.32rem;
+  color: #666;
+  font-size: 0.22rem;
+  margin: 0.2rem;
+}
+
+.hzhbnr p:nth-child(1) {
+  width: 1.8rem;
+  margin-bottom: 0.2rem;
+}
+.hzhbnr li:nth-child(2) p{
+  width: 6rem;
+  float: left;
+  margin:0.05rem 0.2rem;
+}
+.hzhbnr li:nth-child(1) p:nth-child(1) img{
+  width: 100%;
+}
+
+.hzhbnr li p span {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+}
+
+
+
+
+.hzhbnr li:nth-child(2){
+  margin-right: 2.6rem;
+
+}
+
+
+
+
+
+.hzhbnr li:nth-child(3) div{
+  display: flex;
+  justify-content: space-around;
+}
+
+.hzhbnr li:nth-child(3) div p{
+  width:22%;
+}
+
+.dbnr{
+  text-align: center;
+  color: #fff;
+  font-size: 0.22rem;
+}
+
+.lbt1 {
+  width: 100%;
+  background: url("../images/baaner2.jpg") no-repeat;
+  height: 330px;
+  background-position: center center;
+  position: relative;
+}
+.dlk{
+  position: absolute;
+  width:4rem;
+
+
+  background-color: rgba(0, 0, 0, 0.2);
+  left: 50%;
+  margin-left: -2rem;
+  top: 60px;
+  border: 1px #fff solid;
+  border-radius: 6px;
+}
+.dlk li{
+  width: 2.6rem;
+  height: 0.52rem;
+  background: #fff;
+  border-radius: 4px;
+  opacity: 1;
+  line-height: 0.52rem;
+  margin: 0 0 0.24rem 0.6rem;
+}.dlk li:nth-child(1){
+   margin-top: 0.58rem;
+}
+.dlk li span{
+  display: block;
+  float: left;
+  width: 0.24rem;
+  height: 24px;
+  margin: 0.14rem 0.15rem;
+
+}
+.dlk li span img{
+  width: 100%;
+
+}
+.dlk li input{
+  border: none;
+  color: #666;
+  width: 2rem;
+  font-size: 0.2rem;
+  float: left;
+  line-height: 0.5rem;
+}
+
+.dlk li:nth-child(4){
+  background: none;
+  height: 26px;
+  line-height: 26px;
+  font-size: 17px;
+}
+
+.dlk li:nth-child(4){
+  background: #ff7a0f;
+  text-align: center;
+  font-size: 19px;
+  color: #fff;
+  border-radius: 50px;
+  height: 0.6rem;
+  line-height: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.dlk li:nth-child(3){
+  position: relative;
+
+}
+.dlk li:nth-child(3) input{
+  width: 0.7rem;
+}
+.dlk li:nth-child(3) div{
+  position: absolute;
+  width: 1.29rem;
+  height: 0.36rem;
+  background: #666666;
+  top: 0.08rem;
+  left: 1.25rem;
+}
+
+li a:hover{background: #ff7a0f;  display: block;}
