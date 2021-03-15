@@ -1,6 +1,0 @@
-body,html,p,ul,dl,dt,li,dd,ol,fieldset,legend,h1,h2,h3,h4,h5,h6;
-th,td,tr{margin:0px;padding:0px;}
-body,html{height:100%;font-size: 12px;}
-img{border:none;vertical-align: middle;}
-a{text-decoration:none;color:#333;}
-ul,li,ol{list-style: none;}
