@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+
+  var data = {
+    name: 'shibaiyong',
+    age: 27,
+    arr: [
+      1, 2, 3, 4, 5
+    ],
+    obj: {
+      a: 'a',
+      b: 'b'
+    }
+  }
+
+  class ObserveObj {
+    constructor(obj, cb) {
+
+      this.OP = Object.prototype.toString
+
+      if (this.OP.call(obj) != '[object Object]') {
+        alert('请输入对象')
+      }
+      this._cb = cb;
+      this.setObserveProp(obj);
+    }
+    setObserveProp(obj) {
+      let self = this;
+      Object.keys(obj).forEach(key => {
+        let val = obj[key];
+        if(this.OP.call(val) == '[object Array]'){
+          this.observeArray(val)
+        }
+        Object.defineProperty(obj, key, {
+          get() {
+            return val
+          },
+          set(newVal) {
+            if(val !== newVal){
+              self._cb(newVal)
+              val = newVal
+            }
+          }
+        })
+      })
+    }
+
+    observeArray(arr){//重写数组方法
+      let self = this;
+      let arrProto = Array.prototype
+      let overWriteObj = Object.create(arrProto);
+      ['push', 'pop', 'shift', 'unshift', 'short', 'reverse', 'splice'].forEach(key => {
+        Object.defineProperty(overWriteObj, key, {
+          value:function(){
+            let oldVal = this.slice();//数组的原始值，通过slice实现深拷贝。
+            arrProto[key].call(this, ...arguments);//调用原型指针改变的数组方法，修改数组。
+            let newVal = this;//数组改动后的新值
+            self._cb(newVal)
+          }
+        })
+      })
+      arr.__proto__ = overWriteObj;
+    }
+  }
+  new ObserveObj(data,function(res){//监听到数据变化
+    console.log(res)
+  })
+  data.arr.push(10);//监听到数组变化了。
+  data.name = 'shibaiyong11111';//监听到简单类型的属性变化了。
+</script>
