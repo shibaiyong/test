@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>
+<script>
+  function MPromise(cb){
+    let self = this
+    self.status = 'pendding'
+    self.resolveCB = null
+    self.rejectCB = null
+    self.nextResolve = null
+    self.nextReject = null
+    try{
+      cb(resolve, reject)
+    }catch{
+      reject('内部错误')
+    }
+    function resolve(val){
+      self.status = 'resolve'
+      self.resolveVal = val
+      if(self.resolveCB){
+        self.resolveCB(val, self.nextResolve, self.nextReject)
+      }
+    }
+
+    function reject(val){
+      self.status = "reject"
+      self.rejectVal = val
+      if(self.rejectCB){
+        self.rejectCB(val, self.nextReject)
+      }
+    }
+  }
+
+  MPromise.prototype.then = function(resolveCB, rejectCB){
+    let self = this
+    return new MPromise((resolve, reject)=>{
+      if(self.status == 'resolve'){
+        resolveCB(self.resolveVal, resolve, reject)
+      }else if(self.status == 'reject'){
+        rejectCB(self.rejectVal, reject)
+      }else if(self.status == 'pendding'){
+        self.nextReject = reject
+        self.nextResolve = resolve
+        self.resolveCB = resolveCB
+        self.rejectCB = rejectCB
+      }
+    })
+  }
+
+
+  new MPromise(function(resolve,reject){
+    setTimeout(()=>{
+      resolve('你好！！！')
+    },1000)
+    
+  }).then(function(val){
+
+    console.log(val)
+
+  })
+</script>
