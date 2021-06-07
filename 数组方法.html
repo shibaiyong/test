@@ -152,4 +152,45 @@ for(let i in myObject){
 // 	console.log(key)
 // })
 
+
+//折半查找
+
+function halfSearch( val ){
+
+	let arr = [ 12, 23, 25, 34, 56, 87, 93 ]
+
+	let low = 0
+
+	let height = arr.length - 1
+
+	while( low <= height ){
+
+		let mid = Math.floor( (low + height) / 2 )
+		if(arr[mid] == val){
+
+			return mid
+
+		}else if( arr[mid] < val ){
+
+			low = mid + 1
+
+			mid = Math.floor( (low + height) / 2 )
+
+		}else{
+
+			height = mid - 1
+
+			mid = Math.floor( (low + height)/2 )
+
+		}
+
+		if(low > height){
+			return 0
+		}
+
+	}
+
+}
+//console.log("折半查找")
+//console.log(halfSearch(26))
 </script>
