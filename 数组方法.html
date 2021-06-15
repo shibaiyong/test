@@ -24,7 +24,7 @@
 	//console.log(arr);
 	//console.log(drr,arr);
 	//console.log(err);
-	//冒泡排序。
+	//选择排序。
 	var arr = [1, 1, 1, 2, 2, 2, 4, 56, 323, 3, 8, 3, 2, 6, 6, 6];
 	// for(var i=0;i<arr.length-1;i++){
 	// 	for(var j=i+1;j<arr.length;j++){
@@ -254,7 +254,7 @@ function BInsertSort( frr ){
 } 
 
 //console.log(BInsertSort(frr))
-
+//一次快速排序，找出中枢位置
 function Partition(frr, low, high){
 
 	var pivotkey = frr[low]
@@ -278,7 +278,7 @@ function Partition(frr, low, high){
 }
 
 //console.log(Partition(frr, 0, frr.length-1))
-
+//快速排序的递归算法实现
 function Qsort(frr, low, high){
 
 	if(low < high){
