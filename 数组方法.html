@@ -193,4 +193,110 @@ function halfSearch( val ){
 }
 //console.log("折半查找")
 //console.log(halfSearch(26))
+
+//直接插入排序
+var frr = [26,98,6,59,46,654,6,465,46,54,65,2,5]
+function InsertSort( frr ){
+	var temp;
+	for(var i = 1; i <= frr.length-1; i++){
+		if( frr[i] < frr[i-1] ){
+			temp = frr[i]
+			frr[i] = frr[i-1]
+
+			for(var j = i - 2; (temp < frr[j]) && (j >= 0); --j){
+				frr[j + 1] = frr[j]
+			}
+
+			frr[j + 1] = temp
+		}
+		
+	}
+
+	return frr
+}
+
+//console.log(InsertSort(frr))
+
+//折半插入排序（要求是有序序列）
+function BInsertSort( frr ){
+
+	var temp;
+	for(var i = 1; i <= frr.length-1; i++){
+		temp = frr[i]
+
+		var low = 0, high = i - 1;
+
+		while( low <= high ){
+
+			var m = Math.floor( (low + high) / 2 )
+
+			if(temp < frr[m] ){
+
+				high = m - 1
+
+			}else{
+
+				low = m + 1
+
+			}
+
+			for( var j = i - 1; j >= high + 1; --j){
+				frr[j+1] = frr[j]
+			}
+
+			frr[high+1] = temp
+
+		}
+	}
+
+	return frr
+
+} 
+
+//console.log(BInsertSort(frr))
+
+function Partition(frr, low, high){
+
+	var pivotkey = frr[low]
+
+	while( low < high){
+
+		while(low < high && frr[high] >= pivotkey) --high;
+
+		frr[low] = frr[high];
+
+		while(low < high && frr[low] <= pivotkey) {++low}
+
+		frr[high] = frr[low];
+
+	}
+
+	frr[low] = pivotkey;
+
+	return low;
+
+}
+
+//console.log(Partition(frr, 0, frr.length-1))
+
+function Qsort(frr, low, high){
+
+	if(low < high){
+
+		var pivotkey = Partition(frr, low, high)
+
+		console.log(pivotkey)
+
+		Qsort(frr, low, pivotkey - 1)
+
+		Qsort(frr, pivotkey + 1, high)
+
+	}
+
+}
+
+Qsort(frr, 0, frr.length-1)
+
+console.log(frr)
+
 </script>
