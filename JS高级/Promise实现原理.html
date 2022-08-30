@@ -43,6 +43,7 @@
   MPromise.prototype.then = function(resolveCB, rejectCB){
     let self = this
     return new MPromise((resolve, reject)=>{
+      //如果cb是异步方法，此时的self.status=pending
       if(self.status == 'resolve'){
         resolveCB(self.resolveVal, resolve, reject)
       }else if(self.status == 'reject'){
@@ -62,7 +63,7 @@
       resolve('你好！！！')
     },1000)
     
-  }).then(function(val){
+  }).then(function(val,resolve,reject){
 
     console.log(val)
 

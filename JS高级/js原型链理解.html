@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>js原型链理解</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+
+//js原型
+
+// 实例上的__proto__指向原型上的prototype，prototype和__proto__的区别：实例.__proto__ === 原型.prototype
+// 凡是通过new Function()创建的对象都是函数对象，其他的都是普通对象
+// 每个对象都有__proto__属性，但只有函数对象才有 prototype 属性，这都是js解释器自动加上的
+// 所有函数对象的__proto__都指向 Function.prototype
+// 每一个函数新建的时候都有一个默认的prototype，prototype这个对象(原型对象)上面默认有一个指向自己的constructor
+// 原型对象主要作用是用于继承
+// 原型对象其实就是普通对象（但 Function.prototype 除外，它是函数对象，它很特殊，它是一个空函数（Empty function），它没有prototype属性（前面说过函数对象都有prototype属性））
+// Function.prototype是唯一一个typeof XXX.prototype为 function的prototype。其它构造器的prototype都是一个对象
+// typeof Object/Function/Array/Date/Number/String/Boolean，得到的结果都是"function"，所以它们的__proto__都指向Function.prototype
+// 所有的构造器都来自于 Function.prototype，甚至包括根构造器Object及Function自身。所以所有构造器都继承了Function.prototype的属性及方法。如length、call、apply、bind
+// Object.prototype的proto指向null，所以null是原型链的终端。
+
+  typeof Object  //"function"
+  Object.constructor === Function  //true
+  Object.__proto__ === Function.prototype //true
+  //Function,Array,String,Date,Number,Boolean,RegExp,Error同以上，它们都是构造器
+
+  //Math，JSON是以对象形式存在的，无需new，它们的proto是Object.prototype
+  Math.__proto__ === Object.prototype  // true
+  Math.constructor === Object // true
+  JSON.__proto__ === Object.prototype  // true
+  JSON.constructor === Object //true
+
+  typeof Function.prototype  //"function"
+  typeof Object.prototype //"object"
+  //除Function外的构造器的prototype用typeof得到的结果都是"object"
+
+  typeof Function.prototype.prototype //"undefined"
+  typeof Object.prototype.prototype //"undefined"
+  Function.prototype.__proto__ === Object.prototype //true
+  Object.prototype.__proto__ === null //true
+  
+</script>

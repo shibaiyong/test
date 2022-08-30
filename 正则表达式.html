@@ -30,9 +30,12 @@
     // attributes：g,全局匹配，i不区分大小写，m执行多行匹配，用最多的为g和i
     
     var str = `djfld123ldfk123`;
-    var reg = new RegExp('123','mg');
+    var reg = new RegExp('(123)','mg');
     var arr = reg.exec(str);
-    // console.log(arr);
+    //reg.test(str)
+    // console.log(arr)
+    // console.log(RegExp.$1);
+    // console.log(RegExp.$2);
     //正则表达式中;括号的用法
 
     //1、分组  我们知道/a+/匹配连续出现的“a”，而要匹配连续出现的“ab”时，需要使用/(ab)+/。
@@ -41,7 +44,7 @@
     // var reg = /(la)+/;
     var reggroup = /(la)+/g;
     var group = divideStr.match(reggroup);
-    // console.log(group);
+    //console.log(group);
 
     //2、提取数据
     var timeStr = '2017-08-12 04:12';

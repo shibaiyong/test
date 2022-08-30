@@ -10,6 +10,11 @@
 
 <body>
 
+  es5的继承和es6的继承机制不同
+
+  es5先创建子类的实例对象this，在将父类方法添加到子类上（Parent.apply(this)）。
+  es6 class方法 - 先创建父类的实例对象this，所以必须super(),再用子类的构造函数修改this。
+
 </body>
 
 </html>
@@ -69,14 +74,14 @@
     SuperType.call(this, name);   // 第一次调用 SuperType
     this.age = age;
   }
-  //继承方法     使用原型链实现
+  //继承方法   使用原型链实现
   SubType.prototype = new SuperType(); // 第二次调用 SuperType
   SubType.prototype.constructor = SubType;
   SubType.prototype.sayAge = function () {
     console.log(this.age);
   };
+  SubType.prototype.age = 24
   var instance1 = new SubType("mary", 22);
-
   console.log(instance1)
 
   //方式五：使用Object.create方法
@@ -88,22 +93,70 @@
   Parent.prototype.sayHi = function () {
     console.log("Hi " + this.name + ".");
   }
+  Parent.prototype.name = 'parent'
   //子类构造函数
   var Children = function (name, age) {
     this.age = age;
     Parent.call(this, name);     //属性不在prototype上
   };
-
+  //Object.create创建新对象的原型对象
   Children.prototype = Object.create(Parent.prototype);
   Children.prototype.constructor = Children;
   Children.prototype.getAge = function () {
     console.log(this.age);
-  };
+  }
 
-  var P = new Parent("John");
-  var C = new Children("Joe", 30);
-
+  var P = new Parent("John")
+  var C = new Children("Joe", 30)
+  console.log(C.name == P.name)
+  console.log(Object.getPrototypeOf(C))
+  console.log(Parent.prototype)
   //方式六：extends关键字实现继承
   
+//继承
+// JavaScript 的对象继承是通过 原型链 实现的。
 
+// ES6 提供了更多原型对象的操作方法。__proto__ 属性（前后各两个下划线），用来读取或设置当前对象的prototype对象。目前只有浏览器环境必须部署有这个属性，其他运行环境不一定要部署，因此不建议使用这个属性，而是使用下面这些 Object.setPrototypeOf()（写操作）、Object.getPrototypeOf()（读操作）、Object.create()（生成操作）来代替。
+
+// Object.setPrototypeOf()
+// 格式：Object.setPrototypeOf( obj, proto )
+// 描述：它是ES6正式推荐的设置原型对象的方法，相当于 obj.__proto__ = proto
+// 返回：第一个参数obj本身
+
+function ColoredTriangle(){
+  this.color = 'red'
+}
+
+//console.log(typeof ColoredTriangle.prototype)
+
+//Function.prototype 很特殊,它是一个函数对象（Empty Function），它没有prototype属性。（函数对象都有prototype属性，它除外。）
+//console.log(typeof Function.prototype)  //function
+
+var c = new ColoredTriangle()
+
+Object.defineProperty(c,'getColor',{
+  //设置为可枚举，不然assign方法会过滤该属性。
+  enumerable:true,
+  get(){
+    return 'The color is ' + this.color
+  }
+})
+//console.log(c)
+// color: "red"
+// getColor: "The color is red"
+// get getColor: ƒ get()
+// [[Prototype]]: Object
+// constructor: ƒ ColoredTriangle()
+// [[Prototype]]: Object  
+//console.log(c.__proto__ == ColoredTriangle.prototype) //true
+//console.log(c.__proto__ == Object.getPrototypeOf(c))  //true
+//console.log(Object.getPrototypeOf(c))
+var cAssign = Object.assign(Object.create(Object.getPrototypeOf(c)),c)
+
+//console.log(cAssign)
+// color: "red"
+// getColor: "The color is red"
+// [[Prototype]]: Object
+// constructor: ƒ ColoredTriangle()
+// [[Prototype]]: Object
 </script>

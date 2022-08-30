@@ -52,6 +52,21 @@
 			}
 		}
 	}
+
+	var array1 = [1, 5, 2, 3, 2, 5, 4]
+
+	function unique(array1) {
+		let empty = []
+		for (let i = 0; i < array1.length; i++) {
+			let item = array1[i]
+			if (!empty.includes(item)) {
+				empty.push(item)
+			}
+		}
+		return empty
+	}
+	//console.log(unique(array1))
+
 	// console.log('去重' + brr);
 	//取出数组中的最大最小值;
 	var crr = [1, 1, 1, 2, 2, 2, 4, 56, 323, 3, 8, 3, 2, 6, 6, 6];
@@ -73,7 +88,7 @@
 			return true
 		}
 	})
-	//console.log('map方法  ' + frr);
+	//console.log(frr,err);
 	//统计字符串的个数;
 	var nrr = [1, 1, 1, 2, 2, 2, 4, 56, 323, 3, 8, 3, 2, 6, 6, 6];
 	var jrr = [1, 1, 1, 2, 2, 2, 4, 56, 323, 3, 8, 3, 2, 6, 6, 6];
@@ -134,169 +149,224 @@
 	// console.log('reduce 求和' + sum1);
 	// console.log('reduce 阶乘' + calcu1);
 
-Object.prototype.sayHello = function(){
-	
-	console.log('Hello');
-	
-}
+	Object.prototype.sayHello = function () {
 
-Object.prototype.str = 'World';
-
-var myObject = {name:'zhangsan',age:100};
-
-for(let i in myObject){
-	console.log(i)
-}
-
-// Object.keys(myObject).forEach(function(key){
-// 	console.log(key)
-// })
-
-
-//折半查找
-
-function halfSearch( val ){
-
-	let arr = [ 12, 23, 25, 34, 56, 87, 93 ]
-
-	let low = 0
-
-	let height = arr.length - 1
-
-	while( low <= height ){
-
-		let mid = Math.floor( (low + height) / 2 )
-		if(arr[mid] == val){
-
-			return mid
-
-		}else if( arr[mid] < val ){
-
-			low = mid + 1
-
-			mid = Math.floor( (low + height) / 2 )
-
-		}else{
-
-			height = mid - 1
-
-			mid = Math.floor( (low + height)/2 )
-
-		}
-
-		if(low > height){
-			return 0
-		}
+		//console.log('Hello');
 
 	}
 
-}
-//console.log("折半查找")
-//console.log(halfSearch(26))
+	Object.prototype.str = 'World';
 
-//直接插入排序
-var frr = [26,98,6,59,46,654,6,465,46,54,65,2,5]
-function InsertSort( frr ){
-	var temp;
-	for(var i = 1; i <= frr.length-1; i++){
-		if( frr[i] < frr[i-1] ){
+	var myObject = { name: 'zhangsan', age: 100 };
+
+	for (let i in myObject) {
+		//console.log(i)
+	}
+
+	Object.keys(myObject).forEach(function(value,index){
+		return value + '1'
+	})
+
+
+	//折半查找
+
+	function halfSearch(val) {
+
+		let arr = [12, 23, 25, 34, 56, 87, 93]
+
+		let low = 0
+
+		let height = arr.length - 1
+
+		while (low <= height) {
+
+			let mid = Math.floor((low + height) / 2)
+			if (arr[mid] == val) {
+
+				return mid
+
+			} else if (arr[mid] < val) {
+
+				low = mid + 1
+
+				mid = Math.floor((low + height) / 2)
+
+			} else {
+
+				height = mid - 1
+
+				mid = Math.floor((low + height) / 2)
+
+			}
+
+			if (low > height) {
+				return 0
+			}
+
+		}
+
+	}
+	//console.log("折半查找")
+	//console.log(halfSearch(26))
+
+	//直接插入排序
+	var frr = [26, 98, 6, 59, 46, 654, 6, 465, 46, 54, 65, 2, 5]
+	function InsertSort(frr) {
+		var temp;
+		for (var i = 1; i <= frr.length - 1; i++) {
+			if (frr[i] < frr[i - 1]) {
+				temp = frr[i]
+				frr[i] = frr[i - 1]
+
+				for (var j = i - 2; (temp < frr[j]) && (j >= 0); --j) {
+					frr[j + 1] = frr[j]
+				}
+
+				frr[j + 1] = temp
+			}
+
+		}
+
+		return frr
+	}
+
+	//console.log(InsertSort(frr))
+
+	//折半插入排序（要求是有序序列）
+	function BInsertSort(frr) {
+
+		var temp;
+		for (var i = 1; i <= frr.length - 1; i++) {
 			temp = frr[i]
-			frr[i] = frr[i-1]
 
-			for(var j = i - 2; (temp < frr[j]) && (j >= 0); --j){
-				frr[j + 1] = frr[j]
+			var low = 0, high = i - 1;
+
+			while (low <= high) {
+
+				var m = Math.floor((low + high) / 2)
+
+				if (temp < frr[m]) {
+
+					high = m - 1
+
+				} else {
+
+					low = m + 1
+
+				}
+
+				for (var j = i - 1; j >= high + 1; --j) {
+					frr[j + 1] = frr[j]
+				}
+
+				frr[high + 1] = temp
+
 			}
-
-			frr[j + 1] = temp
 		}
-		
+
+		return frr
+
 	}
 
-	return frr
-}
+	//console.log(BInsertSort(frr))
+	//一次快速排序，找出中枢位置
+	function Partition(frr, low, high) {
 
-//console.log(InsertSort(frr))
+		var pivotkey = frr[low]
 
-//折半插入排序（要求是有序序列）
-function BInsertSort( frr ){
+		while (low < high) {
 
-	var temp;
-	for(var i = 1; i <= frr.length-1; i++){
-		temp = frr[i]
+			while (low < high && frr[high] >= pivotkey)--high;
 
-		var low = 0, high = i - 1;
+			frr[low] = frr[high];
 
-		while( low <= high ){
+			while (low < high && frr[low] <= pivotkey) { ++low }
 
-			var m = Math.floor( (low + high) / 2 )
-
-			if(temp < frr[m] ){
-
-				high = m - 1
-
-			}else{
-
-				low = m + 1
-
-			}
-
-			for( var j = i - 1; j >= high + 1; --j){
-				frr[j+1] = frr[j]
-			}
-
-			frr[high+1] = temp
+			frr[high] = frr[low];
 
 		}
-	}
 
-	return frr
+		frr[low] = pivotkey;
 
-} 
-
-//console.log(BInsertSort(frr))
-//一次快速排序，找出中枢位置
-function Partition(frr, low, high){
-
-	var pivotkey = frr[low]
-
-	while( low < high){
-
-		while(low < high && frr[high] >= pivotkey) --high;
-
-		frr[low] = frr[high];
-
-		while(low < high && frr[low] <= pivotkey) {++low}
-
-		frr[high] = frr[low];
+		return low;
 
 	}
 
-	frr[low] = pivotkey;
+	//console.log(Partition(frr, 0, frr.length-1))
+	//快速排序的递归算法实现
+	function Qsort(frr, low, high) {
 
-	return low;
+		if (low < high) {
 
-}
+			var pivotkey = Partition(frr, low, high)
 
-//console.log(Partition(frr, 0, frr.length-1))
-//快速排序的递归算法实现
-function Qsort(frr, low, high){
+			//console.log(pivotkey)
 
-	if(low < high){
+			Qsort(frr, low, pivotkey - 1)
 
-		var pivotkey = Partition(frr, low, high)
+			Qsort(frr, pivotkey + 1, high)
 
-		console.log(pivotkey)
-
-		Qsort(frr, low, pivotkey - 1)
-
-		Qsort(frr, pivotkey + 1, high)
+		}
 
 	}
 
-}
+	Qsort(frr, 0, frr.length - 1)
 
-Qsort(frr, 0, frr.length-1)
+	//console.log(frr)
 
-console.log(frr)
+	function fetchData(callback) {
+		setTimeout(() => {
+			callback("我是返回的数据")
+		}, 3000)
+	}
+	// 实现下⾯的函数 
+	function promiseFecth() {
 
+		return new Promise((resolve, reject) => {
+
+			fetchData(resolve)
+
+		})
+
+	}
+
+	//promiseFecth().then(res=> {console.log(res)})
+
+	const address = [
+		{
+			id: 1, name: '北京市', children: [
+				{
+					id: 11, name: '海淀区', children: [
+						{ id: 111, name: '中关村', }
+					]				
+},
+				{ id: 12, name: '朝阳区', },],
+		},
+		{ id: 2, name: '河北省' }
+	]
+	function getNameById(address, id) {
+
+		for (let i = 0; i < address.length; i++) {
+			let item = address[i]
+			if (item.id == id) {
+				return item.name
+			}
+			if (item.children && item.children.length) {
+				return getNameById(item.children, id)
+			}
+		}
+		return "无"
+	}
+	console.log(getNameById(address, 1121))
+
+	let aa1 = [1, 2];
+	let aa2 = [3, 4];
+	let mergeTwoarr = (a1, a2) => {
+		let a3 = a2.map(item => {
+			a1.push(item)
+		})
+		return a1
+	}
+
+	mergeTwoarr(aa1, aa2)
 </script>
