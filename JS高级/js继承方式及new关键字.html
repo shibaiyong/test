@@ -28,6 +28,11 @@
     alert('hi');
   }
 
+  console.log(new Parent())
+
+  console.log(new Parent().__proto__===Parent.prototype)  //true
+  console.log(new Parent().__proto__===Function.prototype)  //false
+
   function Child1() {
     this.name = "child";
     this.age = 2;
@@ -48,7 +53,7 @@
 
     return obj;
   }
-  // console.log(_new(Parent,2,3));
+  //console.log(_new(Parent,2,3));
   //_new(Parent,2,3).sayHi();
 
   //js继承的方式
@@ -82,7 +87,7 @@
   };
   SubType.prototype.age = 24
   var instance1 = new SubType("mary", 22);
-  console.log(instance1)
+  //console.log(instance1)
 
   //方式五：使用Object.create方法
 
@@ -108,9 +113,9 @@
 
   var P = new Parent("John")
   var C = new Children("Joe", 30)
-  console.log(C.name == P.name)
-  console.log(Object.getPrototypeOf(C))
-  console.log(Parent.prototype)
+  // console.log(C.name == P.name)
+  // console.log(Object.getPrototypeOf(C))
+  // console.log(Parent.prototype)
   //方式六：extends关键字实现继承
   
 //继承

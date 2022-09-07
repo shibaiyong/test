@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>闭包</title>
+	<style>
+		.num1,
+		.num2,
+		.num3 {
+			width: 50px;
+			height: 50px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="num1 num">1</div>
+	<div class="num2 num">2</div>
+	<div class="num3 num">3</div>
+</body>
+
+</html>
+<script type="text/javascript">
+
+	var doms = document.getElementsByClassName('num');
+
+	for (var i = 0; i < doms.length; i++) {
+
+		//性能更好
+		(function (i) {
+
+			doms[i].onclick = debounce(function () { console.log('防抖成功' + i) }, 1000)
+
+		})(i)
+
+		// doms[i].onclick = (function(i){
+		// 	return debounce(function(){ console.log('防抖成功'+i)}, 1000)
+		//  })(i)
+
+	}
+	//防抖
+
+	function debounce(fn, wait) {
+		var timeout = null;
+		return function () {
+			if (timeout !== null) clearTimeout(timeout);
+			timeout = setTimeout(fn, wait);
+		}
+	}
+	//节流就是发送请求时，在没有返回数据的时候，请求禁止发送。即按钮处于不可被点击状态。
+	
+	var a = {
+		oneFun: () => { console.log('箭头函数'); console.log(this) },
+		twoFun: function () { console.log('普通函数'); console.log(this) },
+		c: {
+			threeFun: () => {
+				console.log('子对象');
+				console.log(this);
+			}
+		},
+		d: 3,
+		show() {
+			//setTimeout(()=>{console.log(this.d);console.log(this)},500)
+			(() => { console.log(this.d); console.log(this) })()
+			//this指向a
+		}
+	}
+
+	var b = {
+		oneFunB: () => { a.oneFun() },
+		twoFunB: function () {
+			a.c.threeFun()
+		}
+	}
+
+	// b.twoFunB()
+	// a.show()
+	//总结：箭头函数的this指向他所在上下文的上下文
+</script>

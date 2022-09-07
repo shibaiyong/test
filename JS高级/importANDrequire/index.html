@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>import 和 require 的区别</title>
+</head>
+<body>
+
+  import 和 require 的区别:
+  一、
+  –require是运行时调用，所以require理论上可以运用在代码的任何地方
+  –import是编译时调用，所以必须放在文件开头
+
+  二、
+
+  –require是赋值过程，其实require的结果就是对象、数字、字符串、函数等，再把require的结果赋值给某个变量
+
+  –import是解构过程，但是目前所有的引擎都还没有实现import，我们在node中使用babel支持ES6，也仅仅是将ES6转码为ES5再执行，import语法会被转码为require
+  
+  三、
+  
+  ode的module遵循CommonJS规范，requirejs遵循AMD，seajs遵循CMD，虽各有不同，但总之还是希望保持较为统一的代码风格。
+</body>
+</html>
+<script type="module" src="import.js"></script>
+<!-- <script src="require.js"></script> -->
