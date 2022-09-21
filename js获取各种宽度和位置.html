@@ -25,7 +25,7 @@
     }
     .list{
       display:inline-block;
-      width:800px;
+      /* width:800px; */
       height: 100px;
       background:green;
       margin:0;
@@ -33,21 +33,19 @@
   </style>
 </head>
 <body>
-
   <div class="content">
     设置宽高的情况下获取元素的宽高
   </div>
-
   <div class="autoheight">
-
     <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
-    <!-- <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
     <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
-    <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div> -->
+    <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
+    <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
+    <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
+    <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
+    <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
+    <div class="list">子元素长度超过父元素，显示横向滚动条时，如果子元素为block，会覆盖父元素右侧的padding部分。</div>
   </div>
-
-
-  
 </body>
 </html>
 <script>
@@ -89,6 +87,10 @@
   var w1 = autoheight.offsetWidth;//包括边线和滚动条的宽
   var w2 = autoheight.scrollWidth;//不包括边线和滚动条的宽度
   var w3 = autoheight.clientWidth;//不包括边线和滚动条的宽度 滚动条宽度17px;
+
+  // autoheight.addEventListener('scroll',res=>{
+  //   console.log(autoheight.scrollTop)
+  // })
 
   console.log(h1,h2,h3)
   console.log(w1,w2,w3)
