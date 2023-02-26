@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>svg绘制</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    span{
+      margin-left:10px;
+    }
+
+    #chart{
+      /* display: flex;
+      align-items: flex-end; */
+    }
+
+    #chartSvg{
+      width:500px;
+      height:400px;
+    }
+
+    .bar{
+      background:chartreuse;
+      width:50px;
+      display: inline-block;
+      margin-left:10px;
+    }
+  
+  </style>
+</head>
+<body>
+
+  <div id="chart">
+
+    
+
+  </div>
+
+  <div id="chartSvg">
+
+    
+
+  </div>
+    
+
+  
+</body>
+<script>
+
+    //d3 异步加载数据
+    
+    d3.json('../data.json').then(function(data){
+      console.log(data)
+      //generate(data)
+      generateSvg(data)
+    })
+
+    function generate(dataset){
+      var el = d3.select('#chart')
+      .selectAll('div')       //   选取dom元素
+      .data(dataset)          //   解析数据
+      .enter()                //   根据数据生成占位符
+      .append('div')
+      .classed('bar',true)
+      .text(function(d){
+        return d
+      }).style('height',function(d){
+        return d + 'px'
+      })
+    }
+
+    function generateSvg(dataset){
+
+
+      let containerW = 700
+
+      let containerH = 400
+
+      let margin = 10
+
+      var svg = d3.select('#chartSvg').append('svg').attr('width',700).attr('height',400)
+
+      svg.selectAll('rect')
+
+      .data(dataset)
+
+      .enter()
+
+      .append('rect')
+      .attr('x', (d,index) => {
+        return containerW / dataset.length * index
+      })
+      .attr('y', (d,index) => {
+        return containerH - d * 5
+      })
+      .attr('width', containerW / dataset.length - margin)
+      .attr('height', (d) => d * 5)
+      .attr('fill', 'red')
+      .text(d => d)
+    }
+    
+  </script>
+</html>

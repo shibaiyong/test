@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>svg绘制</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    span{
+      margin-left:10px;
+    }
+  
+  </style>
+</head>
+<body>
+    
+
+  <!-- <svg width="500" height="500"> -->
+    <!-- 绘制多边形 -->
+    <!-- <polygons points></polygons> -->
+
+    <!-- definitions  groups -->
+
+    <!-- <defs>
+      <rect width="50" height="50" id="rectangle"></rect>
+    </defs>
+
+    <use xlink:href="#rectangle"></use>
+    <use xlink:href="#rectangle" x="50" y="50"></use>
+  </svg> -->
+  
+</body>
+<script>
+
+    //d3 异步加载数据
+    d3.csv('../data.csv').then(function(data){
+      console.log(data.columns)
+      //generate(data.columns)
+    })
+    
+    d3.json('../data.json').then(function(data){
+      console.log(data)
+      generate(data)
+    })
+
+    function generate(dataset){
+
+      //数据绑定与数据显示
+      //var dataset = [10, 20, 30, 40, 50] 
+      var el = d3.select('body')
+      //d3选择器
+      // el.append('p')
+      // el.attr('class','foo')
+      // el.text('hello word')
+      // el.classed('bar',true)
+      // el.style('color','blue')
+
+      // .selectAll('p')       //   选取dom元素
+      // .data(dataset)          //   解析数据
+      // .enter()                //   根据数据生成占位符
+      // .append('p')
+      // .text('hello world')
+
+      .selectAll('p')       //   选取dom元素
+      .data(dataset)          //   解析数据
+      .enter()                //   根据数据生成占位符
+      .append('p')
+      .text(function(d){
+        return d
+      }).style('color',function(d){
+        return d > 25 ? 'red' : 'blue'
+      })
+
+    }
+    
+  </script>
+</html>

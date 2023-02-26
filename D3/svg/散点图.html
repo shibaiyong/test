@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>svg散点图绘制</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    span{
+      margin-left:10px;
+    }
+
+    #chart{
+      /* display: flex;
+      align-items: flex-end; */
+    }
+
+    #chartSvg{
+      display: inline-block;
+      background:#eee;
+    }
+
+    .bar{
+      background:chartreuse;
+      width:50px;
+      display: inline-block;
+      margin-left:10px;
+    }
+  
+  </style>
+</head>
+<body>
+
+  
+
+  <div id="chartSvg">
+
+    
+
+  </div>
+    
+
+  
+</body>
+<script>
+
+    //比例尺的使用
+    var slices = [[400,200],[210,140],[722,300],[70,160],[250,50],[110,280],[699,225],[90,220]]
+
+    var svgW = 1200, svgH = 400;
+
+    var padding = 50
+
+    //此时，d3.scaleLiner返回一个函数
+    var cx = d3.scaleLinear()
+
+              .domain([0, d3.max( slices, d => d[0] )] )
+
+              .range([0, svgW - padding * 2])
+
+    var cy = d3.scaleLinear()
+
+              .domain( [0, d3.max( slices, d => d[1] )] )
+
+              .range([0, svgH - padding])
+
+    var cr = d3.scaleLinear()
+
+                .domain( [0, d3.max( slices, d => d[1] )] )
+
+                .range([5, 30])
+    
+    //生成svg画布，设置属性
+    var svgchart = d3.select('#chartSvg').append('svg').attr('width',svgW).attr('height',svgH)
+
+
+    //第一层，绘制圆形
+    svgchart.selectAll('circle')
+    .data(slices)
+    .enter()
+    .append('circle')
+    .attr('cx', d => {
+
+      return cx(d[0])
+
+    }).attr('cy', d => {
+
+      return cy(d[1])
+
+    }).attr('r', d => cr(d[1]))
+
+    .attr('fill','#ddd')
+
+    //第二层，生成文本
+    svgchart.selectAll('text')
+    .data(slices)
+    .enter()
+    .append('text')
+    .attr('x', d => {
+
+      return cx(d[0])
+
+    }).attr('y', d => {
+
+      return  cy(d[1])
+
+    }).text(d => d.join(','))
+    
+  </script>
+</html>
