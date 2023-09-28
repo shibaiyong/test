@@ -23,6 +23,28 @@
 </html>
 <script type="text/javascript">
 
+	var aa = 5;
+
+
+	function closeFn(pa){
+
+		return function bb(){
+			return pa
+		}
+	}
+
+	coFun = closeFn(aa)
+
+	aa = 6
+
+	console.log(coFun())   //5
+
+	aa = 8
+
+	coFun1 = closeFn(aa)   //生成了一个新上下文函数
+
+	console.log(coFun1())   // 8
+
 	var doms = document.getElementsByClassName('num');
 
 	for (var i = 0; i < doms.length; i++) {
@@ -60,9 +82,9 @@
 			}
 		},
 		d: 3,
-		show() {
+		show(aa) {
 			//setTimeout(()=>{console.log(this.d);console.log(this)},500)
-			(() => { console.log(this.d); console.log(this) })()
+			(() => { console.log(this.d); console.log(this);console.log(arguments) })()
 			//this指向a
 		}
 	}
@@ -74,7 +96,12 @@
 		}
 	}
 
-	// b.twoFunB()
-	// a.show()
-	//总结：箭头函数的this指向他所在上下文的上下文
+	//b.twoFunB()
+	//a.show(123)
+	//总结：箭头函数的this指向他所在上下文(作用域或者函数)
+	const arrowFun = ( ...arr ) => {
+		console.log(arr)
+	}
+
+	arrowFun(1,2,3)
 </script>

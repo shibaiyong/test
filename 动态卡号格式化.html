@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>test file</title>
+</head>
+<body>
+
+<input type="text" id="aa"/>
+  
+</body>
+</html>
+<script>
+
+
+  var input = document.getElementById('aa')
+
+  input.oninput = function(e){
+
+    var str1 = e.target.value
+
+    toWWW(str1)
+    
+  }
+
+
+  function toWWW(str){
+
+    var arr = str.split('')
+
+    var brr = []
+    
+    for(var i = 0; i < arr.length; i++){
+      if((i+1) % 4 == 0){
+        brr.push(arr[i],' ')
+      }else{
+        brr.push(arr[i])
+      }
+    }
+
+    return brr.join('').trim()
+  }
+
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+  <script src="main.js"></script>
+  <style>
+    #id1{
+      width:100%;
+      height:50px;
+      background:red;
+    }
+    
+    [title]{
+      width:100%;
+      background:yellow;
+    }
+    #id1 + div{
+      width:100%;
+      background:orange;
+    }
+    .class1 :nth-child(2){
+      width:100%;
+      background:purple;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="id1">块元素</h1>
+
+  <div class="class1">
+    <p title="title1">11111</p>
+    <ul>2222</ul>
+    <li>3333</li>
+  </div>
+
+  <hr/>
+  <h1>行内元素</h1>
+
+  <label for="">111111</label>
+  <a href="#">2222222</a>
+  <span>6666666</span>
+
+  <hr/>
+  <h1>行内块元素</h1>
+
+  <input type="text" value="11111111111"/>
+
+</body>
+</html>

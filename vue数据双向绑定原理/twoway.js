@@ -54,10 +54,11 @@ function compile (node, vm) {
 		return false;
 	}
   var reg = /\{\{(.*)\}\}/;
-	console.log(node)
+	
   // 节点类型为元素
   if (node.nodeType === 1) {
 		compile(node.firstChild,vm)
+    //获取到的是属性节点 类型是map
     var attr = node.attributes;
     // 解析属性
     for (var i = 0; i < attr.length; i++) {
@@ -67,7 +68,7 @@ function compile (node, vm) {
           // 给相应的 data 属性赋值，进而触发该属性的 set 方法
           vm[name] = e.target.value;
         });
-				node.removeAttribute('v-model');
+				//node.removeAttribute('v-model');
         // node.value = vm[name]; // 将 data 的值赋给该 node
         new Watcher(vm, node, name, 'input');
       }

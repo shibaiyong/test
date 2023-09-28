@@ -27,14 +27,16 @@ var cloneObj = function(obj){
 	return newobj
 }
 
-let old = {}, newValue={}
+let old = {a:{b:1},d:'111'}, newValue={c:2}
 
 //方法二、注意第一个位置上必须是{}，否则就是浅拷贝
 
 deepObj = Object.assign({},old,newValue)
+deepObj.a.b='999'
+console.log(old)
 
 //方法三、展开操作符...
 
-deepObj = {...old,newValue}
+//deepObj = {...old,newValue}
 
 </script>

@@ -20,6 +20,7 @@
 </html>
 <script>
   function Parent() {
+    console.log(new.target);
     this.name = 'farther';  //this指向window
     this.age = 80;
   }

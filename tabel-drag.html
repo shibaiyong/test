@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>表格拖拽换行</title>
-    
-        
+    <title>表格拖拽换行</title> 
     <link href="style/base.css" rel="stylesheet" type="text/css" />
     <style>
+        ul,li{
+            list-style: none;
+        }
         *{
             margin: 0px;
             padding: 0px;
@@ -20,25 +21,18 @@
             height: 50px;
             margin-top: 50px;
         }
-        #submit{
-            width: 800px;
-            height: 50px;
-            background-color: blue;
-            margin:auto;
-            text-align: center;
-        }
+        
         #content{
             width: 800px;
             height: 200px;
             background-color: blue;
             margin:auto;
+            display: grid;
+            grid-template-columns: repeat(3,300px);
+            grid-template-rows: repeat(1,auto);
+
         }
-        #priority{
-            width:200px;
-            background-color: burlywood;
-            height:200px;
-            float: left;
-        }
+        
         #priorityTitle,#dataSourceTitle,#forbiddenYNTitle{
             width:200px;
             height: 20px;
@@ -46,98 +40,269 @@
             margin-top: 50px;
             text-align: center;
         }
-        #priorityOne,#priorityTwo,#priorityThree,#forbiddenYN1,#forbiddenYN2,#forbiddenYN3{
-            width:200px;
-            height:20px;
-            margin: auto;
-            margin-top: 10px;
-            text-align: center;
-        }
-        #dataSourceOne,#dataSourceTwo,#dataSourceThree{
-            width:400px;
-            height:20px;
-            margin: auto;
-            margin-top: 10px;
-            text-align: center;
-        }
+        
         #dataSource{
-            width:400px;
+            width:300px;
             height:200px;
             background-color: burlywood;
             float: left;
         }
-        #forbiddenYN{
-            width:200px;
-            height:200px;
-            background-color: burlywood;
-            float: left;
+        .dataRenderSection{
+            width:300px;
+            min-height: 200px;
+            background:goldenrod;
         }
-        #submitInput{
-           width: 60px;
-            height: 30px;
-            margin-top: 10px;
-            cursor: pointer;
-            background-color: red;
+        .copydom li,.dataRenderSection li{
+            height:50px;
+            background:orangered;
+            text-align: center;
+            margin-bottom:10px;
+            color:white;
+            line-height: 50px;
+            display:flex;
+            align-items: center;
+        }
+        .copydom li span, .dataRenderSection li span{
+            display: inline-block;
+            width: 50%;
+            text-align: center;
+        }
+        .copydom li label,.dataRenderSection li label{
+            display: inline-block;
+            width: 50%;
+            text-align: center;
+        }
+        .propsRenderSection{
+            width:300px;
+            min-height: 200px;
+            background: pink;
+        }
+        .copydom{
+            position: fixed;
+            display:none;
         }
     </style>
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        
-        var srcdiv = null;
-        function drag(ev,divdom)
-        {
-            srcdiv=divdom;
-            ev.dataTransfer.setData("text/html",divdom.innerHTML);
-        }
-        function drop(ev,divdom)
-        {
-            ev.preventDefault();
-            if(srcdiv != divdom){
-                srcdiv.innerHTML = divdom.innerHTML;
-                divdom.innerHTML=ev.dataTransfer.getData("text/html");
-            }
-        }
-    </script>
-    <script>
-        $(function() {
-            $('#submitInput').click(function() {
-                //发送参数
-            var priorityOne = $("#priorityOne").html();
-            var priorityTwo = $("#priorityTwo").html();
-
-            var dataSourceOne = $("#dataSourceOne").html();
-            var dataSourceTwo = $("#dataSourceTwo").html();
-
-            var forbiddenYN1 = $("#checkboxOne").attr("checked");//通过标签的属性获取属性值，从而获取checkbox是否被选中事件，true为选中，flase代表未选中
-            var forbiddenYN2 = $("#checkboxTwo").attr("checked");
-            window.location.href="/TVListTwo/channelList1.jsp?dataSourceOne="+dataSourceOne+"&dataSourceTwo="+dataSourceTwo+"&forbiddenYN1="+forbiddenYN1+"&forbiddenYN2="+forbiddenYN2; 
-            })
-        })
-    </script>
-   
+    
 </head>
 <body>
-    
-        <div id="titleDiv"><h3>数据源配置</h3></div>
-        <div id="content">
-            <div id="priority">
-                <div id="priorityTitle">优先级(1为最高优先级)</div>
-                <div id="priorityOne">1</div>
-                <div id="priorityTwo">2</div>
-            </div>
-            <div id="dataSource">
-                <div id="dataSourceTitle">数据源(拖动位置可调整优先级)</div>
-                <div id="dataSourceOne" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">TVSou</div>
-                <div id="dataSourceTwo" ondrop="drop(event,this)" ondragover="allowDrop(event)" draggable="true" ondragstart="drag(event, this)">KanKanTV</div>
-            </div>
-            <div id="forbiddenYN">
-                <div id="forbiddenYNTitle">是否禁用(勾选代表禁用)</div>
-                <div id="forbiddenYN1"><input type="checkbox" name="checkboxOne" value="yes1" id="checkboxOne" /></div>
-                <div id="forbiddenYN2"><input type="checkbox" name="checkboxTwo" value="yes2" id="checkboxTwo" /></div>
-            </div>
+    <div id="titleDiv"><h3>拖拽数据调整位置</h3></div>
+    <div id="content">
+
+        <div id="dataSource">
+            <!-- <div class="dataSourceMenu" draggable="true" ondragstart="drag(e, this, 1)"></div> -->
         </div>
-        <div id="submit">
-            <input type="button" value="提交" id="submitInput">
+
+        <div class="dataRenderSection">
+            <!-- <ul draggable="true" ondragstart="drag(e, this, 1)">
+                <li></li>
+            </ul> -->
         </div>
+
+        <div class="propsRenderSection"></div>
+    </div>
+    <ul class="copydom"></ul>
 </body>
 </html>
+<script type="text/javascript">
+    //待处理问题：1、需要封装一下绑定事件的方法。
+    function createDragComponent(){
+        this.ruleDatas = [{
+            id:'0',
+            type:'input',
+            label:'字段描述',
+            param:'字段名称',
+            isRequire:true,
+            placeholder:'placeholder',
+            children:[],
+            menus:{
+                icon:'',
+                name:'单行输入框控件'
+            },
+            props:[
+                {
+                    type:'input',
+                    label:'字段描述',
+                    param:'label'
+                },{
+                    type:'input',
+                    label:'字段名称',
+                    param:'param'
+                }
+            ]
+        },{
+            id:'1',
+            type:'button',
+            label:'',
+            param:'',
+            isRequire:false,
+            placeholder:'',
+            children:['button'],
+            menus:{
+                icon:'',
+                name:'按钮控件'
+            },
+            props:[
+                {
+                    type:'input',
+                    label:'按钮内容',
+                    param:'children'
+                }
+            ]
+        },{
+            id:'2',
+            type:'select',
+            label:'字段描述',
+            param:'字段名称',
+            isRequire:true,
+            placeholder:'placeholder',
+            children:[],
+            menus:{
+                icon:'',
+                name:'下拉框控件'
+            },
+            props:[
+                {
+                    type:'input',
+                    label:'字段描述',
+                    param:'label'
+                },{
+                    type:'input',
+                    label:'字段名称',
+                    param:'param'
+                },{
+                    type:'table',
+                    options:[
+                        {key:'key1',value:1},
+                        {key:'key2',value:2}
+                    ]
+                }
+            ]
+        }];
+        this.operate = '';
+        this.id = '-1';
+        this.realFormDatas = [];
+        this.dragRuleData = null;
+        this.renderSC = document.querySelector('.dataRenderSection');
+        this.copyDom = document.querySelector('.copydom');
+        this.inite();
+    }
+    createDragComponent.prototype.inite = function(){
+        //首先根据规则数据ruleDatas生成菜单项
+        this.renderRuleMenu()
+        this.renderSC.addEventListener('dragover',(e)=>{
+            e.preventDefault()
+        })
+        this.renderSC.addEventListener('drop',()=>{
+            this.dropEvent()
+        })
+    }
+    createDragComponent.prototype.addEvents = function(){}
+    createDragComponent.prototype.setRuleDatas = function(datas){
+        this.ruleDatas = datas
+    }
+    createDragComponent.prototype.renderRealFormDatas = function(){
+        var str = '';
+        var _this = this;
+        for(let i = 0; i < this.realFormDatas.length; i++){
+            var item = this.realFormDatas[i];
+            str +=  `<li><label>${item.label}</label><span>${item.type}</span></li>`
+        }
+        this.renderSC.innerHTML = `<ul>${str}</ul>`;
+        //给动态生成的表单区域添加拖拽事件
+        this.renderFormDatas = document.querySelectorAll('.dataRenderSection li');
+        this.renderFormDatas.forEach(( element, index ) => {
+            element.ind = index;
+            element.addEventListener('mousedown',function(e){
+                let pageX = e.pageX;
+                let pageY = e.pageY;
+                _this.height = this.offsetHeight;
+                _this.width = this.offsetWidth;
+                _this.copyDom.innerHTML = this.outerHTML;
+                _this.copyDom.style.display = 'block';
+                _this.copyDom.style.width = _this.width + 'px';
+                _this.copyDom.style.top = pageY - ( _this.height / 2) + 'px';
+                _this.copyDom.style.left = pageX - ( _this.width / 2 ) + 'px';
+                _this.copyDom.style.opacity = 0.6;
+                _this.flag = true;
+                _this.targetDom = this;
+            });
+        });
+        document.addEventListener('mousemove',(e)=>{
+            if(this.flag){
+                let pageX = e.pageX;
+                let pageY = e.pageY;
+                this.copyDom.style.top = pageY - ( this.height / 2) + 'px';
+                this.copyDom.style.left = pageX - ( this.width / 2 ) + 'px';
+                this.renderFormDatas.forEach(( element, index ) => {
+                    if(element.getBoundingClientRect().top + window.pageXOffset + element.offsetHeight >= pageY && this.targetDom.ind > element.ind){
+                        let targetInd = this.targetDom.ind;
+                        this.targetDom.ind = element.ind;
+                        element.ind = targetInd;
+                        element.parentNode.insertBefore(this.targetDom,element);
+                    }
+                });
+            }
+        });
+        document.addEventListener('mouseup',(e)=>{
+            this.copyDom.style.display = 'none';
+            this.flag = false;
+        });
+    }
+    createDragComponent.prototype.renderRuleMenu = function(){
+        
+        let dataSource = document.querySelector('#dataSource');
+        var str = '';
+        for(let i = 0; i < this.ruleDatas.length; i++){
+            var item = this.ruleDatas[i];
+            str += `<div key="${item.id}" class="dataSourceMenu" draggable="true">${item.menus.name}</div>`
+        }
+        dataSource.innerHTML = str
+        //第二、给菜单项绑定拖拽事件。
+        let menus = document.querySelectorAll('.dataSourceMenu');
+        menus.forEach(element => {
+            element.addEventListener('dragstart',(e)=>{
+                this.dragEvent(e,'add')
+            });
+        });
+    }
+
+    createDragComponent.prototype.renderRuleProps = function(){
+        
+    }
+
+    createDragComponent.prototype.addRuleDatas = function(data,index){
+        this.ruleDates.splice(0,0,data)
+    }
+
+    createDragComponent.prototype.addRealFormDatas = function(data,index){
+        this.ruleDates.splice(0,0,data)
+    }
+
+    createDragComponent.prototype.changePosition = function(index){
+
+    }
+    
+    createDragComponent.prototype.dragEvent = function(e,type){
+        console.log(type)
+        //第三、拖拽的时候从dom上获取key，也就是ruleData中的id。
+        var str = '';
+        if(type == 'add'){
+            this.id = e.target.getAttribute('key');
+            //第四、根据id处理数据
+            this.dragRuleData = this.ruleDatas.filter((item) => item.id == this.id)
+        }else{//位置移动操作
+        }
+    }
+
+    createDragComponent.prototype.dropEvent = function(){
+        //第五、drop的时候渲染表单区域的数据。
+        if(this.dragRuleData && this.dragRuleData.length){
+            
+            this.realFormDatas = [...this.realFormDatas,...this.dragRuleData];
+            this.renderRealFormDatas()
+        }
+        this.dragRuleData = null;
+    }
+    new createDragComponent();
+</script>
