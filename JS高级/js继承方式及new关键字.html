@@ -28,11 +28,12 @@
   Parent.prototype.sayHi = function () {
     alert('hi');
   }
-
+  console.log(Parent.prototype)
   console.log(new Parent())
+  console.log(Function.prototype)
 
-  console.log(new Parent().__proto__===Parent.prototype)  //true
-  console.log(new Parent().__proto__===Function.prototype)  //false
+  //console.log(new Parent().__proto__===Parent.prototype)  //true
+  //console.log(new Parent().__proto__===Function.prototype)  //false
 
   function Child1() {
     this.name = "child";

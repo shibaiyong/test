@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>toFixed方法重写</title>
+</head>
+
+<body>
+  <h3>原文链接</h3>
+  <div><a href="https://blog.csdn.net/qq_39544148/article/details/125822724" target="_blank">https://blog.csdn.net/qq_39544148/article/details/125822724</a></div>
+</body>
+
+</html>
+<script>
+  
+  function toFixed(num, digits = 0) {
+    let zeroStrNum = num.toString() 
+    let isNegativeNum = false
+    // 判断是否为负数
+    if (zeroStrNum.startsWith('-')) {
+      isNegativeNum = true
+      zeroStrNum = zeroStrNum.slice(1)
+    }
+    // 获取小数点位置
+    const dotIndex = zeroStrNum.indexOf('.')
+    // 如果是整数/保留小数位数等于超过当前小数长度，则直接用toFixed返回
+    if (dotIndex === -1 || (zeroStrNum.length - (dotIndex + 1) <= digits)) {
+      return num.toFixed(digits)
+    }
+
+    // 找到需要进行四舍五入的部分
+    let numArr = zeroStrNum.match(/\d/g) || [];
+    numArr = numArr.slice(0, dotIndex + digits + 1)
+
+    //核心逻辑
+    if(numArr[numArr.length-1] == 5){
+      numArr[numArr.length-1] = 6
+    }
+
+    // 将小数点加入数据
+    numArr.splice(dotIndex, 0, ".")
+    newNum = Number(numArr.join('')).toFixed(digits)
+
+    // 如果事负数，添加负号
+    if (isNegativeNum) {
+      newNum = "-" + newNum
+    }
+
+    return Number(newNum)
+  }
+
+  console.log(toFixed(1.2, 2))
+
+</script>
