@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>设计模式</title>
+</head>
+
+<body>
+  <input type="text" class="bindValue" v-value="value" />
+  <div class="innerHtml" v-text="value"></div>
+  <div class="innerHtml1" v-text="text"></div>
+</body>
+
+</html>
+<script>
+  var bindvalue = document.getElementsByClassName('bindValue')[0];
+  var bindtext = document.getElementsByClassName('innerHtml')[0];
+  var bindtext1 = document.getElementsByClassName('innerHtml1')[0];
+
+  //view 层
+  var nodes = [bindtext, bindvalue, bindtext1];
+
+  //数据层
+  var data = {
+    value: 'hello',
+    text: 'helloword'
+  }
+
+  //指令的类型
+  //操作dom的方法
+  var commond = {
+    text: function (val) {
+      this.innerHTML = val;
+    },
+    value: function (val) {
+      this.setAttribute("value", val);
+    }
+  }
+
+  //操作数据的方法
+  function mvSet(key, value) {
+    data[key] = value;
+    scan();
+  }
+
+  //遍历所有绑定指令的节点 设置初始值
+
+  //数据 控制 视图层
+  function scan() {
+    for (var i = 0; i < nodes.length; i++) {
+      var ele = nodes[i];
+      var attrs = ele.attributes;
+      for (var j = 0; j < attrs.length; j++) {
+        var nodeName = attrs[j].nodeName;
+        if (nodeName.indexOf('v-') > -1) {
+
+          //实际上的逻辑是 判断 text (用innerhtml) 还是value ( value )
+          var attrVal = attrs[j].nodeValue;
+          var attrType = nodeName.slice(2);
+          commond[attrType].call(ele, data[attrVal]);//数据显示到视图层
+
+        }
+      }
+    }
+  }
+
+  //视图 控制 数据
+
+  nodes[1].addEventListener('keyup', function (e) {
+    mvSet('value', e.target.value);
+  }, false);
+
+  //scan();
+
+  //1、单例模式
+
+  function SetManager(name) {
+    console.log('obj', this)
+    this.manager = name;
+  }
+
+  SetManager.prototype.getName = function () {
+    console.log(this.manager);
+  };
+
+  function getSingleton(fn) {
+    var instance = null;
+
+    return function () {
+      console.log(this)
+      if (!instance) {
+        instance = fn.apply(this, arguments)
+      }
+      return instance;
+    }
+  }
+
+  // 获取单例
+  var managerSingleton = getSingleton(function (name) {
+    var manager = new SetManager(name);
+    return manager;
+  });
+
+  managerSingleton('a').getName(); // a
+  managerSingleton('b').getName(); // a
+  managerSingleton('c').getName(); // a
+
+  //2、组合模式（树形结构；可以理解成文件目录的形式）   从数学建模的角度看，它可以用于数据的聚合、分组。
+
+  function TopController(name) {
+    this.name = name;
+    this.parent = null;
+    this.prevParent = null;
+    this.childsCache = [];
+    this.nameCache = [];
+    this.allNameCache = [];
+  }
+
+  TopController.prototype = {
+    constructor: TopController,
+    add:function(child) {
+      child.parent = this;
+      this.childsCache.push(child);
+      return this;
+    },
+    scan:function() {
+
+      if (this.childsCache.length == 0) {//是叶子节点
+        this.nameCache = [this.name];
+        let parent = this.parent;
+        while (parent) {
+          this.nameCache.unshift(parent.name);
+          if(!parent.parent){
+            this.prevParent = parent;
+          }
+          parent = parent.parent;
+        }
+        this.prevParent.allNameCache.push(this.nameCache);
+      } else {
+        for (var i = 0; i < this.childsCache.length; i++) {
+          this.childsCache[i].scan();
+        }
+      }
+    },
+    getNameCollect:function() {
+      //得到所有聚合之后的分组
+      return this.allNameCache
+    }
+  }
+
+  let testData = [
+    {
+      "id": 57,
+      "cpId": "47",
+      "cpName": "BOCI OTC",
+      "booking": "NPI",
+      "statementDate": "20230831",
+      "tradeDate": "20230831",
+      "tradeNum": "110265046",
+      "refId": "",
+      "tradeType": "Fixed Swap",
+      "commodity": "IPE Brent",
+      "buySell": "SELL",
+      "tradeQuantity": 50000,
+      "unit": "BBL",
+      "tradePrice": 85.5,
+      "settlementConvention": "Calendar Day Modified Following",
+      "currency": "USD",
+      "settleRule": "T + 14",
+      "startDate": "20231201",
+      "endDate": "20231231",
+      "lastFixingDate": "20231030",
+      "pricingDates": "penultimate day",
+      "createdAt": "2023-12-29 02:59:45",
+      "confirmStatus": "未匹配",
+      "sysCommodity": "ICE Brent Bullet"
+    },
+    {
+      "id": 58,
+      "cpId": "47",
+      "cpName": "BOCI OTC",
+      "booking": "NPI",
+      "statementDate": "20230831",
+      "tradeDate": "20230831",
+      "tradeNum": "110261788",
+      "refId": "",
+      "tradeType": "Fixed Swap",
+      "commodity": "Shanghai INE Medium Sour Crude Oil CNH",
+      "buySell": "BUY",
+      "tradeQuantity": 856000,
+      "unit": "BBL",
+      "tradePrice": 580,
+      "settlementConvention": "Calendar Day Modified Following",
+      "currency": "CNH",
+      "settleRule": "T + 14",
+      "startDate": "20230901",
+      "endDate": "20230930",
+      "lastFixingDate": "20230831",
+      "pricingDates": "last contract day",
+      "createdAt": "2023-12-29 02:59:45",
+      "confirmStatus": "未匹配",
+      "sysCommodity": "INE SC Swap CNY"
+    },
+    {
+      "id": 59,
+      "cpId": "47",
+      "cpName": "BOCI OTC",
+      "booking": "NPI",
+      "statementDate": "20230831",
+      "tradeDate": "20230831",
+      "tradeNum": "110264904",
+      "refId": "",
+      "tradeType": "Fixed Swap",
+      "commodity": "Shanghai INE Medium Sour Crude Oil CNH",
+      "buySell": "SELL",
+      "tradeQuantity": 500000,
+      "unit": "BBL",
+      "tradePrice": 639.3,
+      "settlementConvention": "Calendar Day Modified Following",
+      "currency": "CNH",
+      "settleRule": "T + 14",
+      "startDate": "20231001",
+      "endDate": "20231031",
+      "lastFixingDate": "20230928",
+      "pricingDates": "last contract day",
+      "createdAt": "2023-12-29 02:59:45",
+      "confirmStatus": "未匹配",
+      "sysCommodity": "INE SC Swap CNY"
+    },
+    {
+      "id": 60,
+      "cpId": "47",
+      "cpName": "BOCI OTC",
+      "booking": "NPI",
+      "statementDate": "20230831",
+      "tradeDate": "20230831",
+      "tradeNum": "110261787",
+      "refId": "",
+      "tradeType": "Fixed Swap",
+      "commodity": "Shanghai INE Medium Sour Crude Oil USD",
+      "buySell": "SELL",
+      "tradeQuantity": 856000,
+      "unit": "BBL",
+      "tradePrice": 79.5266,
+      "settlementConvention": "Calendar Day Modified Following",
+      "currency": "USD",
+      "settleRule": "T + 14",
+      "startDate": "20230901",
+      "endDate": "20230930",
+      "lastFixingDate": "20230831",
+      "pricingDates": "last contract day",
+      "createdAt": "2023-12-29 02:59:45",
+      "confirmStatus": "未匹配",
+      "sysCommodity": "INE SC Swap USD"
+    },
+    {
+      "id": 61,
+      "cpId": "47",
+      "cpName": "BOCI OTC",
+      "booking": "NPI",
+      "statementDate": "20230831",
+      "tradeDate": "20230831",
+      "tradeNum": "110265045",
+      "refId": "",
+      "tradeType": "Fixed Swap",
+      "commodity": "Shanghai INE Medium Sour Crude Oil USD",
+      "buySell": "BUY",
+      "tradeQuantity": 50000,
+      "unit": "BBL",
+      "tradePrice": 89.04,
+      "settlementConvention": "Calendar Day Modified Following",
+      "currency": "USD",
+      "settleRule": "T + 14",
+      "startDate": "20231001",
+      "endDate": "20231031",
+      "lastFixingDate": "20230928",
+      "pricingDates": "last contract day",
+      "createdAt": "2023-12-29 02:59:45",
+      "confirmStatus": "未匹配",
+      "sysCommodity": "INE SC Swap USD"
+    },
+    {
+      "id": 62,
+      "cpId": "47",
+      "cpName": "BOCI OTC",
+      "booking": "NPI",
+      "statementDate": "20230831",
+      "tradeDate": "20230831",
+      "tradeNum": "110264905",
+      "refId": "",
+      "tradeType": "Fixed Swap",
+      "commodity": "Shanghai INE Medium Sour Crude Oil USD",
+      "buySell": "BUY",  //2
+      "tradeQuantity": 500000,  //3
+      "unit": "BBL",
+      "tradePrice": 87.8152,
+      "settlementConvention": "Calendar Day Modified Following",
+      "currency": "USD",
+      "settleRule": "T + 14",
+      "startDate": "20231001",
+      "endDate": "20231031",
+      "lastFixingDate": "20230928",
+      "pricingDates": "last contract day",
+      "createdAt": "2023-12-29 02:59:45",
+      "confirmStatus": "未匹配",
+      "sysCommodity": "INE SC Swap USD"  //1
+    }
+  ]
+let instanceCache = [];
+let topInstance = new TopController('top');
+let sysCommodity = null;
+let buySell = null;
+let tradeQuantity = null;
+for(var index = 0; index < testData.length; index++){
+  let item = testData[index];
+  if(instanceCache.includes(item.sysCommodity)){
+    if(instanceCache.includes(item.buySell)){
+      if(instanceCache.includes(item.tradeQuantity)){
+      }else{
+        tradeQuantity = new TopController(item.tradeQuantity);
+        instanceCache.push(tradeQuantity.name);
+        buySell.add(tradeQuantity);
+      }
+    }else{
+      buySell = new TopController(item.buySell);
+      tradeQuantity = new TopController(item.tradeQuantity);
+      instanceCache.push(item.buySell,item.tradeQuantity);
+      sysCommodity.add(buySell);
+      buySell.add(tradeQuantity);
+    }
+  }else{
+    sysCommodity = new TopController(item.sysCommodity)
+    buySell = new TopController(item.buySell)
+    tradeQuantity = new TopController(item.tradeQuantity)
+    instanceCache.push(sysCommodity.name,item.buySell,item.tradeQuantity)
+    topInstance.add(sysCommodity)
+    sysCommodity.add(buySell)
+    buySell.add(tradeQuantity)
+  }
+
+}
+// topInstance.scan();
+// console.log(topInstance.getNameCollect());
+
+//3、职责链模式
+
+//定义链的某一项
+
+// function ChainItem(fn){
+//   this.fn = fn;
+//   this.next = null;
+// }
+
+// ChainItem.prototype = {
+//   setNext: function(next){
+//     this.next = next;
+//     return next;
+//   },
+//   start: function(){
+//     this.fn.apply(this,arguments)
+//   },
+//   toNext: function(){
+//     //this.next确实不是一个函数，它是一个对象。
+//     if(this.next){
+//       this.start.apply(this.next,arguments)
+//     }
+//   }
+// }
+
+// function sysCommodity(item){
+//   if(instanceCache.includes(item.tradeQuantity)){
+//     this.toNext(item)
+//   }else{
+//     sysCommodity = new TopController(item.sysCommodity)
+//     buySell = new TopController(item.buySell)
+//     tradeQuantity = new TopController(item.tradeQuantity)
+//     instanceCache.push(sysCommodity.name,item.buySell,item.tradeQuantity)
+//     topInstance.add(sysCommodity)
+//     sysCommodity.add(buySell)
+//     buySell.add(tradeQuantity)
+//   }
+// }
+
+// function buySell(item){
+//   if(instanceCache.includes(item.buySell)){
+//     this.toNext(item)
+//   }else{
+//     buySell = new TopController(item.buySell);
+//     tradeQuantity = new TopController(item.tradeQuantity);
+//     instanceCache.push(item.buySell,item.tradeQuantity);
+//     sysCommodity.add(buySell);
+//     buySell.add(tradeQuantity);
+//   }
+// }
+
+// function tradeQuantity(item){
+//   if(instanceCache.includes(item.tradeQuantity)){
+//   }else{
+//     tradeQuantity = new TopController(item.tradeQuantity);
+//     instanceCache.push(tradeQuantity.name);
+//     buySell.add(tradeQuantity);
+//   }
+// }
+
+// let sysCommodityChain = new ChainItem(sysCommodity)
+// let buySellChain = new ChainItem(buySell)
+// let tradeQuantityChain = new ChainItem(tradeQuantity)
+
+// sysCommodityChain.setNext(buySellChain).setNext(tradeQuantityChain);
+
+// for(var index = 0; index < testData.length; index++){
+//   let item = testData[index];
+//   sysCommodityChain.start(item);
+// }
+
+topInstance.scan();
+console.log(topInstance.getNameCollect());
+</script>

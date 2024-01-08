@@ -17,7 +17,7 @@
 		this.p={pid:0}
 		this.p.pid++
 	}
-	//Myobj.prototype.p={'pid':0}
+	Myobj.prototype.p={'pid':0}
 	Myobj.prototype.getNum=function(num){
 		//这里的this指向Myobj.prototype,并非指向Myobj实例
 				return this.p.pid+num
