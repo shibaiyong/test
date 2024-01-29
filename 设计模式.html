@@ -314,108 +314,121 @@ let topInstance = new TopController('top');
 let sysCommodity = null;
 let buySell = null;
 let tradeQuantity = null;
-for(var index = 0; index < testData.length; index++){
-  let item = testData[index];
-  if(instanceCache.includes(item.sysCommodity)){
-    if(instanceCache.includes(item.buySell)){
-      if(instanceCache.includes(item.tradeQuantity)){
-      }else{
-        tradeQuantity = new TopController(item.tradeQuantity);
-        instanceCache.push(tradeQuantity.name);
-        buySell.add(tradeQuantity);
-      }
-    }else{
-      buySell = new TopController(item.buySell);
-      tradeQuantity = new TopController(item.tradeQuantity);
-      instanceCache.push(item.buySell,item.tradeQuantity);
-      sysCommodity.add(buySell);
-      buySell.add(tradeQuantity);
-    }
-  }else{
-    sysCommodity = new TopController(item.sysCommodity)
-    buySell = new TopController(item.buySell)
-    tradeQuantity = new TopController(item.tradeQuantity)
-    instanceCache.push(sysCommodity.name,item.buySell,item.tradeQuantity)
-    topInstance.add(sysCommodity)
-    sysCommodity.add(buySell)
-    buySell.add(tradeQuantity)
-  }
-
-}
-// topInstance.scan();
-// console.log(topInstance.getNameCollect());
-
-//3、职责链模式
-
-//定义链的某一项
-
-// function ChainItem(fn){
-//   this.fn = fn;
-//   this.next = null;
+let sysCommodityCache = [];
+let buySellCache = [];
+let tradeQuantityCache = [];
+//在构造树形结构的时候不做数据处理，例如：去重
+// for(var index = 0; index < testData.length; index++){
+//   let item = testData[index];
+//     sysCommodity = new TopController(item.sysCommodity)
+//     buySell = new TopController(item.buySell)
+//     tradeQuantity = new TopController(item.tradeQuantity)
+//     topInstance.add(sysCommodity)
+//     sysCommodity.add(buySell)
+//     buySell.add(tradeQuantity)
 // }
+//在构造的时候去做数据处理
+// for(var index = 0; index < testData.length; index++){
+//   let item = testData[index];
+//   let str = `${item.sysCommodity}/${item.buySell}`
+//   if(instanceCache.includes(str)){
 
-// ChainItem.prototype = {
-//   setNext: function(next){
-//     this.next = next;
-//     return next;
-//   },
-//   start: function(){
-//     this.fn.apply(this,arguments)
-//   },
-//   toNext: function(){
-//     //this.next确实不是一个函数，它是一个对象。
-//     if(this.next){
-//       this.start.apply(this.next,arguments)
-//     }
-//   }
-// }
-
-// function sysCommodity(item){
-//   if(instanceCache.includes(item.tradeQuantity)){
-//     this.toNext(item)
 //   }else{
 //     sysCommodity = new TopController(item.sysCommodity)
 //     buySell = new TopController(item.buySell)
 //     tradeQuantity = new TopController(item.tradeQuantity)
-//     instanceCache.push(sysCommodity.name,item.buySell,item.tradeQuantity)
+//     instanceCache.push(str)
 //     topInstance.add(sysCommodity)
 //     sysCommodity.add(buySell)
 //     buySell.add(tradeQuantity)
 //   }
 // }
+// topInstance.scan();
+// console.log(topInstance.getNameCollect());
+//根据需求进行数据处理
+//这里就是业务逻辑代码.........
+//至此完成
 
-// function buySell(item){
-//   if(instanceCache.includes(item.buySell)){
-//     this.toNext(item)
-//   }else{
-//     buySell = new TopController(item.buySell);
-//     tradeQuantity = new TopController(item.tradeQuantity);
-//     instanceCache.push(item.buySell,item.tradeQuantity);
-//     sysCommodity.add(buySell);
-//     buySell.add(tradeQuantity);
-//   }
-// }
+//3、职责链模式
 
-// function tradeQuantity(item){
-//   if(instanceCache.includes(item.tradeQuantity)){
-//   }else{
-//     tradeQuantity = new TopController(item.tradeQuantity);
-//     instanceCache.push(tradeQuantity.name);
-//     buySell.add(tradeQuantity);
-//   }
-// }
+//定义链的某一项
 
-// let sysCommodityChain = new ChainItem(sysCommodity)
-// let buySellChain = new ChainItem(buySell)
-// let tradeQuantityChain = new ChainItem(tradeQuantity)
+function ChainItem(fn){
+  this.fn = fn;
+  this.next = null;
+}
 
-// sysCommodityChain.setNext(buySellChain).setNext(tradeQuantityChain);
+ChainItem.prototype = {
+  setNext: function(next){
+    this.next = next;
+    return next;
+  },
+  start: function(){
+    this.fn.apply(this,arguments)
+  },
+  toNext: function(){
+    //this.next确实不是一个函数，它是一个对象。
+    if(this.next){
+      this.start.apply(this.next,arguments)
+    }
+  }
+}
 
-// for(var index = 0; index < testData.length; index++){
-//   let item = testData[index];
-//   sysCommodityChain.start(item);
-// }
+function sysCommodityFn(item){
+  let str = `${item.sysCommodity}`
+  let str2 = `${item.sysCommodity}/${item.buySell}`
+  if(sysCommodityCache.includes(str)){
+    this.toNext(item)
+  }else{
+    sysCommodity = new TopController(item.sysCommodity)
+    buySell = new TopController(item.buySell)
+    tradeQuantity = new TopController(item.tradeQuantity)
+    sysCommodityCache.push(str)
+    buySellCache.push(str2);
+    tradeQuantityCache.push(str2);
+    topInstance.add(sysCommodity)
+    sysCommodity.add(buySell)
+    buySell.add(tradeQuantity)
+  }
+}
+
+function buySellFn(item){
+  let str = `${item.sysCommodity}/${item.buySell}`
+  let str2 = `${item.sysCommodity}/${item.buySell}`
+  if(buySellCache.includes(str)){
+    this.toNext(item)
+  }else{
+    buySell = new TopController(item.buySell);
+    tradeQuantity = new TopController(item.tradeQuantity);
+    buySellCache.push(str);
+    tradeQuantityCache.push(str);
+    sysCommodity.add(buySell);
+    buySell.add(tradeQuantity);
+  }
+}
+
+function tradeQuantityFn(item){
+  let str = `${item.sysCommodity}/${item.buySell}`
+  if(tradeQuantityCache.includes(str)){
+  }else{
+    tradeQuantity = new TopController(item.tradeQuantity);
+    tradeQuantityCache.push(str);
+    buySell.add(tradeQuantity);
+  }
+}
+
+let sysCommodityChain = new ChainItem(sysCommodityFn)
+let buySellChain = new ChainItem(buySellFn)
+let tradeQuantityChain = new ChainItem(tradeQuantityFn)
+
+sysCommodityChain.setNext(buySellChain).setNext(tradeQuantityChain);
+
+for(var index = 0; index < testData.length; index++){
+  let item = testData[index];
+  sysCommodityChain.start(item);
+}
 
 topInstance.scan();
 console.log(topInstance.getNameCollect());
+
 </script>

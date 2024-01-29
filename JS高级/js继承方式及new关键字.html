@@ -28,9 +28,21 @@
   Parent.prototype.sayHi = function () {
     alert('hi');
   }
-  console.log(Parent.prototype)
-  console.log(new Parent())
-  console.log(Function.prototype)
+
+  let symbol = new Parent();
+
+  Object.defineProperty(symbol.__proto__, 'sex', {
+    value:1,
+    enumerable:false
+  })
+  //通过defineProperty定义的属性，默认不可枚举，for in 无法遍历
+  for(let sym in symbol){
+    console.log(sym)
+  }
+  
+  console.log(Parent.prototype);
+  console.log(symbol);
+  console.log(Function.prototype);
 
   //console.log(new Parent().__proto__===Parent.prototype)  //true
   //console.log(new Parent().__proto__===Function.prototype)  //false

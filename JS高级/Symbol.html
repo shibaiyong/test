@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <h2>1、什么是symbol</h2>
+  <p>es6 中新增的一种数据类型，被划分到了基本数据类型中</p>
+
+  <h2>2、symbol的作用</h2>
+  <p>用来表示独一无二的值</p>
+  <p>在企业开发中如果需要对一些第三方的插件、框架进行自定义的时候
+    可能会因为添加了同名的属性或者方法, 将框架中原有的属性或者方法覆盖掉
+    为了避免这种情况的发生, 框架的作者或者我们就可以使用Symbol作为属性或者方法的名称</p>
+
+  <h2>3、举个例子</h2>
+  <p>...................</p>
+  
+</body>
+</html>
+<script>
+
+  let name = Symbol('name');
+  let say = Symbol('say');
+
+  let obj = {
+    [name]:'shibaiyong of symbol',
+    [say]:function(){
+      alert('key of symbol')
+    }
+  }
+  obj.name = 'shibaiyong'
+  obj.age = 18
+  //只能转化成字符串和boolean值
+  console.log(String(name))
+
+  for(let key in obj){
+    console.log(key,obj[key])
+  }
+
+  console.log(Object.getOwnPropertySymbols(obj)[0] == name, Object.getOwnPropertySymbols(obj)[1] == say,obj[name])
+
+  //由于Symbol写法没有登记机制，所以每次调用都会返回不同的值。Symbol.keyFor()方法返回一个已登记的Symbol类型的key
+  let s1 = Symbol.for('foo');
+  let s2 = Symbol('foo');
+
+  console.log(Symbol.keyFor(s1),Symbol.keyFor(s2))
+
+</script>
