@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proxy代理与defineProperty区别</title>
+</head>
+<body>
+</body>
+</html>
+
+<script>
+//1、原始对象
+let obj = { name: 'shibaiyong', age: 18, sex: { man: 'man', wumen: 'wumen' }, three:{
+  height:'yi',weight:'er',intellige:{
+    level:'good'
+  }
+} };
+let data = {
+  person:{
+    name:'shibai',
+    age:18
+  }
+}
+// Object.defineProperty(data,'person',{
+//   get(){
+//     console.log('person被访问了',arguments)
+//     return 123
+//   },
+//   set(newValue){
+//     console.log('person被修改了',arguments)
+//   }
+// })
+// data.person.age = 19;
+//2、calculateObject
+function calculateObject(target) {
+  for (let item in target) {
+    let subObj = target[item];
+    if (typeof subObj == 'object' || subObj instanceof Array) {
+      target[item] = calculateObject(subObj)
+    }
+  }
+  return new Proxy(target, {
+    // 获取值 捕获器 target:obj,
+    get(target, key, instance) {
+      console.log(`监听到对象的${key}属性被访问到了`, target);
+      return Reflect.get(target, key);
+    },
+    // 设置值 捕获器
+    set(target, key, newValue) {
+      console.log(`监听到对象的${key}属性被赋值${newValue}`, target);
+      return Reflect.set(target, key, newValue);
+    },
+    // has 捕获器
+    has(target, key) {
+      console.log(`监听到对象的${key}属性in操作`, target);
+      target.has(key)
+    },
+    // delete 捕获器
+    deleteProperty(target, key) {
+      console.log(`监听到对象的${key}属性删除操作`, target);
+      delete target[key];
+    }
+  })
+}
+
+let objProxy = calculateObject(obj)
+
+objProxy.light = 'light';
+objProxy.name = 'SHIBAIYONG';
+objProxy.sex.man = '1';
+objProxy.three.intellige.level = 'nice';
+console.log(objProxy,obj);
+</script>
