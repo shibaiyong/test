@@ -12,64 +12,144 @@
 
 <script>
 //1、原始对象
-let obj = { name: 'shibaiyong', age: 18, sex: { man: 'man', wumen: 'wumen' }, three:{
-  height:'yi',weight:'er',intellige:{
-    level:'good'
-  }
-} };
-let data = {
-  person:{
-    name:'shibai',
-    age:18
+let obj = { 
+  name: 'shibaiyong', 
+  age: 18, 
+  sex: { 
+    man: 'man', 
+    wumen: 'wumen' 
+  }, 
+  three:{
+    height:'yi',
+    weight:'er',
+    intellige:{
+      level:'good'
+    }
+  } 
+}
+
+var data = {
+  name: 'shibaiyong', 
+  age: 18, 
+  sex: { 
+    man: 'man', 
+    wumen: 'wumen' 
+  }, 
+  three: { 
+    height:'yi',
+    weight:'er',
+    intellige:{ level:'good'}
   }
 }
-// Object.defineProperty(data,'person',{
-//   get(){
-//     console.log('person被访问了',arguments)
-//     return 123
-//   },
-//   set(newValue){
-//     console.log('person被修改了',arguments)
-//   }
-// })
-// data.person.age = 19;
-//2、calculateObject
-function calculateObject(target) {
-  for (let item in target) {
-    let subObj = target[item];
-    if (typeof subObj == 'object' || subObj instanceof Array) {
-      target[item] = calculateObject(subObj)
-    }
-  }
-  return new Proxy(target, {
-    // 获取值 捕获器 target:obj,
-    get(target, key, instance) {
-      console.log(`监听到对象的${key}属性被访问到了`, target);
-      return Reflect.get(target, key);
+
+let arr = [];
+
+var data1 = {}
+
+for(let item in data){
+  Object.defineProperty(data1, item, {
+    get:function(){
+      console.log(item + '被访问了')
+      return data[item]
     },
-    // 设置值 捕获器
-    set(target, key, newValue) {
-      console.log(`监听到对象的${key}属性被赋值${newValue}`, target);
-      return Reflect.set(target, key, newValue);
-    },
-    // has 捕获器
-    has(target, key) {
-      console.log(`监听到对象的${key}属性in操作`, target);
-      target.has(key)
-    },
-    // delete 捕获器
-    deleteProperty(target, key) {
-      console.log(`监听到对象的${key}属性删除操作`, target);
-      delete target[key];
+    set:function(newValue){
+      console.log(item + '被修改了')
     }
   })
 }
 
-let objProxy = calculateObject(obj)
+// data.person.age = 19;
+//2、calculateObject
+// function calculateObject(target) {
+//   for (let item in target) {
+//     let subObj = target[item];
+//     if (typeof subObj == 'object' || subObj instanceof Array) {
+//       target[item] = calculateObject(subObj)
+//     }
+//   }
+//   return new Proxy(target, {
+//     // 获取值 捕获器 target:obj,
+//     get(target, key, instance) {
+//       console.log(`监听到对象的${key}属性被访问到了`, target);
+//       return Reflect.get(target, key);
+//     },
+//     // 设置值 捕获器
+//     set(target, key, newValue) {
+//       console.log(`监听到对象的${key}属性被赋值${newValue}`, target);
+//       return Reflect.set(target, key, newValue);
+//     },
+//     // has 捕获器
+//     has(target, key) {
+//       console.log(`监听到对象的${key}属性in操作`, target);
+//       target.has(key)
+//     },
+//     // delete 捕获器
+//     deleteProperty(target, key) {
+//       console.log(`监听到对象的${key}属性删除操作`, target);
+//       delete target[key];
+//     }
+//   })
+// }
 
-objProxy.light = 'light';
-objProxy.name = 'SHIBAIYONG';
-objProxy.sex.man = '1';
-objProxy.three.intellige.level = 'nice';
-console.log(objProxy,obj);
+//let objProxy = calculateObject(obj)
+
+let objProxy1 = new Proxy(obj, {
+  // 获取值 捕获器 target:obj,
+  get(target, key, instance) {
+    console.log(`监听到对象的${key}属性被访问到了`, target);
+    return Reflect.get(target, key);
+  },
+  // 设置值 捕获器
+  set(target, key, newValue) {
+    console.log(`监听到对象的${key}属性被赋值${newValue}`, target);
+    return Reflect.set(target, key, newValue);
+  },
+  // has 捕获器
+  has(target, key) {
+    console.log(`监听到对象的${key}属性in操作`, target);
+    target.has(key);
+  },
+  // delete 捕获器
+  deleteProperty(target, key) {
+    console.log(`监听到对象的${key}属性删除操作`, target);
+    delete target[key];
+  }
+})
+
+let arrProxy = new Proxy(arr, {
+  // 获取值 捕获器 target:obj,
+  get(target, key, instance) {
+    console.log(`监听到数组的${key}索引被访问到了`);
+    return Reflect.get(target, key);
+  },
+  // 设置值 捕获器
+  set(target, key, newValue) {
+    console.log(`监听到数组的${key}索引被赋值${newValue}`);
+    return Reflect.set(target, key, newValue);
+  }
+})
+
+arrProxy.push(1);//监听到数组的push索引被访问到了 监听到数组的length索引被访问到了 监听到数组的0索引被赋值1 监听到数组的length索引被赋值1 [1]
+arrProxy[0] = 3;console.log(arr);
+arrProxy.length = 0;console.log(arr);
+
+// objProxy.light = 'light';
+// objProxy.name = 'SHIBAIYONG';
+// objProxy.sex.man = '1';
+// objProxy.three.intellige.level = 'nice';
+// console.log(objProxy,obj);
+
+// objProxy1.light = 'light';
+// objProxy1.name = 'SHIBAIYONG';
+// objProxy1.sex.man = '1';
+
+// objProxy1.three.intellige.level = 'nice';
+// console.log(objProxy1,obj);
+
+  data1.sex.man = '1';
+  console.log(data1.sex.man);
+  //所有属性都加到了data1的原型上面了
+  console.log(data1);
+
+
 </script>

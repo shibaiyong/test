@@ -70,6 +70,7 @@ function compile (node, vm) {
         });
 				//node.removeAttribute('v-model');
         // node.value = vm[name]; // 将 data 的值赋给该 node
+        //这就是页面的监器，也叫订阅者。数据改变时会通知到页面执行响应的watcher逻辑
         new Watcher(vm, node, name, 'input');
       }
     };
@@ -80,10 +81,21 @@ function compile (node, vm) {
     if (reg.test(node.nodeValue)) {
       var name = RegExp.$1; // 获取匹配到的字符串
       name = name.trim();
+      //这就是页面的监器，也叫订阅者。数据改变时会通知到页面执行响应的watcher逻辑
       new Watcher(vm, node, name, 'text');
     }
   }
 }
+//这就是页面的监器，也叫订阅者。数据改变时会通知到页面执行响应的watcher逻辑。
+//此外，还有一种计算属性computed的Watcher。它也是由data数据来驱动执行的。
+
+//这里是不是这样更好，就是每一个data中的数据都有一个Dep这样的watcher收集器。然后把所有的Dep数据器根据key值统一存储到一个对象中。
+
+//computed的Watcher监听对象的由来：1、缓存机制实现的需要，实际上watcher对象是一种代理模式的实现。因为，computed的属性值，不是直接根据依赖数据计算出来的，中间经过了watcher这层代理的加工处理，最终才会得到结果。
+//computed的Watcher监听对象生成的时机：1、这得看vue源码，他是在vue  initeState的时候生成的。这个不重要，主要是看computed实现的思路。
+
+//data中被computed依赖的数据收集两种Watcher的时机：这是最核心的逻辑。其实就是在编译template模板的时候，此时会访问到computed属性，接着就会触发computed的get函数(这个时候页面的watcher和computed的watcher已经生成好了)，再触发data的get函数并收集前面提到的两个依赖。
+
 function Watcher (vm, node, name, nodeType) {
   Dep.target = this;
   this.name = name;
